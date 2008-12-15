@@ -1,0 +1,93 @@
+Dec 16 00:34:34 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:34:34 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:34:34 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:34:35 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:34:35 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:34:35 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:34:36 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method POST
+Dec 16 00:34:36 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:34:36 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:34:36 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:25 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:25 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:25 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:28 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:28 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:28 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:29 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:29 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:29 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:29 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:29 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:29 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:29 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:29 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:29 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:29 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:29 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:29 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:30 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:30 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:30 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:30 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:30 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:30 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:30 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:30 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:30 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:30 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:30 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:30 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:30 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:30 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:30 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:31 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:31 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:31 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:31 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:31 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:31 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:31 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:31 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:31 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:31 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:31 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:31 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:32 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:32 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:32 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:32 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:32 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:32 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:33 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:33 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:33 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:33 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:33 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:33 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:33 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:33 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:33 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:33 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:33 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:33 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:36 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:36 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:36 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:35:36 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method POST
+Dec 16 00:35:37 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:35:37 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:35:37 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:37:52 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:37:52 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/xml/GET.php
+Dec 16 00:37:52 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/xml.php
+Dec 16 00:38:04 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:38:04 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/html/GET.php
+Dec 16 00:38:04 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/html.php
+Dec 16 00:38:09 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:38:09 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/json/GET.php
+Dec 16 00:38:09 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/json.php
+Dec 16 00:38:15 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
+Dec 16 00:38:15 RSF [info] Rendering view C:\htdocs\sso\lib/../views/docenti/xml/GET.php
+Dec 16 00:38:15 RSF [info] Rendering layout C:\htdocs\sso\lib/../views/layout/xml.php
+Dec 16 00:38:19 RSF [info] Resource C:\htdocs\sso/resources/docenti.php required with method GET
