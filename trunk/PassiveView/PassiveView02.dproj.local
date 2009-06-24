@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2009/06/23 19.55.16.728.pas,C:\Documents and Settings\dteti\Documenti\RAD Studio\Projects\Unit1.pas=C:\tests\PassiveView\view\MainView.pas</Transaction>
+    <Transaction>2009/06/23 19.55.16.744.dfm,C:\Documents and Settings\dteti\Documenti\RAD Studio\Projects\Unit1.dfm=C:\tests\PassiveView\view\MainView.dfm</Transaction>
+    <Transaction>2009/06/23 19.55.35.431.dproj,C:\Documents and Settings\dteti\Documenti\RAD Studio\Projects\Project1.dproj=C:\tests\PassiveView\PassiveView01.dproj</Transaction>
+    <Transaction>2009/06/23 19.55.41.150.dproj,C:\tests\PassiveView\PassiveView01.dproj=C:\tests\PassiveView\PassiveView02.dproj</Transaction>
+    <Transaction>2009/06/23 19.57.48.022.pas,C:\tests\PassiveView\Unit1.pas=C:\tests\PassiveView\model\model.SpeakerMapper.pas</Transaction>
+    <Transaction>2009/06/23 19.58.12.131.pas,C:\tests\PassiveView\Unit1.pas=C:\tests\PassiveView\presenter\presenter.Main.pas</Transaction>
+    <Transaction>2009/06/23 19.58.57.693.pas,C:\tests\PassiveView\Unit1.pas=C:\tests\PassiveView\model\model.Interfaces.pas</Transaction>
+    <Transaction>2009/06/23 19.59.11.599.pas,C:\tests\PassiveView\Unit1.pas=C:\tests\PassiveView\view\view.Interfaces.pas</Transaction>
+    <Transaction>2009/06/23 20.00.30.519.pas,C:\tests\PassiveView\model\model.Interfaces.pas=C:\tests\PassiveView\model\model.common.pas</Transaction>
+    <Transaction>2009/06/23 20.00.37.379.pas,C:\tests\PassiveView\view\view.Interfaces.pas=C:\tests\PassiveView\view\view.common.pas</Transaction>
+    <Transaction>2009/06/23 20.14.54.239.pas,C:\tests\PassiveView\Unit1.pas=C:\tests\PassiveView\model\model.Speaker.pas</Transaction>
+  </Transactions>
+</BorlandProject>
