@@ -7,7 +7,11 @@ uses
   presenter.Main in 'presenter\presenter.Main.pas',
   model.common in 'model\model.common.pas',
   view.common in 'view\view.common.pas',
-  model.Speaker in 'model\model.Speaker.pas';
+  model.Speaker in 'model\model.Speaker.pas',
+  SQLite3 in 'model\sqlite\lib\SQLite3.pas',
+  sqlite3udf in 'model\sqlite\lib\sqlite3udf.pas',
+  SQLiteTable3 in 'model\sqlite\lib\SQLiteTable3.pas',
+  model.persistence.factory in 'model\model.persistence.factory.pas';
 
 {$R *.res}
 

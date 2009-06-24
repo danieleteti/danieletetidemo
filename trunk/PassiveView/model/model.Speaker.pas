@@ -38,4 +38,5 @@ procedure TSpeaker.SetLastName(const Value: string);
 begin
   FLastName := Value;
 end;
+
 end.
