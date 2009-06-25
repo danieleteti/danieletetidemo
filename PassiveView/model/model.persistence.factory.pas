@@ -3,30 +3,27 @@ unit model.persistence.factory;
 interface
 
 uses
-  model.common;
+  model.common, SQLiteTable3;
 
 type
-  TDBType = (dtSqlite);
-
-  TPersistenceFactory = class
-    class function GetSQLiteConnection: tqualcosa;
+  TDBFactory = class
+  private
+    class var SQLiteDatabase: TSQLiteDatabase;
+  public
+    class var ConnectionString: String;
+    class function Instance: TSQLiteDatabase;
   end;
 
 implementation
 
 uses
-  SysUtils, model.sqlite.wrapper, SQLiteTable3;
+  SysUtils;
 
-{ TPersistenceFactory }
-
-class function TPersistenceFactory.GetConnection(dbtype: TDBType): IDatabase;
+class function TDBFactory.Instance: TSQLiteDatabase;
 begin
-  case dbtype of
-    dtSqlite:
-      Result := .Create;
-    else
-      raise Exception.Create('Unknown dbtype');    
-  end;
+  if SQLiteDatabase = nil then
+    SQLiteDatabase := TSQLiteDatabase.Create('C:\tests\danieletetidemo\PassiveView\bin\data.db');
+  Result := SQLiteDatabase;
 end;
 
 end.

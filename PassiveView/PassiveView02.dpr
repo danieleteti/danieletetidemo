@@ -11,11 +11,14 @@ uses
   SQLite3 in 'model\sqlite\lib\SQLite3.pas',
   sqlite3udf in 'model\sqlite\lib\sqlite3udf.pas',
   SQLiteTable3 in 'model\sqlite\lib\SQLiteTable3.pas',
-  model.persistence.factory in 'model\model.persistence.factory.pas';
+  model.persistence.factory in 'model\model.persistence.factory.pas',
+  model.guidcreator in 'model\model.guidcreator.pas';
 
 {$R *.res}
 
 begin
+  TDBFactory.ConnectionString := 'data.db';
+  TDBFactory.Instance;
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TForm1, Form1);

@@ -30,6 +30,9 @@ type
     procedure Insert(ASpeaker: ISpeaker);
     procedure Update(ASpeaker: ISpeaker);
     procedure Delete(ASpeaker: ISpeaker);
+    function GetByGUID(const GUID: string): ISpeaker;
+    procedure DeleteAll;
+    function Count: Cardinal;      
   end;
 
   IDatabase = interface

@@ -1,6 +1,7 @@
 unit model.Speaker;
 
 interface
+
 uses model.common;
 
 type
