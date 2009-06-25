@@ -12,5 +12,11 @@
     <Transaction>2009/06/23 20.00.30.519.pas,C:\tests\PassiveView\model\model.Interfaces.pas=C:\tests\PassiveView\model\model.common.pas</Transaction>
     <Transaction>2009/06/23 20.00.37.379.pas,C:\tests\PassiveView\view\view.Interfaces.pas=C:\tests\PassiveView\view\view.common.pas</Transaction>
     <Transaction>2009/06/23 20.14.54.239.pas,C:\tests\PassiveView\Unit1.pas=C:\tests\PassiveView\model\model.Speaker.pas</Transaction>
+    <Transaction>2009/06/24 16.21.12.805.pas,C:\tests\danieletetidemo\PassiveView\Unit1.pas=C:\tests\danieletetidemo\PassiveView\model\sqlite\model.sqlite.wrapper.pas</Transaction>
+    <Transaction>2009/06/24 16.28.06.211.pas,C:\tests\danieletetidemo\PassiveView\Unit1.pas=C:\tests\danieletetidemo\PassiveView\model\model.persistence.factory.pas</Transaction>
+    <Transaction>2009/06/24 18.43.16.813.pas,C:\tests\danieletetidemo\PassiveView\model\sqlite\model.sqlite.wrapper.pas=</Transaction>
+    <Transaction>2009/06/25 11.08.42.083.pas,C:\tests\danieletetidemo\PassiveView\Unit1.pas=C:\tests\danieletetidemo\PassiveView\model\model.guidcreator.pas</Transaction>
+    <Transaction>2009/06/25 14.04.30.068.pas,C:\tests\danieletetidemo\PassiveView\TestSpeakerMapper.pas=C:\tests\danieletetidemo\PassiveView\Test\TestSpeakerMapper.pas</Transaction>
+    <Transaction>2009/06/25 14.05.37.897.pas,C:\tests\danieletetidemo\PassiveView\Test\TestSpeakerMapper.pas=</Transaction>
   </Transactions>
 </BorlandProject>

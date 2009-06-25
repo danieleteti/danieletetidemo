@@ -1,0 +1,44 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{d8b73e91-af8e-495d-b782-6481548173f9}</ProjectGuid>
+  </PropertyGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Projects Include="PassiveView02.dproj" />
+    <Projects Include="Test\PassiveView02Tests.dproj" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Default.Personality</Borland.Personality>
+    <Borland.ProjectType />
+    <BorlandProject>
+  <BorlandProject xmlns=""> <Default.Personality> </Default.Personality> </BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <Target Name="PassiveView02">
+    <MSBuild Projects="PassiveView02.dproj" Targets="" />
+  </Target>
+  <Target Name="PassiveView02:Clean">
+    <MSBuild Projects="PassiveView02.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="PassiveView02:Make">
+    <MSBuild Projects="PassiveView02.dproj" Targets="Make" />
+  </Target>
+  <Target Name="PassiveView02Tests">
+    <MSBuild Projects="Test\PassiveView02Tests.dproj" Targets="" />
+  </Target>
+  <Target Name="PassiveView02Tests:Clean">
+    <MSBuild Projects="Test\PassiveView02Tests.dproj" Targets="Clean" />
+  </Target>
+  <Target Name="PassiveView02Tests:Make">
+    <MSBuild Projects="Test\PassiveView02Tests.dproj" Targets="Make" />
+  </Target>
+  <Target Name="Build">
+    <CallTarget Targets="PassiveView02;PassiveView02Tests" />
+  </Target>
+  <Target Name="Clean">
+    <CallTarget Targets="PassiveView02:Clean;PassiveView02Tests:Clean" />
+  </Target>
+  <Target Name="Make">
+    <CallTarget Targets="PassiveView02:Make;PassiveView02Tests:Make" />
+  </Target>
+  <Import Condition="Exists('$(MSBuildBinPath)\Borland.Group.Targets')" Project="$(MSBuildBinPath)\Borland.Group.Targets" />
+</Project>
