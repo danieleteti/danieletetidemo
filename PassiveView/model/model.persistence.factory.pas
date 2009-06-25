@@ -22,8 +22,13 @@ uses
 class function TDBFactory.Instance: TSQLiteDatabase;
 begin
   if SQLiteDatabase = nil then
-    SQLiteDatabase := TSQLiteDatabase.Create('C:\tests\danieletetidemo\PassiveView\bin\data.db');
+    SQLiteDatabase := TSQLiteDatabase.Create(ConnectionString);
   Result := SQLiteDatabase;
 end;
+
+initialization
+
+finalization
+  TDBFactory.Instance.Free;
 
 end.

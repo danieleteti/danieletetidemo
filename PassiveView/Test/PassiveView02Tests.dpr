@@ -29,6 +29,8 @@ uses
 {$R *.RES}
 
 begin
+  ReportMemoryLeaksOnShutdown := True;
+  TDBFactory.ConnectionString := 'data.db';
   Application.Initialize;
   if IsConsole then
     TextTestRunner.RunRegisteredTests
