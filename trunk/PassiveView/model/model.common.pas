@@ -29,7 +29,8 @@ type
     ['{7B67DCBD-6787-441A-8108-B5C5C6417B4B}']
     procedure Insert(ASpeaker: ISpeaker);
     procedure Update(ASpeaker: ISpeaker);
-    procedure Delete(ASpeaker: ISpeaker);
+    procedure Delete(ASpeaker: ISpeaker); overload;
+    procedure Delete(const GUID: string); overload;
     function GetByGUID(const GUID: string): ISpeaker;
     procedure DeleteAll;
     function Count: Cardinal;      

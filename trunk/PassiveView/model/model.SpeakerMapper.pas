@@ -10,7 +10,8 @@ type
   public
     procedure Insert(ASpeaker: ISpeaker);
     procedure Update(ASpeaker: ISpeaker);
-    procedure Delete(ASpeaker: ISpeaker);
+    procedure Delete(ASpeaker: ISpeaker); overload;
+    procedure Delete(const GUID: string); overload;
     function GetByGUID(const GUID: string): ISpeaker;
     procedure DeleteAll;
     function Count: Cardinal;
@@ -31,9 +32,14 @@ end;
 
 procedure TSpeakerMapper.Delete(ASpeaker: ISpeaker);
 begin
+  Delete(ASpeaker.GUID);
+end;
+
+procedure TSpeakerMapper.Delete(const GUID: string);
+begin
   TDBFactory.Instance.ExecSQL(
     Format('DELETE FROM SPEAKERS WHERE GUID = ''%s''',
-    [ASpeaker.GUID])
+    [GUID])
     );
 end;
 

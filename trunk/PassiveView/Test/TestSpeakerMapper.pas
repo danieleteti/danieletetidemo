@@ -23,6 +23,7 @@ type
   public
     procedure SetUp; override;
     procedure TearDown; override;
+    function CreateSpeaker: ISpeaker;
   published
     procedure TestInsert;
     procedure TestUpdate;
@@ -33,6 +34,14 @@ implementation
 
 uses
   model.Speaker;
+
+function TestTSpeakerMapper.CreateSpeaker: ISpeaker;
+begin
+  Result := TSpeaker.Create;
+  Result.FirstName := 'Daniele';
+  Result.LastName := 'Teti';
+  FSpeakerMapper.Insert(Result);
+end;
 
 procedure TestTSpeakerMapper.SetUp;
 begin
@@ -67,12 +76,8 @@ var
   ASpeaker: ISpeaker;
   sp2: ISpeaker;
 begin
-  ASpeaker := TSpeaker.Create;
-  ASpeaker.FirstName := 'Daniele';
-  ASpeaker.LastName := 'Teti';
-  FSpeakerMapper.Insert(ASpeaker);
+  ASpeaker := CreateSpeaker;
   CheckTrue(ASpeaker.GUID <> '');
-
   ASpeaker.FirstName := 'Peter';
   ASpeaker.LastName := 'Parker';
   FSpeakerMapper.Update(ASpeaker);
@@ -85,9 +90,9 @@ procedure TestTSpeakerMapper.TestDelete;
 var
   ASpeaker: ISpeaker;
 begin
-  // TODO: Setup method call parameters
+  ASpeaker := CreateSpeaker;
   FSpeakerMapper.Delete(ASpeaker);
-  // TODO: Validate method results
+  CheckNull(FSpeakerMapper.GetByGUID(ASpeaker.GUID));
 end;
 
 initialization
