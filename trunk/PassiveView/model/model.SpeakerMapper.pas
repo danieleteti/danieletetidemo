@@ -3,10 +3,12 @@ unit model.SpeakerMapper;
 interface
 
 uses
-  model.common;
+  model.common, Classes, SQLiteTable3;
 
 type
   TSpeakerMapper = class(TInterfacedObject, ISpeakerMapper)
+  protected
+    function LoadObject(tbl: TSQLiteTable): ISpeaker;
   public
     procedure Insert(ASpeaker: ISpeaker);
     procedure Update(ASpeaker: ISpeaker);
@@ -15,13 +17,14 @@ type
     function GetByGUID(const GUID: string): ISpeaker;
     procedure DeleteAll;
     function Count: Cardinal;
+    function LoadAll: IInterfaceList;
   end;
 
 implementation
 
 uses
-  model.persistence.factory, SQLiteTable3, model.guidcreator, SysUtils,
-  model.Speaker;
+  model.persistence.factory, model.guidcreator,
+  SysUtils, model.Speaker;
 
 { TSpeakerMapper }
 
@@ -53,21 +56,13 @@ var
   tbl: TSQLiteTable;
 begin
   tbl := TDBFactory.Instance.GetTable(
-    Format('SELECT FIRST_NAME, LAST_NAME FROM SPEAKERS WHERE GUID = ''%s''',
+    Format('SELECT GUID, FIRST_NAME, LAST_NAME FROM SPEAKERS WHERE GUID = ''%s''',
     [GUID])
     );
   try
-    if tbl.EOF then
-    begin
-      Result := nil;
-    end
-    else
-    begin
-      Result := TSpeaker.Create;
-      Result.GUID := GUID;
-      Result.FirstName := tbl.FieldByName['FIRST_NAME'];
-      Result.LastName := tbl.FieldByName['LAST_NAME'];
-    end;
+    Result := nil;
+    if not tbl.EOF then
+      Result := LoadObject(tbl);
   finally
     tbl.Free;
   end;
@@ -80,6 +75,37 @@ begin
     Format('INSERT INTO SPEAKERS (GUID, FIRST_NAME, LAST_NAME) VALUES (''%s'',''%s'',''%s'')',
     [ASpeaker.GUID, ASpeaker.FirstName, ASpeaker.LastName])
     );
+end;
+
+function TSpeakerMapper.LoadAll: IInterfaceList;
+var
+  tbl: TSQLiteTable;
+begin
+  Result := TInterfaceList.Create;
+  tbl :=
+    TDBFactory.Instance.GetTable('SELECT GUID, FIRST_NAME, LAST_NAME FROM SPEAKERS');
+  try
+    if tbl.EOF then
+      Exit
+    else
+    begin
+      while not tbl.EOF do
+      begin
+        Result.Add(LoadObject(tbl));
+        tbl.Next;
+      end;
+    end;
+  finally
+    tbl.Free;
+  end;
+end;
+
+function TSpeakerMapper.LoadObject(tbl: TSQLiteTable): ISpeaker;
+begin
+  Result := TSpeaker.Create;
+  Result.GUID := tbl.FieldByName['GUID'];
+  Result.FirstName := tbl.FieldByName['FIRST_NAME'];
+  Result.LastName := tbl.FieldByName['LAST_NAME'];
 end;
 
 procedure TSpeakerMapper.Update(ASpeaker: ISpeaker);
