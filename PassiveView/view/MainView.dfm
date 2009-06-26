@@ -33,37 +33,29 @@ object frmMain: TfrmMain
   object Button1: TButton
     Left = 16
     Top = 86
-    Width = 75
+    Width = 121
     Height = 25
-    Caption = 'Button1'
+    Caption = 'Create Speaker'
     TabOrder = 2
+    OnClick = Button1Click
   end
-  object vst: TVirtualStringTree
+  object ListView1: TListView
     Left = 16
-    Top = 144
+    Top = 117
     Width = 452
-    Height = 242
-    Header.AutoSizeIndex = 0
-    Header.DefaultHeight = 17
-    Header.Font.Charset = DEFAULT_CHARSET
-    Header.Font.Color = clWindowText
-    Header.Font.Height = -11
-    Header.Font.Name = 'Tahoma'
-    Header.Font.Style = []
-    Header.Options = [hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
+    Height = 228
+    Columns = <>
+    RowSelect = True
     TabOrder = 3
-    TreeOptions.MiscOptions = [toAcceptOLEDrop, toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-    TreeOptions.SelectionOptions = [toFullRowSelect]
-    Columns = <
-      item
-        Position = 0
-        Width = 150
-        WideText = 'xxxxxx'
-      end
-      item
-        Position = 1
-        Width = 150
-        WideText = 'xxxxxx'
-      end>
+    ViewStyle = vsReport
+  end
+  object Button2: TButton
+    Left = 16
+    Top = 351
+    Width = 121
+    Height = 25
+    Caption = 'Delete Speaker'
+    TabOrder = 4
+    OnClick = Button2Click
   end
 end

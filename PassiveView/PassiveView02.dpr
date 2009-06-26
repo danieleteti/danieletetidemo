@@ -14,7 +14,7 @@ uses
   model.persistence.factory in 'model\model.persistence.factory.pas',
   model.guidcreator in 'model\model.guidcreator.pas',
   DomainModelU in 'model\DomainModelU.pas',
-  VirtualStringTreeAdapterU in 'adapters\VirtualStringTreeAdapterU.pas';
+  ListViewAdapterU in 'adapters\ListViewAdapterU.pas';
 
 {$R *.res}
 

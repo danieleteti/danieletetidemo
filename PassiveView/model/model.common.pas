@@ -3,7 +3,7 @@ unit model.common;
 interface
 
 uses
-  ContNrs;
+  ContNrs, Classes;
 
 type
   IBase = interface
@@ -33,7 +33,8 @@ type
     procedure Delete(const GUID: string); overload;
     function GetByGUID(const GUID: string): ISpeaker;
     procedure DeleteAll;
-    function Count: Cardinal;      
+    function Count: Cardinal;
+    function LoadAll: IInterfaceList;      
   end;
 
   IDatabase = interface
