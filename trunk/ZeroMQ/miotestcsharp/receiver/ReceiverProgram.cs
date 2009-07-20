@@ -19,15 +19,17 @@ namespace receiver
 		{
 			Zmq zmq = new Zmq("localhost");			
 			zmq.CreateQueue("MyQueue", Zmq.SCOPE_GLOBAL, "*", Zmq.NO_LIMIT,Zmq.NO_LIMIT,Zmq.NO_SWAP);
-			zmq.Bind("E","MyQueue","","");
-			
+			//zmq.Bind("E","MyQueue","","");
+
+            int c = 0;
 			while (true)
-			{	
-				byte[] barray = null;
-				int atype;
-				zmq.Receive(out barray,out atype, false);
-				Console.WriteLine("Readed {0}", ByteArrayToStr(barray));
-				Thread.Sleep(1000);				
+			{
+                c++;
+                byte[] message;
+                int type;
+				zmq.Receive(out message,out type, true);
+				Console.WriteLine("#{2}.Readed '{0}' type {1}", ByteArrayToStr(message), type, c);
+				Thread.Sleep(0);				
 			}
 		}
 	}
