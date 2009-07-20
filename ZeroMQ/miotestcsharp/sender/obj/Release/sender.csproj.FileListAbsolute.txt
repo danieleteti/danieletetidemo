@@ -1,0 +1,5 @@
+C:\tests\danieletetidemo\ZeroMQ\miotestcsharp\sender\obj\Release\ResolveAssemblyReference.cache
+C:\tests\danieletetidemo\ZeroMQ\miotestcsharp\sender\obj\Release\sender.exe
+C:\tests\danieletetidemo\ZeroMQ\miotestcsharp\sender\obj\Release\sender.pdb
+C:\tests\danieletetidemo\ZeroMQ\miotestcsharp\sender.exe
+C:\tests\danieletetidemo\ZeroMQ\miotestcsharp\sender.pdb
