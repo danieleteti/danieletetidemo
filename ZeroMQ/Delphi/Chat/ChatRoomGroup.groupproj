@@ -1,0 +1,60 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{689BF1EF-784E-418D-88D9-E628759362C1}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="ChatRoom\chatroom.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Client\ChatClient.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="Display\Display.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="chatroom">
+			<MSBuild Projects="ChatRoom\chatroom.dproj"/>
+		</Target>
+		<Target Name="chatroom:Clean">
+			<MSBuild Targets="Clean" Projects="ChatRoom\chatroom.dproj"/>
+		</Target>
+		<Target Name="chatroom:Make">
+			<MSBuild Targets="Make" Projects="ChatRoom\chatroom.dproj"/>
+		</Target>
+		<Target Name="ChatClient">
+			<MSBuild Projects="Client\ChatClient.dproj"/>
+		</Target>
+		<Target Name="ChatClient:Clean">
+			<MSBuild Targets="Clean" Projects="Client\ChatClient.dproj"/>
+		</Target>
+		<Target Name="ChatClient:Make">
+			<MSBuild Targets="Make" Projects="Client\ChatClient.dproj"/>
+		</Target>
+		<Target Name="Display">
+			<MSBuild Projects="Display\Display.dproj"/>
+		</Target>
+		<Target Name="Display:Clean">
+			<MSBuild Targets="Clean" Projects="Display\Display.dproj"/>
+		</Target>
+		<Target Name="Display:Make">
+			<MSBuild Targets="Make" Projects="Display\Display.dproj"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="chatroom;ChatClient;Display"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="chatroom:Clean;ChatClient:Clean;Display:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="chatroom:Make;ChatClient:Make;Display:Make"/>
+		</Target>
+		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+	</Project>
