@@ -4,7 +4,7 @@ program receiver;
 
 uses
   SysUtils,
-  {$IFDEF VER190}
+  {$IFDEF VER200}
   Ansistrings,
   {$ENDIF}
   ZMQ in 'ZMQ.PAS';
@@ -18,7 +18,6 @@ var
 begin
   connection := zmq_create('localhost');
   zmq_create_queue(connection,'MyQueue', ZMQ_SCOPE_GLOBAL, '*', ZMQ_NO_LIMIT, ZMQ_NO_LIMIT, ZMQ_NO_SWAP);
-  //zmq_bind(connection, 'E', 'MyQueue', '','');
   while True do
   begin
     data := nil;
@@ -26,7 +25,7 @@ begin
     rcv := zmq_receive(connection,data,data_size,atype, 0);
     if rcv > 0 then
     begin
-      WriteLn('Readed: ' , pansichar(data), ' with data size: ',data_size);
+      WriteLn('Readed: ' , PAnsiChar(data), ' with data size: ',data_size);
     end;
     zmq_free(data);
     sleep(1);
