@@ -90,7 +90,8 @@
 			<DelphiCompile Include="receiver.dpr">
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
-			<DCCReference Include="ZMQ.PAS"/>
+			<DCCReference Include="..\lib\ZMQ.PAS"/>
+			<DCCReference Include="..\lib\ZeroMQ.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
