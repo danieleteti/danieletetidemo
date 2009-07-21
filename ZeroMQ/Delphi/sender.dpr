@@ -4,10 +4,7 @@ program sender;
 
 uses
   SysUtils,
-  {$IFDEF VER200}
-  Ansistrings,
-  {$ENDIF}
-  ZMQ in 'ZMQ.PAS';
+  ZMQ in 'lib\ZMQ.PAS';
 
 var
   connection: Pointer;

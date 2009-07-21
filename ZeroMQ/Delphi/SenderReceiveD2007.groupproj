@@ -4,41 +4,41 @@
   </PropertyGroup>
   <ItemGroup />
   <ItemGroup>
-    <Projects Include="receiver.dproj" />
-    <Projects Include="sender.dproj" />
+    <Projects Include="receiver2007.dproj" />
+    <Projects Include="sender2007.dproj" />
   </ItemGroup>
   <ProjectExtensions>
     <Borland.Personality>Default.Personality</Borland.Personality>
     <Borland.ProjectType />
     <BorlandProject>
-  <BorlandProject xmlns=""> <Default.Personality> </Default.Personality> </BorlandProject></BorlandProject>
+<BorlandProject xmlns=""><Default.Personality></Default.Personality></BorlandProject></BorlandProject>
   </ProjectExtensions>
-  <Target Name="receiver">
-    <MSBuild Projects="receiver.dproj" Targets="" />
+  <Target Name="sender2007">
+    <MSBuild Projects="sender2007.dproj" Targets="" />
   </Target>
-  <Target Name="receiver:Clean">
-    <MSBuild Projects="receiver.dproj" Targets="Clean" />
+  <Target Name="sender2007:Clean">
+    <MSBuild Projects="sender2007.dproj" Targets="Clean" />
   </Target>
-  <Target Name="receiver:Make">
-    <MSBuild Projects="receiver.dproj" Targets="Make" />
+  <Target Name="sender2007:Make">
+    <MSBuild Projects="sender2007.dproj" Targets="Make" />
   </Target>
-  <Target Name="sender">
-    <MSBuild Projects="sender.dproj" Targets="" />
+  <Target Name="receiver2007">
+    <MSBuild Projects="receiver2007.dproj" Targets="" />
   </Target>
-  <Target Name="sender:Clean">
-    <MSBuild Projects="sender.dproj" Targets="Clean" />
+  <Target Name="receiver2007:Clean">
+    <MSBuild Projects="receiver2007.dproj" Targets="Clean" />
   </Target>
-  <Target Name="sender:Make">
-    <MSBuild Projects="sender.dproj" Targets="Make" />
+  <Target Name="receiver2007:Make">
+    <MSBuild Projects="receiver2007.dproj" Targets="Make" />
   </Target>
   <Target Name="Build">
-    <CallTarget Targets="receiver;sender" />
+    <CallTarget Targets="sender2007;receiver2007" />
   </Target>
   <Target Name="Clean">
-    <CallTarget Targets="receiver:Clean;sender:Clean" />
+    <CallTarget Targets="sender2007:Clean;receiver2007:Clean" />
   </Target>
   <Target Name="Make">
-    <CallTarget Targets="receiver:Make;sender:Make" />
+    <CallTarget Targets="sender2007:Make;receiver2007:Make" />
   </Target>
   <Import Condition="Exists('$(MSBuildBinPath)\Borland.Group.Targets')" Project="$(MSBuildBinPath)\Borland.Group.Targets" />
 </Project>
