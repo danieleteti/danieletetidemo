@@ -15,6 +15,7 @@ type
     );
   TZeroMQStyle = (zmqStyleDataDistribution = 1, zmqStyleLoadBalancing = 2);
   TZeroExchange = Integer;
+  TZeroQueueID = Cardinal;
   TZeroBlockingMode = (zmqBlocking = 1, zmqNoBlocking = 0);
   EZeroMQException = class(Exception)
   end;
@@ -46,7 +47,7 @@ type
     function Receive(var Message: AnsiString;
                      var MessageType: Cardinal;
                      var MessageSize: Int64;
-                     Blocking: TZeroBlockingMode = zmqBlocking): boolean;
+                     Blocking: TZeroBlockingMode = zmqBlocking): TZeroQueueID;
   end;
 
 implementation
@@ -96,7 +97,7 @@ begin
     raise EZeroMQException.Create('Cannot connect to ZeroMQ server');
 end;
 
-function TZeroMQ.Receive(var Message: AnsiString; var MessageType: Cardinal; var MessageSize: Int64; Blocking: TZeroBlockingMode = zmqBlocking): boolean;
+function TZeroMQ.Receive(var Message: AnsiString; var MessageType: Cardinal; var MessageSize: Int64; Blocking: TZeroBlockingMode = zmqBlocking): TZeroQueueID;
 var
   res: Int64;
   data: PAnsiChar;
@@ -108,7 +109,7 @@ begin
   if (res > 0) and (MessageSize > 0) then
     Message := data;
   zmq_free(data);
-  Result := res = 1;
+  Result := res;
 end;
 
 function TZeroMQ.Send(Exchange: Integer; Message: AnsiString;
