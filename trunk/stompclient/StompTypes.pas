@@ -69,11 +69,20 @@ type
   //process message in the buffer
   //return TFrame, when there is no complete frame in the buffer, return nil.
   //buf contains what left after processing.
-function CreateFrame(var Buf: string): TStompFrame;
+function CreateFrame(Buf: string): TStompFrame;
+function AckModeToStr(AckMode: TAckMode): String;
 
 implementation
 
-{ TStompFrame }
+function AckModeToStr(AckMode: TAckMode): String;
+begin
+  case AckMode of
+    amAuto : Result := 'auto';
+    amClient: Result := 'client';
+    else
+      raise EStomp.Create('Unknown AckMode');
+  end;
+end;
 
 constructor TStompFrame.Create;
 begin
@@ -90,7 +99,7 @@ end;
 
 function TStompFrame.output: string;
 begin
-  Result := FCommand + LINE_END + FHeaders.Output + FBody + LINE_END + COMMAND_END;
+  Result := FCommand + LINE_END + FHeaders.Output + LINE_END + FBody + LINE_END + COMMAND_END;
 end;
 
 
@@ -129,7 +138,7 @@ begin
     raise EStomp.Create('End of Line not found.');
 end;
 
-function CreateFrame(var Buf: string): TStompFrame;
+function CreateFrame(Buf: string): TStompFrame;
 var
   line: string;
   i: Integer;
@@ -165,15 +174,15 @@ begin
       if Copy(other, contLen + 1, 2) <> COMMAND_END + LINE_END then
         raise Exception.Create('frame ending error');
       result.Body := Copy(other, 1, contLen);
-      Buf := Copy(other, contLen + 3, High(Integer));
+      //Buf := Copy(other, contLen + 3, High(Integer));
     end
     else
     begin
-      p := Pos(COMMAND_END + LINE_END, other);
+      p := Pos(COMMAND_END, other);
       if (p = 0) then
         raise EStomp.Create('frame no ending');
       result.Body := Copy(other, 1, p - 1);
-      Buf := Copy(other, p + 2, High(Integer));
+      //Buf := Copy(other, p + 2, High(Integer));
     end;
   except
     on EStomp do
@@ -255,7 +264,9 @@ begin
     begin
       kv := Items[i];
       Result := Result + kv.Key + ':' + kv.Value + LINE_END;
-    end;
+    end
+  else
+    Result := LINE_END;
 end;
 
 procedure TStompHeaders.Remove(Key: string);
@@ -282,8 +293,13 @@ begin
 end;
 
 function TStompHeaders.Value(Key: string): string;
+var
+  i: Integer;
 begin
-  Result := GetItems(IndexOf(Key)).Value;
+  Result := '';
+  i := IndexOf(Key);
+  if i > -1 then
+    Result := GetItems(i).Value;
 end;
 
 end.

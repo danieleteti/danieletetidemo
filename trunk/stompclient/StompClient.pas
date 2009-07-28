@@ -17,10 +17,13 @@ type
     procedure SetUserName(const Value: String);
     procedure SetTimeout(const Value: Integer);
   protected
-    procedure Send(AFrame: TStompFrame);
-    function Receive: TStompFrame;
+    procedure SendFrame(AFrame: TStompFrame);
   public
+    function Receive: TStompFrame;
     procedure Connect(Host: String; Port: Integer = 61613);
+    procedure Subscribe(Queue: String; Ack: TAckMode = amAuto);
+    procedure Unsubscribe(Queue: String);
+    procedure Send(Queue: String; TextMessage: String);
     constructor Create;
     destructor Destroy; override;
     property UserName: String read FUserName write SetUserName;
@@ -41,7 +44,7 @@ begin
   Frame.Command := 'CONNECT';
   Frame.Headers.Add('login', FUserName);
   Frame.Headers.Add('passcode', FPassword);
-  Send(Frame);
+  SendFrame(Frame);
   Frame.Free;
   Frame := Receive;
   if Assigned(Frame) then
@@ -66,15 +69,28 @@ end;
 function TStompClient.Receive: TStompFrame;
 var
   s: string;
+  c: char;
 begin
-  s := tcp.IOHandler.ReadLn(COMMAND_END, FTimeout);
+  s := tcp.IOHandler.ReadLn(COMMAND_END + LINE_END, FTimeout);
   if s <> '' then
-    Result := CreateFrame(s)
+    Result := CreateFrame(s + #0)
   else
     Result := nil;
 end;
 
-procedure TStompClient.Send(AFrame: TStompFrame);
+procedure TStompClient.Send(Queue, TextMessage: String);
+var
+  Frame: TStompFrame;
+begin
+  Frame := TStompFrame.Create;
+  Frame.Command := 'SEND';
+  Frame.Headers.Add('destination', Queue);
+  Frame.Body := TextMessage;
+  SendFrame(Frame);
+  Frame.Free;
+end;
+
+procedure TStompClient.SendFrame(AFrame: TStompFrame);
 begin
   tcp.IOHandler.Write(AFrame.Output);
 end;
@@ -92,6 +108,29 @@ end;
 procedure TStompClient.SetUserName(const Value: String);
 begin
   FUserName := Value;
+end;
+
+procedure TStompClient.Subscribe(Queue: String; Ack: TAckMode = amAuto);
+var
+  Frame: TStompFrame;
+begin
+  Frame := TStompFrame.Create;
+  Frame.Command := 'SUBSCRIBE';
+  Frame.Headers.Add('destination', Queue);
+  Frame.Headers.Add('ack', AckModeToStr(Ack));
+  SendFrame(Frame);
+  Frame.Free;
+end;
+
+procedure TStompClient.Unsubscribe(Queue: String);
+var
+  Frame: TStompFrame;
+begin
+  Frame := TStompFrame.Create;
+  Frame.Command := 'UNSUBSCRIBE';
+  Frame.Headers.Add('destination', Queue);
+  SendFrame(Frame);
+  Frame.Free;
 end;
 
 end.
