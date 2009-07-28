@@ -16,7 +16,7 @@ begin
   else
     id := AnsiString(ParamStr(1));
 
-  connection := zmq_create('localhost');
+  connection := zmq_create(pansichar(paramstr(2)));
   ex := zmq_create_exchange(connection, 'E', ZMQ_SCOPE_LOCAL, '', ZMQ_STYLE_DATA_DISTRIBUTION);
   zmq_bind(connection, 'E', 'MyQueue',nil,nil);
   i := 1;
