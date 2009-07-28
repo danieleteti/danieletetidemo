@@ -13,7 +13,7 @@ var
   atype: Cardinal;
   rcv: integer;
 begin
-  connection := zmq_create('localhost');
+  connection := zmq_create(PAnsiChar(paramstr(1)));
   zmq_create_queue(connection,'MyQueue', ZMQ_SCOPE_GLOBAL, '*', ZMQ_NO_LIMIT, ZMQ_NO_LIMIT, ZMQ_NO_SWAP);
   while True do
   begin
