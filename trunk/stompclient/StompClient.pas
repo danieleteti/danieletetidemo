@@ -3,7 +3,7 @@ unit StompClient;
 interface
 
 uses
-  StompTypes, IdTCPClient;
+  StompTypes, IdTCPClient, SysUtils;
 
 type
   TStompClient = class
@@ -13,6 +13,7 @@ type
     FPassword: string;
     FUserName: string;
     FTimeout: Integer;
+    FSession: string;
     procedure SetPassword(const Value: string);
     procedure SetUserName(const Value: string);
     procedure SetTimeout(const Value: Integer);
@@ -21,6 +22,7 @@ type
   public
     function Receive: TStompFrame;
     procedure Connect(Host: string; Port: Integer = 61613);
+    procedure Disconnect;
     procedure Subscribe(Queue: string; Ack: TAckMode = amAuto);
     procedure Unsubscribe(Queue: string);
     procedure Send(Queue: string; TextMessage: string);
@@ -29,6 +31,7 @@ type
     property UserName: string read FUserName write SetUserName;
     property Password: string read FPassword write SetPassword;
     property Timeout: Integer read FTimeout write SetTimeout;
+    property Session: string read FSession;
   end;
 
 implementation
@@ -42,22 +45,38 @@ procedure TStompClient.Connect(Host: string; Port: Integer = 61613);
 var
   Frame: TStompFrame;
 begin
-  tcp.Connect(Host, Port);
-  tcp.IOHandler.MaxLineLength := MaxInt;  
-  Frame := TStompFrame.Create;
-  Frame.Command := 'CONNECT';
-  Frame.Headers.Add('login', FUserName);
-  Frame.Headers.Add('passcode', FPassword);
-  SendFrame(Frame);
-  Frame.Free;
-  Frame := Receive;
-  if Assigned(Frame) then
-    WriteLn(Frame.Output);
+  try
+    tcp.Connect(Host, Port);
+    tcp.IOHandler.MaxLineLength := MaxInt;
+    Frame := TStompFrame.Create;
+    Frame.Command := 'CONNECT';
+    Frame.Headers.Add('login', FUserName);
+    Frame.Headers.Add('passcode', FPassword);
+    SendFrame(Frame);
+    FreeAndNil(Frame);
+    while Frame = nil do
+    begin
+      Frame := Receive;
+    end;
+    if Frame.Command = 'ERROR' then
+      raise EStomp.Create(Frame.output);
+    if Frame.Command = 'CONNECTED' then
+    begin
+      FSession := Frame.headers.Value('session');
+    end;
+    {todo: 'Call event?'}
+  except
+    on E: Exception do
+    begin
+      raise EStomp.Create(E.Message);
+    end;
+  end;
 end;
 
 constructor TStompClient.Create;
 begin
   inherited;
+  FSession := '';
   FHeaders := TStompHeaders.Create;
   tcp := TIdTCPClient.Create(nil);
   FTimeout := 1000;
@@ -68,6 +87,20 @@ begin
   FHeaders.Free;
   tcp.Free;
   inherited;
+end;
+
+procedure TStompClient.Disconnect;
+var
+  Frame: TStompFrame;
+begin
+  Frame := TStompFrame.Create;
+  try
+    Frame.Command := 'DISCONNECT';
+    SendFrame(Frame);
+  finally
+    Frame.Free;
+  end;
+  tcp.Disconnect;
 end;
 
 function TStompClient.Receive: TStompFrame;
@@ -85,11 +118,14 @@ var
   Frame: TStompFrame;
 begin
   Frame := TStompFrame.Create;
-  Frame.Command := 'SEND';
-  Frame.Headers.Add('destination', Queue);
-  Frame.Body := TextMessage;
-  SendFrame(Frame);
-  Frame.Free;
+  try
+    Frame.Command := 'SEND';
+    Frame.Headers.Add('destination', Queue);
+    Frame.Body := TextMessage;
+    SendFrame(Frame);
+  finally
+    Frame.Free;
+  end;
 end;
 
 procedure TStompClient.SendFrame(AFrame: TStompFrame);
@@ -117,11 +153,14 @@ var
   Frame: TStompFrame;
 begin
   Frame := TStompFrame.Create;
-  Frame.Command := 'SUBSCRIBE';
-  Frame.Headers.Add('destination', Queue);
-  Frame.Headers.Add('ack', AckModeToStr(Ack));
-  SendFrame(Frame);
-  Frame.Free;
+  try
+    Frame.Command := 'SUBSCRIBE';
+    Frame.Headers.Add('destination', Queue);
+    Frame.Headers.Add('ack', AckModeToStr(Ack));
+    SendFrame(Frame);
+  finally
+    Frame.Free;
+  end;
 end;
 
 procedure TStompClient.Unsubscribe(Queue: string);
@@ -129,10 +168,13 @@ var
   Frame: TStompFrame;
 begin
   Frame := TStompFrame.Create;
-  Frame.Command := 'UNSUBSCRIBE';
-  Frame.Headers.Add('destination', Queue);
-  SendFrame(Frame);
-  Frame.Free;
+  try
+    Frame.Command := 'UNSUBSCRIBE';
+    Frame.Headers.Add('destination', Queue);
+    SendFrame(Frame);
+  finally
+    Frame.Free;
+  end;
 end;
 
 end.
