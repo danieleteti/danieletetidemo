@@ -10,36 +10,40 @@ type
   private
     tcp: TIdTCPClient;
     FHeaders: TStompHeaders;
-    FPassword: String;
-    FUserName: String;
+    FPassword: string;
+    FUserName: string;
     FTimeout: Integer;
-    procedure SetPassword(const Value: String);
-    procedure SetUserName(const Value: String);
+    procedure SetPassword(const Value: string);
+    procedure SetUserName(const Value: string);
     procedure SetTimeout(const Value: Integer);
   protected
     procedure SendFrame(AFrame: TStompFrame);
   public
     function Receive: TStompFrame;
-    procedure Connect(Host: String; Port: Integer = 61613);
-    procedure Subscribe(Queue: String; Ack: TAckMode = amAuto);
-    procedure Unsubscribe(Queue: String);
-    procedure Send(Queue: String; TextMessage: String);
+    procedure Connect(Host: string; Port: Integer = 61613);
+    procedure Subscribe(Queue: string; Ack: TAckMode = amAuto);
+    procedure Unsubscribe(Queue: string);
+    procedure Send(Queue: string; TextMessage: string);
     constructor Create;
     destructor Destroy; override;
-    property UserName: String read FUserName write SetUserName;
-    property Password: String read FPassword write SetPassword;
+    property UserName: string read FUserName write SetUserName;
+    property Password: string read FPassword write SetPassword;
     property Timeout: Integer read FTimeout write SetTimeout;
   end;
 
 implementation
 
+uses
+  Classes;
+
 { TStompClient }
 
-procedure TStompClient.Connect(Host: String; Port: Integer = 61613);
+procedure TStompClient.Connect(Host: string; Port: Integer = 61613);
 var
   Frame: TStompFrame;
 begin
   tcp.Connect(Host, Port);
+  tcp.IOHandler.MaxLineLength := MaxInt;  
   Frame := TStompFrame.Create;
   Frame.Command := 'CONNECT';
   Frame.Headers.Add('login', FUserName);
@@ -70,14 +74,13 @@ function TStompClient.Receive: TStompFrame;
 var
   s: string;
 begin
+  Result := nil;
   s := tcp.IOHandler.ReadLn(COMMAND_END + LINE_END, FTimeout);
-  if s <> '' then
+  if not tcp.IOHandler.ReadLnTimedout then
     Result := CreateFrame(s + #0)
-  else
-    Result := nil;
 end;
 
-procedure TStompClient.Send(Queue, TextMessage: String);
+procedure TStompClient.Send(Queue, TextMessage: string);
 var
   Frame: TStompFrame;
 begin
@@ -94,7 +97,7 @@ begin
   tcp.IOHandler.Write(AFrame.Output);
 end;
 
-procedure TStompClient.SetPassword(const Value: String);
+procedure TStompClient.SetPassword(const Value: string);
 begin
   FPassword := Value;
 end;
@@ -104,12 +107,12 @@ begin
   FTimeout := Value;
 end;
 
-procedure TStompClient.SetUserName(const Value: String);
+procedure TStompClient.SetUserName(const Value: string);
 begin
   FUserName := Value;
 end;
 
-procedure TStompClient.Subscribe(Queue: String; Ack: TAckMode = amAuto);
+procedure TStompClient.Subscribe(Queue: string; Ack: TAckMode = amAuto);
 var
   Frame: TStompFrame;
 begin
@@ -121,7 +124,7 @@ begin
   Frame.Free;
 end;
 
-procedure TStompClient.Unsubscribe(Queue: String);
+procedure TStompClient.Unsubscribe(Queue: string);
 var
   Frame: TStompFrame;
 begin
