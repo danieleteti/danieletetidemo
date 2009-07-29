@@ -20,8 +20,9 @@ var
   message_data: string;
 const
   MSG = 1000;
+  MSG_SIZE = 100000;
 begin
-  message_data := StringOfChar('X', 10000);
+  message_data := StringOfChar('X', MSG_SIZE);
   WriteLn('TEST MESSAGE (',  length(message_data), ' bytes):', #13#10, '"',message_data,'"'#13#10#13#10);
   sw := TStopWatch.Create;
   try
@@ -62,7 +63,8 @@ begin
         sw.Stop;
         WriteLn('= STATS LOOP',c,'=======================================');
         Writeln(msgcount, ' in ', sw.ElapsedMiliseconds, ' milliseconds and ', sw.ElapsedTicks, ' ticks');
-        Writeln('Throughput: ', FormatFloat('###,##0.000', sw.ElapsedMiliseconds / msgcount), ' seconds for message');
+        Writeln('Throughput: ');
+        WriteLn(FormatFloat('###,##0.000', sw.ElapsedMiliseconds / msgcount), ' ms/msg');
         WriteLn(FormatFloat('###,##0.000', msgcount / sw.ElapsedMiliseconds), ' msg/ms');
         WriteLn('= END LOOP',c,'========================================='#13#10);
       end;
