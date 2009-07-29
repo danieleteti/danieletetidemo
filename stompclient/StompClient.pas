@@ -69,7 +69,6 @@ end;
 function TStompClient.Receive: TStompFrame;
 var
   s: string;
-  c: char;
 begin
   s := tcp.IOHandler.ReadLn(COMMAND_END + LINE_END, FTimeout);
   if s <> '' then
