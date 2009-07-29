@@ -1,4 +1,4 @@
-program teststompclient;
+program teststompclient2007;
 
 {$APPTYPE CONSOLE}
 
