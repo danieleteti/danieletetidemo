@@ -56,7 +56,7 @@ begin
   inherited;
   FHeaders := TStompHeaders.Create;
   tcp := TIdTCPClient.Create(nil);
-  FTimeout := 500;
+  FTimeout := 1000;
 end;
 
 destructor TStompClient.Destroy;

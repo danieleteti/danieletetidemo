@@ -8,7 +8,7 @@ implementation
 
 uses
   SysUtils,
-  dateutils, StompClient, StompTypes;
+  dateutils, StompClient, StompTypes, StopWatch;
 
 procedure Main;
 var
@@ -17,50 +17,63 @@ var
   i, c: Integer;
   msgcount: Cardinal;
   start, endt: TDateTime;
+  ms: Int64;
+  sw: TStopWatch;
+const
+  MSG = 1000;  
 begin
-  stomp := TStompClient.Create;
+  sw := TStopWatch.Create;
   try
-    stomp.UserName := 'Daniele';
-    stomp.Password := 'Paperino';
-    stomp.Connect('localhost');
-    stomp.Subscribe('/queue/p');
+    stomp := TStompClient.Create;
+    try
+      stomp.UserName := 'Daniele';
+      stomp.Password := 'Paperino';
+      stomp.Connect('10.5.2.25');
+      stomp.Subscribe('/queue/p');
 
-    for c := 1 to 10 do
-    begin
-      WriteLn('LOOP: ', c);
-      for i := 1 to 5000 do
+      for c := 1 to 10 do
       begin
-        stomp.send('/queue/p',
-          StringOfChar('X', 10000)
-          //'01234567890123456789012345678901234567890123456789'
-          );
-        if i mod 1000 = 0 then
-          WriteLn('Queued ', i, ' messages');
-      end;
-
-      msgcount := 0;
-      start := now;
-      while true do
-      begin
-        frame := stomp.Receive;
-        if assigned(Frame) then
+        WriteLn(#13#10'LOOP: ', c);
+        for i := 1 to MSG do
         begin
-          inc(msgcount);
-          //WriteLn(Frame.Output);
-          Frame.Free;
-        end
-        else
-          Break;
-      end;
-      endt := now;
-      Writeln(msgcount, ' in ', FormatDateTime('nn:ss:zzz', endt - start));
-      WriteLn(FormatFloat('##0.00', msgcount / MilliSecondsBetween(endt, start)),
-        ' per millisecondo');
-    end;
+          stomp.send('/queue/p',
+            StringOfChar('X', 10000)
+            //'01234567890123456789012345678901234567890123456789'
+            );
+          if i mod 1000 = 0 then
+            WriteLn('Queued ', i, ' messages');
+        end;
 
-    readln;
+        msgcount := 0;
+        sw.start;
+        while msgcount < MSG do
+        begin
+          frame := stomp.Receive;
+          if assigned(Frame) then
+          begin
+            inc(msgcount);
+//            Assert(Length(trim(Frame.Body)) = 10000, 'Length = ' + inttostr(Length(Frame.Body)));
+//            if msgcount mod (MSG div 10) = 0 then
+//              WriteLn('Readed ', msgcount, ' of ', MSG, ' messages');
+
+            Frame.Free;
+          end
+          else
+            Sleep(200);
+        end;
+        sw.Stop;
+        Writeln(msgcount, ' in ', sw.ElapsedMiliseconds, ' milliseconds and ', sw.ElapsedTicks, ' ticks');
+        WriteLn(FormatFloat('###,##0.000', msgcount / sw.ElapsedMiliseconds), ' msg/ms');
+      end;
+
+      write('test finished...');
+      stomp.Unsubscribe('/queue/p');      
+      readln;
+    finally
+      stomp.Free;
+    end;
   finally
-    stomp.Free;
+    sw.Free;
   end;
 end;
 

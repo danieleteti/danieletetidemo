@@ -5,7 +5,9 @@ program teststompclient2007;
 uses
   StompTypes in 'StompTypes.pas',
   StompClient in 'StompClient.pas',
-  MainU in 'MainU.pas', SysUtils;
+  MainU in 'MainU.pas',
+  SysUtils,
+  StopWatch in 'StopWatch.pas';
 
 begin
   try
