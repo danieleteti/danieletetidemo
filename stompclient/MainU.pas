@@ -8,7 +8,10 @@ implementation
 
 uses
   SysUtils,
-  dateutils, StompClient, StompTypes, StopWatch;
+  dateutils,
+  StompClient,
+  StompTypes,
+  StopWatch;
 
 procedure Main(serveraddress: string = 'localhost');
 var
@@ -19,11 +22,12 @@ var
   sw: TStopWatch;
   message_data: string;
 const
-  MSG = 1000;
+  MSG = 10000;
   MSG_SIZE = 100000;
 begin
   message_data := StringOfChar('X', MSG_SIZE);
-  WriteLn('TEST MESSAGE (',  length(message_data), ' bytes):', #13#10, '"',message_data,'"'#13#10#13#10);
+  WriteLn('TESTs MESSAGE (', length(message_data), ' bytes):', #13#10, '"',
+    message_data, '"'#13#10#13#10);
   sw := TStopWatch.Create;
   try
     stomp := TStompClient.Create;
@@ -35,7 +39,8 @@ begin
 
       for c := 1 to 10 do
       begin
-        WriteLn(#13#10'LOOP: ', c);
+        WriteLn;
+        WriteLn('= STATS LOOP ', c, '=======================================');
         for i := 1 to MSG do
         begin
           stomp.send('/queue/p',
@@ -54,23 +59,23 @@ begin
           if assigned(Frame) then
           begin
             inc(msgcount);
-//            Assert(Length(trim(Frame.Body)) = 10000, 'Length = ' + inttostr(Length(Frame.Body)));
-//            if msgcount mod (MSG div 10) = 0 then
-//              WriteLn('Readed ', msgcount, ' of ', MSG, ' messages');
             Frame.Free;
           end
         end;
         sw.Stop;
-        WriteLn('= STATS LOOP',c,'=======================================');
-        Writeln(msgcount, ' in ', sw.ElapsedMiliseconds, ' milliseconds and ', sw.ElapsedTicks, ' ticks');
+        Writeln(msgcount, ' in ', sw.ElapsedMiliseconds, ' milliseconds and ',
+          sw.ElapsedTicks, ' ticks');
         Writeln('Throughput: ');
-        WriteLn(FormatFloat('###,##0.000', sw.ElapsedMiliseconds / msgcount), ' ms/msg');
-        WriteLn(FormatFloat('###,##0.000', msgcount / sw.ElapsedMiliseconds), ' msg/ms');
-        WriteLn('= END LOOP',c,'========================================='#13#10);
+        WriteLn(FormatFloat('###,##0.000', sw.ElapsedMiliseconds / msgcount),
+          ' ms/msg');
+        WriteLn(FormatFloat('###,##0.000', msgcount / sw.ElapsedMiliseconds),
+          ' msg/ms');
+        WriteLn('= END LOOP ', c,
+          '========================================='#13#10);
       end;
 
       stomp.Unsubscribe('/queue/p');
-      write('test finished...');            
+      write('test finished...');
     finally
       stomp.Free;
     end;
