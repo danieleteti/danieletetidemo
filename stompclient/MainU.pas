@@ -22,11 +22,11 @@ var
   sw: TStopWatch;
   message_data: string;
 const
-  MSG = 10000;
-  MSG_SIZE = 100000;
+  MSG = 1000;
+  MSG_SIZE = 10000;
 begin
   message_data := StringOfChar('X', MSG_SIZE);
-  WriteLn('TESTs MESSAGE (', length(message_data), ' bytes):', #13#10, '"',
+  WriteLn('TEST MESSAGE (', length(message_data) * sizeof(char), ' bytes):', #13#10, '"',
     message_data, '"'#13#10#13#10);
   sw := TStopWatch.Create;
   try
@@ -75,6 +75,7 @@ begin
       end;
 
       stomp.Unsubscribe('/queue/p');
+      stomp.Disconnect;
       write('test finished...');
     finally
       stomp.Free;
