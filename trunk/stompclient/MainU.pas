@@ -3,6 +3,7 @@ unit MainU;
 interface
 
 procedure Main(serveraddress: string = 'localhost');
+procedure MainWithTransaction(serveraddress: string = 'localhost');
 
 implementation
 
@@ -12,6 +13,91 @@ uses
   StompClient,
   StompTypes,
   StopWatch;
+
+
+function NewStomp(serveraddress: string = 'localhost'): TStompClient;
+begin
+  Result := TStompClient.Create;
+  Result.UserName := 'Daniele';
+  Result.Password := 'Paperino';
+  Result.Connect(serveraddress);
+end;
+
+procedure MainWithTransaction(serveraddress: string = 'localhost');
+var
+  stomp, recv: TStompClient;
+  frame: TStompFrame;
+  m: Integer;
+const
+  TR = 'TRDANIELE';
+  TOPIC = '/topic/mytopic';  //TOPIC = PUB/SUB, QUEUE = LOAD BALANCER
+  BODY1 = 'Hello World 1';
+  BODY2 = 'Hello World 2';
+  BODY3 = 'Hello World 3';
+  BODY4 = 'Hello World 4';
+begin
+  stomp := NewStomp;
+  try
+    recv := NewStomp;
+    try
+      stomp.Subscribe(TOPIC);
+      recv.Subscribe(TOPIC);
+
+      stomp.BeginTransaction(TR);
+      stomp.send(TOPIC, BODY1,TR);
+      stomp.send(TOPIC, BODY2,TR);
+      stomp.send(TOPIC, BODY3,TR);
+      stomp.send(TOPIC, BODY4,TR);
+
+
+      //NON DEVCE TROVARE NULLA
+      frame := recv.Receive;
+      assert(frame = nil);
+      stomp.CommitTransaction(TR);
+
+      //ORA DEVE LEGGERE I MESSAGGI
+//      m := 0;
+//      while true do
+//      begin
+//        frame := recv.Receive;
+//        if frame <> nil then
+//        begin
+//          inc(m);
+//          writeln(frame.output);
+//          if m = 4 then
+//            break;
+//        end;
+//      end;
+
+      frame := recv.Receive;
+      assert(frame<>nil);
+      assert(frame.Body = BODY1);
+      assert(frame.Headers.Value('transaction') = TR);
+
+      frame := recv.Receive;
+      assert(frame<>nil);
+      assert(frame.Body = BODY2);
+      assert(frame.Headers.Value('transaction') = TR);
+
+      frame := recv.Receive;
+      assert(frame<>nil);
+      assert(frame.Body = BODY3);
+      assert(frame.Headers.Value('transaction') = TR);
+
+      frame := recv.Receive;
+      assert(frame<>nil);
+      assert(frame.Body = BODY4);
+      assert(frame.Headers.Value('transaction') = TR);
+
+      frame := recv.Receive;
+      assert(frame=nil);
+    finally
+      recv.Free;
+    end;
+  finally
+    stomp.free;
+  end;
+end;
 
 procedure Main(serveraddress: string = 'localhost');
 var
@@ -32,10 +118,11 @@ begin
   try
     stomp := TStompClient.Create;
     try
+      stomp.EnableReceipts := false;
       stomp.UserName := 'Daniele';
       stomp.Password := 'Paperino';
       stomp.Connect(serveraddress);
-      stomp.Subscribe('/queue/p');
+      stomp.Subscribe('/topic/foo.bar');
 
       for c := 1 to 10 do
       begin
@@ -43,8 +130,8 @@ begin
         WriteLn('= STATS LOOP ', c, '=======================================');
         for i := 1 to MSG do
         begin
-          stomp.send('/queue/p',
-            message_data
+          stomp.send('/topic/foo.bar',
+            message_data , StompHeaders.Add('persistent','true')
             //'01234567890123456789012345678901234567890123456789'
             );
           if i mod 1000 = 0 then
@@ -74,7 +161,7 @@ begin
           '========================================='#13#10);
       end;
 
-      stomp.Unsubscribe('/queue/p');
+      stomp.Unsubscribe('/topic/foo.bar');
       stomp.Disconnect;
       write('test finished...');
     finally
