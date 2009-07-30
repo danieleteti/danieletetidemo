@@ -12,9 +12,11 @@ uses
 begin
   try
     Main;
+    MainWithTransaction;
   except
     on E: Exception do
       Writeln(E.Classname, ': ', E.Message);
   end;
+  readln;
 end.
 

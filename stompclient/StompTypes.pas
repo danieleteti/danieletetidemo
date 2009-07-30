@@ -11,7 +11,6 @@ const
 
 type
   TAckMode = (amAuto, amClient);
-
   EStomp = class(Exception)
   end;
 
@@ -21,17 +20,29 @@ type
   end;
   PKeyValue = ^TKeyValue;
 
-  TStompHeaders = class
+  IStompHeaders = interface
+    ['{BD087D9D-0576-4C35-88F9-F5D6348E3894}']
+    function Add(Key, Value: string): IStompHeaders;
+    function Value(Key: string): string;
+    function Remove(Key: string): IStompHeaders;
+    function IndexOf(Key: string): Integer;
+    function Count: Cardinal;
+    function GetAt(const Index: Integer): TKeyValue;
+    function Output: string;
+  end;
+
+  TStompHeaders = class(TInterfacedObject, IStompHeaders)
   private
     FList: TList;
     function GetItems(index: Cardinal): TKeyValue;
     procedure SetItems(index: Cardinal; const Value: TKeyValue);
   public
-    procedure Add(Key, Value: string);
+    function Add(Key, Value: string): IStompHeaders;
     function Value(Key: string): string;
-    procedure Remove(Key: string);
+    function Remove(Key: string): IStompHeaders;
     function IndexOf(Key: string): Integer;
     function Count: Cardinal;
+    function GetAt(const Index: Integer): TKeyValue;
     constructor Create;
     destructor Destroy; override;
     function Output: string;
@@ -44,8 +55,8 @@ type
   private
     FCommand: string;
     FBody: string;
-    FHeaders: TStompHeaders;
-    procedure SetHeaders(const Value: TStompHeaders);
+    FHeaders: IStompHeaders;
+    procedure SetHeaders(const Value: IStompHeaders);
   public
     constructor Create;
     destructor Destroy; override;
@@ -54,7 +65,7 @@ type
     //return '', when Key doesn't exist or Value of Key is ''
     //otherwise, return Value;
     function Output: string;
-    property Headers: TStompHeaders read FHeaders write SetHeaders;
+    property Headers: IStompHeaders read FHeaders write SetHeaders;
   end;
 
   TAddress = record
@@ -72,7 +83,14 @@ type
 function CreateFrame(Buf: string): TStompFrame;
 function AckModeToStr(AckMode: TAckMode): String;
 
+function StompHeaders: IStompHeaders;
+
 implementation
+
+function StompHeaders: IStompHeaders;
+begin
+  Result := TStompHeaders.Create;
+end;
 
 function AckModeToStr(AckMode: TAckMode): String;
 begin
@@ -93,17 +111,19 @@ end;
 
 destructor TStompFrame.Destroy;
 begin
-  FHeaders.Free;
   inherited;
 end;
 
 function TStompFrame.output: string;
 begin
-  Result := FCommand + LINE_END + FHeaders.Output + LINE_END + FBody + LINE_END + COMMAND_END;
+//  if Command <> 'MESSAGE' then
+//    Result := FCommand + LINE_END + FHeaders.Output + LINE_END + COMMAND_END
+//  else
+    Result := FCommand + LINE_END + FHeaders.Output + LINE_END + FBody + LINE_END + COMMAND_END;
 end;
 
 
-procedure TStompFrame.SetHeaders(const Value: TStompHeaders);
+procedure TStompFrame.SetHeaders(const Value: IStompHeaders);
 begin
   FHeaders := Value;
 end;
@@ -181,7 +201,7 @@ begin
       p := Pos(COMMAND_END, other);
       if (p = 0) then
         raise EStomp.Create('frame no ending');
-      result.Body := Copy(other, 1, p - 1);
+      result.Body := Copy(other, 1, p - 2);
       //Buf := Copy(other, p + 2, High(Integer));
     end;
   except
@@ -201,7 +221,7 @@ end;
 
 { TStompHeaders }
 
-procedure TStompHeaders.Add(Key, Value: string);
+function TStompHeaders.Add(Key, Value: string): IStompHeaders;
 var
   p: PKeyValue;
 begin
@@ -231,6 +251,11 @@ begin
       FreeMem(PKeyValue(FList[i]));
   FList.Free;
   inherited;
+end;
+
+function TStompHeaders.GetAt(const Index: Integer): TKeyValue;
+begin
+  Result := GetItems(Index)
 end;
 
 function TStompHeaders.GetItems(index: Cardinal): TKeyValue;
@@ -269,13 +294,14 @@ begin
     Result := LINE_END;
 end;
 
-procedure TStompHeaders.Remove(Key: string);
+function TStompHeaders.Remove(Key: string): IStompHeaders;
 var
   p: Integer;
 begin
   p := IndexOf(key);
   FreeMem(PKeyValue(FList[p]));
   FList.Delete(p);
+  result := self;
 end;
 
 procedure TStompHeaders.SetItems(index: Cardinal; const Value: TKeyValue);
