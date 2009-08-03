@@ -22,7 +22,7 @@ begin
   zmq := TZeroMQ.Create;
   try
     ZMQ.Open('localhost');
-    ex := zmq.CreateExchange('E', zmqScopeGlobal, '*', zmqStyleDataDistribution);
+    ex := zmq.CreateExchange('E', zmqScopeGlobal, ALL_INTERFACES, zmqStyleDataDistribution);
     i := 1;
     while True do
     begin

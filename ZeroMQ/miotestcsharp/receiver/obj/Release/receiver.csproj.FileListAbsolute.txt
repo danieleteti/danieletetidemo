@@ -1,5 +1,5 @@
-C:\tests\danieletetidemo\ZeroMQ\miotestcsharp\receiver\obj\Release\ResolveAssemblyReference.cache
-C:\tests\danieletetidemo\ZeroMQ\miotestcsharp\receiver\obj\Release\receiver.exe
-C:\tests\danieletetidemo\ZeroMQ\miotestcsharp\receiver\obj\Release\receiver.pdb
-C:\tests\danieletetidemo\ZeroMQ\miotestcsharp\receiver.exe
-C:\tests\danieletetidemo\ZeroMQ\miotestcsharp\receiver.pdb
+C:\Tests\OpenAMQ\0MQ\miotestcsharp\receiver\obj\Release\ResolveAssemblyReference.cache
+C:\Tests\OpenAMQ\0MQ\miotestcsharp\receiver\obj\Release\receiver.exe
+C:\Tests\OpenAMQ\0MQ\miotestcsharp\receiver\obj\Release\receiver.pdb
+C:\Tests\OpenAMQ\0MQ\miotestcsharp\receiver.exe
+C:\Tests\OpenAMQ\0MQ\miotestcsharp\receiver.pdb

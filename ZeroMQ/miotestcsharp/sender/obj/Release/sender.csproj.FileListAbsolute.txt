@@ -1,5 +1,5 @@
-C:\tests\danieletetidemo\ZeroMQ\miotestcsharp\sender\obj\Release\ResolveAssemblyReference.cache
-C:\tests\danieletetidemo\ZeroMQ\miotestcsharp\sender\obj\Release\sender.exe
-C:\tests\danieletetidemo\ZeroMQ\miotestcsharp\sender\obj\Release\sender.pdb
-C:\tests\danieletetidemo\ZeroMQ\miotestcsharp\sender.exe
-C:\tests\danieletetidemo\ZeroMQ\miotestcsharp\sender.pdb
+C:\Tests\OpenAMQ\0MQ\miotestcsharp\sender\obj\Release\ResolveAssemblyReference.cache
+C:\Tests\OpenAMQ\0MQ\miotestcsharp\sender\obj\Release\sender.exe
+C:\Tests\OpenAMQ\0MQ\miotestcsharp\sender\obj\Release\sender.pdb
+C:\Tests\OpenAMQ\0MQ\miotestcsharp\sender.exe
+C:\Tests\OpenAMQ\0MQ\miotestcsharp\sender.pdb

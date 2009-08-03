@@ -9,6 +9,9 @@
 			<Projects Include="sender.dproj">
 				<Dependencies/>
 			</Projects>
+			<Projects Include="GlobalQueueLocalExchange\sender.dproj">
+				<Dependencies/>
+			</Projects>
 		</ItemGroup>
 		<ProjectExtensions>
 			<Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -29,22 +32,22 @@
 			<MSBuild Targets="Make" Projects="receiver.dproj"/>
 		</Target>
 		<Target Name="sender">
-			<MSBuild Projects="sender.dproj"/>
+			<MSBuild Projects="GlobalQueueLocalExchange\sender.dproj"/>
 		</Target>
 		<Target Name="sender:Clean">
-			<MSBuild Targets="Clean" Projects="sender.dproj"/>
+			<MSBuild Targets="Clean" Projects="GlobalQueueLocalExchange\sender.dproj"/>
 		</Target>
 		<Target Name="sender:Make">
-			<MSBuild Targets="Make" Projects="sender.dproj"/>
+			<MSBuild Targets="Make" Projects="GlobalQueueLocalExchange\sender.dproj"/>
 		</Target>
 		<Target Name="Build">
-			<CallTarget Targets="receiver;sender"/>
+			<CallTarget Targets="receiver;sender;sender"/>
 		</Target>
 		<Target Name="Clean">
-			<CallTarget Targets="receiver:Clean;sender:Clean"/>
+			<CallTarget Targets="receiver:Clean;sender:Clean;sender:Clean"/>
 		</Target>
 		<Target Name="Make">
-			<CallTarget Targets="receiver:Make;sender:Make"/>
+			<CallTarget Targets="receiver:Make;sender:Make;sender:Make"/>
 		</Target>
 		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 	</Project>
