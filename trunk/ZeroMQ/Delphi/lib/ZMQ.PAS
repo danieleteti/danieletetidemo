@@ -1,3 +1,15 @@
+{*******************************************************}
+{                                                       }
+{           ZeroMQ adapter for Embarcadero Delphi       }
+{                                                       }
+{           Copyright (c) 2009-2009 Daniele Teti        }
+{                                                       }
+{                                                       }
+{           WebSite: www.danieleteti.it                 }
+{           email:d.teti@bittime.it                     }
+{           VERSION: 1.0                                }
+{*******************************************************}
+
 unit ZMQ;
 
 interface

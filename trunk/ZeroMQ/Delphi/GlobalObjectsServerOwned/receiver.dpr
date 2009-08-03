@@ -21,7 +21,7 @@ begin
     zmq.Bind('E','MyLocalQueue');
     while True do
     begin
-      if zmq.Receive(Message, MessageType, MessageSize, zmqNoBlocking) then
+      if zmq.Receive(Message, MessageType, MessageSize, zmqNoBlocking) > 0 then
         WriteLn('Message: ', Message, ' - Message Data Size: ', MessageSize);
       sleep(1);
     end;

@@ -1,3 +1,16 @@
+{*******************************************************}
+{                                                       }
+{           ZeroMQ adapter for Embarcadero Delphi       }
+{                                                       }
+{           Copyright (c) 2009-2009 Daniele Teti        }
+{                                                       }
+{                                                       }
+{           WebSite: www.danieleteti.it                 }
+{           email:d.teti@bittime.it                     }
+{           VERSION: 1.0                                }
+{*******************************************************}
+
+
 unit ZeroMQ;
 
 interface
@@ -36,6 +49,8 @@ type
       QueueName: ansistring;
       Scope: TZeroMQScope;
       Location: ansistring = ''): Integer;
+    function CreateLocalExchange(Exchange: ansistring;
+      Style: TZeroMQStyle): Integer;
     function CreateLocalQueue(QueueName: ansistring): Integer;
     procedure Bind(ExchangeName: ansistring;
                   QueueName: ansistring;
@@ -49,6 +64,10 @@ type
                      var MessageSize: Int64;
                      Blocking: TZeroBlockingMode = zmqBlocking): TZeroQueueID;
   end;
+
+
+const
+  ALL_INTERFACES = '*';
 
 implementation
 
@@ -77,6 +96,13 @@ begin
   Result := zmq_create_exchange(
     FConnection, PAnsiChar(Exchange), Integer(Scope), PAnsiChar(Location), Integer(Style));
 end;
+
+function TZeroMQ.CreateLocalExchange(Exchange: ansistring; Style: TZeroMQStyle): Integer;
+begin
+  Result := zmq_create_exchange(
+    FConnection, PAnsiChar(Exchange), Integer(zmqScopeLocal), PAnsiChar(''), Integer(Style));
+end;
+
 
 function TZeroMQ.CreateLocalQueue(QueueName: ansistring): Integer;
 begin
