@@ -9,7 +9,7 @@ uses
 
 var
   zmq: TZeroMQ;
-  ex: TZeroExchange;
+  ex: TZeroMQExchange;
   cmd, usr: string;
   x: Integer;
 begin
