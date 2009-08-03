@@ -116,10 +116,7 @@ end;
 
 function TStompFrame.output: string;
 begin
-//  if Command <> 'MESSAGE' then
-//    Result := FCommand + LINE_END + FHeaders.Output + LINE_END + COMMAND_END
-//  else
-    Result := FCommand + LINE_END + FHeaders.Output + LINE_END + FBody + LINE_END + COMMAND_END;
+  Result := FCommand + LINE_END + FHeaders.Output + LINE_END + FBody + LINE_END + COMMAND_END;
 end;
 
 
@@ -127,9 +124,6 @@ procedure TStompFrame.SetHeaders(const Value: IStompHeaders);
 begin
   FHeaders := Value;
 end;
-
-//return a line without \n, From increased to start of next Line;
-//throws ENoMoreLine
 
 function GetLine(Buf: string; var From: Integer): string;
 var
@@ -229,6 +223,7 @@ begin
   p^.Key := Key;
   p^.Value := Value;
   FList.Add(p);
+  Result := Self;
 end;
 
 function TStompHeaders.Count: Cardinal;

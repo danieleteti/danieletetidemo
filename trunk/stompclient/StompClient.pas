@@ -16,16 +16,19 @@ type
     FSession: string;
     FInTransaction: Boolean;
     FEnableReceipts: boolean;
+    FReceiptTimeout: Integer;
     procedure SetPassword(const Value: string);
     procedure SetUserName(const Value: string);
     procedure SetTimeout(const Value: Integer);
     procedure SetEnableReceipts(const Value: boolean);
+    procedure SetReceiptTimeout(const Value: Integer);
   protected
     procedure MergeHeaders(var AFrame: TStompFrame; var AHeaders: IStompHeaders);
     procedure SendFrame(AFrame: TStompFrame);
     procedure CheckReceipt(Frame: TStompFrame);
+    function Receive(ATimeout: Integer): TStompFrame; overload;
   public
-    function Receive: TStompFrame;
+    function Receive: TStompFrame; overload;
     procedure Receipt(const ReceiptID: string);
     procedure Connect(Host: string; Port: Integer = 61613);
     procedure Disconnect;
@@ -33,6 +36,7 @@ type
     procedure Unsubscribe(Queue: string);
     procedure Send(Queue: string; TextMessage: string; Headers: IStompHeaders = nil); overload;
     procedure Send(Queue: string; TextMessage: string; TransactionIdentifier: string; Headers: IStompHeaders = nil); overload;
+    procedure Ack(const MessageID: string; const TransactionIdentifier: String = '');
     procedure BeginTransaction(const TransactionIdentifier: string);
     procedure CommitTransaction(const TransactionIdentifier: string);
     procedure AbortTransaction(const TransactionIdentifier: string);
@@ -45,6 +49,7 @@ type
     property Timeout: Integer read FTimeout write SetTimeout;
     property Session: string read FSession;
     property EnableReceipts: boolean read FEnableReceipts write SetEnableReceipts;
+    property ReceiptTimeout: Integer read FReceiptTimeout write SetReceiptTimeout;
   end;
 
 implementation
@@ -64,6 +69,22 @@ begin
     Frame.Headers.Add('transaction', TransactionIdentifier);
     SendFrame(Frame);
     FInTransaction := False;
+  finally
+    Frame.Free;
+  end;
+end;
+
+procedure TStompClient.Ack(const MessageID: string; const TransactionIdentifier: String);
+var
+  Frame: TStompFrame;
+begin
+  Frame := TStompFrame.Create;
+  try
+    Frame.Command := 'ACK';
+    Frame.Headers.Add('message-id', MessageID);
+    if TransactionIdentifier <> '' then
+      Frame.Headers.Add('transaction', TransactionIdentifier);
+    CheckReceipt(Frame);
   finally
     Frame.Free;
   end;
@@ -102,7 +123,6 @@ end;
 procedure TStompClient.CommitTransaction(const TransactionIdentifier: string);
 var
   Frame: TStompFrame;
-  receiptid: string;
 begin
   Frame := TStompFrame.Create;
   try
@@ -156,6 +176,7 @@ begin
   FHeaders := TStompHeaders.Create;
   tcp := TIdTCPClient.Create(nil);
   FTimeout := 1000;
+  FReceiptTimeout := FTimeout;
 end;
 
 destructor TStompClient.Destroy;
@@ -202,25 +223,34 @@ procedure TStompClient.Receipt(const ReceiptID: string);
 var
   Frame: TStompFrame;
 begin
-  Frame := Receive;
+  Frame := Receive(FReceiptTimeout);
   try
-    if Frame.Command <> 'RECEIPT' then
-      raise EStomp.Create('Receipt command error');
-    if Frame.Headers.Value('receipt-id') <> ReceiptID then
-      raise EStomp.Create('Receipt receipt-id error');
+    if Assigned(Frame) then
+    begin
+      if Frame.Command <> 'RECEIPT' then
+        raise EStomp.Create('Receipt command error');
+      if Frame.Headers.Value('receipt-id') <> ReceiptID then
+        raise EStomp.Create('Receipt receipt-id error');
+    end;
   finally
-    Frame.Free;
+    if Assigned(Frame) then
+      Frame.Free;
   end;
 end;
 
-function TStompClient.Receive: TStompFrame;
+function TStompClient.Receive(ATimeout: Integer): TStompFrame;
 var
   s: string;
 begin
   Result := nil;
-  s := tcp.IOHandler.ReadLn(COMMAND_END + LINE_END, FTimeout);
+  s := tcp.IOHandler.ReadLn(COMMAND_END + LINE_END, ATimeout);
   if not tcp.IOHandler.ReadLnTimedout then
     Result := CreateFrame(s + #0)
+end;
+
+function TStompClient.Receive: TStompFrame;
+begin
+  Result := Receive(FTimeout);
 end;
 
 procedure TStompClient.Send(Queue, TextMessage: string; Headers: IStompHeaders);
@@ -270,6 +300,11 @@ end;
 procedure TStompClient.SetPassword(const Value: string);
 begin
   FPassword := Value;
+end;
+
+procedure TStompClient.SetReceiptTimeout(const Value: Integer);
+begin
+  FReceiptTimeout := Value;
 end;
 
 procedure TStompClient.SetTimeout(const Value: Integer);
