@@ -3,7 +3,7 @@ unit StompClient;
 interface
 
 uses
-  StompTypes, IdTCPClient, SysUtils;
+  StompTypes, IdTCPClient, SysUtils, IdException;
 
 type
   TStompClient = class
@@ -17,22 +17,24 @@ type
     FInTransaction: Boolean;
     FEnableReceipts: boolean;
     FReceiptTimeout: Integer;
+    FClientID: String;
     procedure SetPassword(const Value: string);
     procedure SetUserName(const Value: string);
     procedure SetTimeout(const Value: Integer);
     procedure SetEnableReceipts(const Value: boolean);
     procedure SetReceiptTimeout(const Value: Integer);
+    procedure SetClientID(const Value: String);
   protected
     procedure MergeHeaders(var AFrame: TStompFrame; var AHeaders: IStompHeaders);
     procedure SendFrame(AFrame: TStompFrame);
     procedure CheckReceipt(Frame: TStompFrame);
-    function Receive(ATimeout: Integer): TStompFrame; overload;
   public
     function Receive: TStompFrame; overload;
+    function Receive(ATimeout: Integer): TStompFrame; overload;
     procedure Receipt(const ReceiptID: string);
     procedure Connect(Host: string; Port: Integer = 61613);
     procedure Disconnect;
-    procedure Subscribe(Queue: string; Ack: TAckMode = amAuto);
+    procedure Subscribe(Queue: string; Ack: TAckMode = amAuto; Headers: IStompHeaders = nil);
     procedure Unsubscribe(Queue: string);
     procedure Send(Queue: string; TextMessage: string; Headers: IStompHeaders = nil); overload;
     procedure Send(Queue: string; TextMessage: string; TransactionIdentifier: string; Headers: IStompHeaders = nil); overload;
@@ -46,6 +48,7 @@ type
     destructor Destroy; override;
     property UserName: string read FUserName write SetUserName;
     property Password: string read FPassword write SetPassword;
+    property ClientID: String read FClientID write SetClientID;
     property Timeout: Integer read FTimeout write SetTimeout;
     property Session: string read FSession;
     property EnableReceipts: boolean read FEnableReceipts write SetEnableReceipts;
@@ -146,6 +149,8 @@ begin
     Frame.Command := 'CONNECT';
     Frame.Headers.Add('login', FUserName);
     Frame.Headers.Add('passcode', FPassword);
+    if FClientID <> '' then
+      Frame.Headers.Add('client-id',FClientID);
     SendFrame(Frame);
     FreeAndNil(Frame);
     while Frame = nil do
@@ -173,6 +178,8 @@ begin
   FEnableReceipts := False;
   FInTransaction := false;
   FSession := '';
+  FUserName := 'guest';
+  FPassword := 'guest';
   FHeaders := TStompHeaders.Create;
   tcp := TIdTCPClient.Create(nil);
   FTimeout := 1000;
@@ -243,9 +250,17 @@ var
   s: string;
 begin
   Result := nil;
-  s := tcp.IOHandler.ReadLn(COMMAND_END + LINE_END, ATimeout);
-  if not tcp.IOHandler.ReadLnTimedout then
-    Result := CreateFrame(s + #0)
+  try
+    s := tcp.IOHandler.ReadLn(COMMAND_END + LINE_END, ATimeout);
+    if not tcp.IOHandler.ReadLnTimedout then
+      Result := CreateFrame(s + #0)
+  except
+    on E: EidConnClosedGracefully do
+    begin
+    end;
+    on E: Exception do
+      raise;
+  end;
 end;
 
 function TStompClient.Receive: TStompFrame;
@@ -292,6 +307,11 @@ begin
   tcp.IOHandler.Write(AFrame.Output);
 end;
 
+procedure TStompClient.SetClientID(const Value: String);
+begin
+  FClientID := Value;
+end;
+
 procedure TStompClient.SetEnableReceipts(const Value: boolean);
 begin
   FEnableReceipts := Value;
@@ -317,7 +337,7 @@ begin
   FUserName := Value;
 end;
 
-procedure TStompClient.Subscribe(Queue: string; Ack: TAckMode = amAuto);
+procedure TStompClient.Subscribe(Queue: string; Ack: TAckMode = amAuto; Headers: IStompHeaders = nil);
 var
   Frame: TStompFrame;
 begin
@@ -326,6 +346,9 @@ begin
     Frame.Command := 'SUBSCRIBE';
     Frame.Headers.Add('destination', Queue);
     Frame.Headers.Add('ack', AckModeToStr(Ack));
+    if Headers <> nil then
+      MergeHeaders(Frame, Headers);
+
     CheckReceipt(Frame);
   finally
     Frame.Free;
