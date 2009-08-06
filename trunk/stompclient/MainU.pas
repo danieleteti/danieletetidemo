@@ -131,7 +131,7 @@ begin
         for i := 1 to MSG do
         begin
           stomp.send('/topic/foo.bar',
-            message_data , StompHeaders.Add('persistent','true')
+            message_data , StompUtils.StompHeaders.Add('persistent','true')
             //'01234567890123456789012345678901234567890123456789'
             );
           if i mod 1000 = 0 then

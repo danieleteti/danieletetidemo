@@ -22,7 +22,6 @@ object frmMain: TfrmMain
     Height = 21
     TabOrder = 0
     Text = '/topic/mytopic'
-    TextHint = 'Topic or queue name (/topic/thename or /queue/thename)'
   end
   object Button2: TButton
     Left = 8

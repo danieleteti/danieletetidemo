@@ -38,13 +38,32 @@
       <arg value="-E..\..\bin"/>      
       <arg value="ChatClient.dpr"/>      
     </exec>
+
+    <exec dir="examples\GlobalDemo\GlobalDemo2007" executable="DCC32.EXE" failonerror="true" >
+      <arg value="-U${vclsrc}\Indy\Indy10\Core;${vclsrc}\Indy\Indy10\Protocols;${vclsrc}\Indy\Indy10\System"/>
+      <arg value="-B"/>
+      <arg value="-$O+"/>
+      <arg value="-H"/>
+      <arg value="-E..\..\bin"/>      
+      <arg value="GlobalDemo.dpr"/>      
+    </exec>
+    <exec dir="examples\GlobalDemo\GlobalDemo2007" executable="DCC32.EXE" failonerror="true" >
+      <arg value="-U${vclsrc}\Indy\Indy10\Core;${vclsrc}\Indy\Indy10\Protocols;${vclsrc}\Indy\Indy10\System"/>
+      <arg value="-B"/>
+      <arg value="-$O+"/>
+      <arg value="-H"/>
+      <arg value="-E..\..\bin"/>      
+      <arg value="Receiver.dpr"/>      
+    </exec>
+
     
     
     <delete>
       <fileset dir="." includes="*.dcu"/>
-      <fileset dir=".\examples\Chat\ChatClientD2007" includes="*.dcu"/>      
-      <fileset dir="." includes="*.exe"/>      
-      <fileset dir=".\examples\Chat\ChatClientD2007" includes="*.exe"/>      
+      <fileset dir="." includes="*.exe"/>
+      <fileset dir=".\examples\bin" includes="*.exe"/>      
+      <fileset dir=".\examples\Chat\ChatClientD2007" includes="*.dcu"/>                              
+      <fileset dir=".\examples\GlobalDemo\GlobalDemo2007" includes="*.dcu"/>                  
     </delete>
     
     
