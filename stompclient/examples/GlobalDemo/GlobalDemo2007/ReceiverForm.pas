@@ -84,6 +84,8 @@ procedure TForm1.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if assigned(stomp) then
   begin
+    Timer1.Enabled := false;
+    sleep(500);
     stomp.Disconnect;
     stomp.Free;
   end;

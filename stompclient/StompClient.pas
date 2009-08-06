@@ -1,9 +1,20 @@
+{*******************************************************}
+{                                                       }
+{           Stomp Client for Embarcadero Delphi         }
+{           Tested With ApacheMQ 5.2                    }
+{           Copyright (c) 2009-2009 Daniele Teti        }
+{                                                       }
+{                                                       }
+{           WebSite: www.danieleteti.it                 }
+{           email:d.teti@bittime.it                     }
+{*******************************************************}
+
 unit StompClient;
 
 interface
 
 uses
-  StompTypes, IdTCPClient, SysUtils, IdException;
+  StompTypes, IdTCPClient, SysUtils, IdException, Classes;
 
 type
   TStompClient = class
@@ -15,17 +26,19 @@ type
     FTimeout: Integer;
     FSession: string;
     FInTransaction: Boolean;
+    FTransactions: TStringList;
     FEnableReceipts: boolean;
     FReceiptTimeout: Integer;
-    FClientID: String;
+    FClientID: string;
     procedure SetPassword(const Value: string);
     procedure SetUserName(const Value: string);
     procedure SetTimeout(const Value: Integer);
     procedure SetEnableReceipts(const Value: boolean);
     procedure SetReceiptTimeout(const Value: Integer);
-    procedure SetClientID(const Value: String);
+    procedure SetClientID(const Value: string);
   protected
-    procedure MergeHeaders(var AFrame: TStompFrame; var AHeaders: IStompHeaders);
+    procedure MergeHeaders(var AFrame: TStompFrame; var AHeaders:
+      IStompHeaders);
     procedure SendFrame(AFrame: TStompFrame);
     procedure CheckReceipt(Frame: TStompFrame);
   public
@@ -34,11 +47,15 @@ type
     procedure Receipt(const ReceiptID: string);
     procedure Connect(Host: string; Port: Integer = 61613);
     procedure Disconnect;
-    procedure Subscribe(Queue: string; Ack: TAckMode = amAuto; Headers: IStompHeaders = nil);
+    procedure Subscribe(Queue: string; Ack: TAckMode = amAuto; Headers:
+      IStompHeaders = nil);
     procedure Unsubscribe(Queue: string);
-    procedure Send(Queue: string; TextMessage: string; Headers: IStompHeaders = nil); overload;
-    procedure Send(Queue: string; TextMessage: string; TransactionIdentifier: string; Headers: IStompHeaders = nil); overload;
-    procedure Ack(const MessageID: string; const TransactionIdentifier: String = '');
+    procedure Send(Queue: string; TextMessage: string; Headers: IStompHeaders =
+      nil); overload;
+    procedure Send(Queue: string; TextMessage: string; TransactionIdentifier:
+      string; Headers: IStompHeaders = nil); overload;
+    procedure Ack(const MessageID: string; const TransactionIdentifier: string =
+      '');
     procedure BeginTransaction(const TransactionIdentifier: string);
     procedure CommitTransaction(const TransactionIdentifier: string);
     procedure AbortTransaction(const TransactionIdentifier: string);
@@ -48,17 +65,20 @@ type
     destructor Destroy; override;
     property UserName: string read FUserName write SetUserName;
     property Password: string read FPassword write SetPassword;
-    property ClientID: String read FClientID write SetClientID;
+    property ClientID: string read FClientID write SetClientID;
     property Timeout: Integer read FTimeout write SetTimeout;
     property Session: string read FSession;
-    property EnableReceipts: boolean read FEnableReceipts write SetEnableReceipts;
-    property ReceiptTimeout: Integer read FReceiptTimeout write SetReceiptTimeout;
+    property EnableReceipts: boolean read FEnableReceipts write
+      SetEnableReceipts;
+    property ReceiptTimeout: Integer read FReceiptTimeout write
+      SetReceiptTimeout;
+    property Transactions: TStringList read FTransactions;
   end;
 
 implementation
 
 uses
-  Classes, Windows;
+  Windows;
 
 { TStompClient }
 
@@ -66,18 +86,27 @@ procedure TStompClient.AbortTransaction(const TransactionIdentifier: string);
 var
   Frame: TStompFrame;
 begin
-  Frame := TStompFrame.Create;
-  try
-    Frame.Command := 'ABORT';
-    Frame.Headers.Add('transaction', TransactionIdentifier);
-    SendFrame(Frame);
-    FInTransaction := False;
-  finally
-    Frame.Free;
-  end;
+  if FTransactions.IndexOf(TransactionIdentifier) > -1 then
+  begin
+    Frame := TStompFrame.Create;
+    try
+      Frame.Command := 'ABORT';
+      Frame.Headers.Add('transaction', TransactionIdentifier);
+      SendFrame(Frame);
+      FInTransaction := False;
+    finally
+      Frame.Free;
+    end;
+    FTransactions.Delete(FTransactions.IndexOf(TransactionIdentifier));    
+  end
+  else
+    raise
+      EStomp.CreateFmt('Abort Transaction Error. Transaction [%s] not found',
+      [TransactionIdentifier]);
 end;
 
-procedure TStompClient.Ack(const MessageID: string; const TransactionIdentifier: String);
+procedure TStompClient.Ack(const MessageID: string; const TransactionIdentifier:
+  string);
 var
   Frame: TStompFrame;
 begin
@@ -97,15 +126,23 @@ procedure TStompClient.BeginTransaction(const TransactionIdentifier: string);
 var
   Frame: TStompFrame;
 begin
-  Frame := TStompFrame.Create;
-  try
-    Frame.Command := 'BEGIN';
-    Frame.Headers.Add('transaction', TransactionIdentifier);
-    CheckReceipt(Frame);
-    FInTransaction := True;
-  finally
-    Frame.Free;
-  end;
+  if FTransactions.IndexOf(TransactionIdentifier) = -1 then
+  begin
+    Frame := TStompFrame.Create;
+    try
+      Frame.Command := 'BEGIN';
+      Frame.Headers.Add('transaction', TransactionIdentifier);
+      CheckReceipt(Frame);
+      FInTransaction := True;
+    finally
+      Frame.Free;
+    end;
+    FTransactions.Add(TransactionIdentifier);
+  end
+  else
+    raise
+      EStomp.CreateFmt('Begin Transaction Error. Transaction [%s] still open',
+      [TransactionIdentifier]);
 end;
 
 procedure TStompClient.CheckReceipt(Frame: TStompFrame);
@@ -127,15 +164,23 @@ procedure TStompClient.CommitTransaction(const TransactionIdentifier: string);
 var
   Frame: TStompFrame;
 begin
-  Frame := TStompFrame.Create;
-  try
-    Frame.Command := 'COMMIT';
-    Frame.Headers.Add('transaction', TransactionIdentifier);
-    CheckReceipt(Frame);
-    FInTransaction := False;
-  finally
-    Frame.Free;
-  end;
+  if FTransactions.IndexOf(TransactionIdentifier) > -1 then
+  begin
+    Frame := TStompFrame.Create;
+    try
+      Frame.Command := 'COMMIT';
+      Frame.Headers.Add('transaction', TransactionIdentifier);
+      CheckReceipt(Frame);
+      FInTransaction := False;
+    finally
+      Frame.Free;
+    end;
+    FTransactions.Delete(FTransactions.IndexOf(TransactionIdentifier));
+  end
+  else
+    raise
+      EStomp.CreateFmt('Commit Transaction Error. Transaction [%s] not found',
+      [TransactionIdentifier]);
 end;
 
 procedure TStompClient.Connect(Host: string; Port: Integer = 61613);
@@ -150,7 +195,7 @@ begin
     Frame.Headers.Add('login', FUserName);
     Frame.Headers.Add('passcode', FPassword);
     if FClientID <> '' then
-      Frame.Headers.Add('client-id',FClientID);
+      Frame.Headers.Add('client-id', FClientID);
     SendFrame(Frame);
     FreeAndNil(Frame);
     while Frame = nil do
@@ -175,6 +220,7 @@ end;
 constructor TStompClient.Create;
 begin
   inherited;
+  FTransactions := TStringList.Create;
   FEnableReceipts := False;
   FInTransaction := false;
   FSession := '';
@@ -189,6 +235,7 @@ end;
 destructor TStompClient.Destroy;
 begin
   tcp.Free;
+  FTransactions.Free;
   inherited;
 end;
 
@@ -253,7 +300,7 @@ begin
   try
     s := tcp.IOHandler.ReadLn(COMMAND_END + LINE_END, ATimeout);
     if not tcp.IOHandler.ReadLnTimedout then
-      Result := CreateFrame(s + #0)
+      Result := StompUtils.CreateFrame(s + #0)
   except
     on E: EidConnClosedGracefully do
     begin
@@ -307,7 +354,7 @@ begin
   tcp.IOHandler.Write(AFrame.Output);
 end;
 
-procedure TStompClient.SetClientID(const Value: String);
+procedure TStompClient.SetClientID(const Value: string);
 begin
   FClientID := Value;
 end;
@@ -337,7 +384,8 @@ begin
   FUserName := Value;
 end;
 
-procedure TStompClient.Subscribe(Queue: string; Ack: TAckMode = amAuto; Headers: IStompHeaders = nil);
+procedure TStompClient.Subscribe(Queue: string; Ack: TAckMode = amAuto; Headers:
+  IStompHeaders = nil);
 var
   Frame: TStompFrame;
 begin
@@ -345,7 +393,7 @@ begin
   try
     Frame.Command := 'SUBSCRIBE';
     Frame.Headers.Add('destination', Queue);
-    Frame.Headers.Add('ack', AckModeToStr(Ack));
+    Frame.Headers.Add('ack', StompUtils.AckModeToStr(Ack));
     if Headers <> nil then
       MergeHeaders(Frame, Headers);
 
