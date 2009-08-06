@@ -3,8 +3,8 @@ program GlobalDemo;
 uses
   Forms,
   MainForm in 'MainForm.pas' {frmMain},
-  StompClient in '..\..\StompClient.pas',
-  StompTypes in '..\..\StompTypes.pas';
+  StompClient in '..\..\..\StompClient.pas',
+  StompTypes in '..\..\..\StompTypes.pas';
 
 {$R *.res}
 

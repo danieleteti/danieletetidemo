@@ -1,9 +1,19 @@
+{*******************************************************}
+{                                                       }
+{           Stomp Client for Embarcadero Delphi         }
+{           Tested With ApacheMQ 5.2                    }
+{           Copyright (c) 2009-2009 Daniele Teti        }
+{                                                       }
+{                                                       }
+{           WebSite: www.danieleteti.it                 }
+{           email:d.teti@bittime.it                     }
+{*******************************************************}
 unit StompTypes;
 
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, ExtCtrls;
+  SysUtils, Classes;
 
 const
   LINE_END: char = #10;
@@ -11,6 +21,7 @@ const
 
 type
   TAckMode = (amAuto, amClient);
+
   EStomp = class(Exception)
   end;
 
@@ -22,7 +33,8 @@ type
 
   IStompHeaders = interface
     ['{BD087D9D-0576-4C35-88F9-F5D6348E3894}']
-    function Add(Key, Value: string): IStompHeaders;
+    function Add(Key, Value: string): IStompHeaders; overload;
+    function Add(HeaderItem: TKeyValue): IStompHeaders; overload;
     function Value(Key: string): string;
     function Remove(Key: string): IStompHeaders;
     function IndexOf(Key: string): Integer;
@@ -37,7 +49,8 @@ type
     function GetItems(index: Cardinal): TKeyValue;
     procedure SetItems(index: Cardinal; const Value: TKeyValue);
   public
-    function Add(Key, Value: string): IStompHeaders;
+    function Add(Key, Value: string): IStompHeaders; overload;
+    function Add(HeaderItem: TKeyValue): IStompHeaders; overload;
     function Value(Key: string): string;
     function Remove(Key: string): IStompHeaders;
     function IndexOf(Key: string): Integer;
@@ -50,7 +63,6 @@ type
     default;
   end;
 
-  //Frame class
   TStompFrame = class(TInterfacedObject)
   private
     FCommand: string;
@@ -74,31 +86,36 @@ type
     UserName: string;
     Password: string;
   end;
-
   TAddresses = array of TAddress;
 
-  //process message in the buffer
-  //return TFrame, when there is no complete frame in the buffer, return nil.
-  //buf contains what left after processing.
-function CreateFrame(Buf: string): TStompFrame;
-function AckModeToStr(AckMode: TAckMode): String;
+type
+  StompUtils = class
+    class function CreateFrame(Buf: string): TStompFrame;
+    class function AckModeToStr(AckMode: TAckMode): string;
+    class function StompHeaders: IStompHeaders;
+  end;
 
-function StompHeaders: IStompHeaders;
+
+//Standard Header
+const
+  shPersistent: TKeyValue = (key: 'persistent'; value: 'true');
+  shNoPersistent: TKeyValue = (key: 'persistent'; value: 'false');
+
 
 implementation
 
-function StompHeaders: IStompHeaders;
+class function StompUtils.StompHeaders: IStompHeaders;
 begin
   Result := TStompHeaders.Create;
 end;
 
-function AckModeToStr(AckMode: TAckMode): String;
+class function StompUtils.AckModeToStr(AckMode: TAckMode): string;
 begin
   case AckMode of
-    amAuto : Result := 'auto';
+    amAuto: Result := 'auto';
     amClient: Result := 'client';
-    else
-      raise EStomp.Create('Unknown AckMode');
+  else
+    raise EStomp.Create('Unknown AckMode');
   end;
 end;
 
@@ -116,9 +133,9 @@ end;
 
 function TStompFrame.output: string;
 begin
-  Result := FCommand + LINE_END + FHeaders.Output + LINE_END + FBody + LINE_END + COMMAND_END;
+  Result := FCommand + LINE_END + FHeaders.Output + LINE_END + FBody + LINE_END
+    + COMMAND_END;
 end;
-
 
 procedure TStompFrame.SetHeaders(const Value: IStompHeaders);
 begin
@@ -152,7 +169,7 @@ begin
     raise EStomp.Create('End of Line not found.');
 end;
 
-function CreateFrame(Buf: string): TStompFrame;
+class function StompUtils.CreateFrame(Buf: string): TStompFrame;
 var
   line: string;
   i: Integer;
@@ -224,6 +241,11 @@ begin
   p^.Value := Value;
   FList.Add(p);
   Result := Self;
+end;
+
+function TStompHeaders.Add(HeaderItem: TKeyValue): IStompHeaders;
+begin
+  Result := Add(HeaderItem.Key, HeaderItem.Value);
 end;
 
 function TStompHeaders.Count: Cardinal;
@@ -322,6 +344,5 @@ begin
   if i > -1 then
     Result := GetItems(i).Value;
 end;
-
 end.
 

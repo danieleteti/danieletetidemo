@@ -55,17 +55,16 @@ begin
   Edit3.Enabled := False;
   Button2.Enabled := True;
   Memo2.Enabled := True;
-
   tmr.Enabled := true;
 end;
 
 procedure TForm5.Button2Click(Sender: TObject);
 begin
   stomp.Send(roomname, Memo2.Lines.Text,
-    StompHeaders
+    StompUtils.StompHeaders
       .Add('sender', Edit3.Text)
       .Add('datetime', formatdatetime('yyyy/mm/dd hh:nn:ss', now))
-      .Add('persistent', 'true')
+      .Add(shPersistent)
       );
   Memo2.Lines.Clear;
 end;
