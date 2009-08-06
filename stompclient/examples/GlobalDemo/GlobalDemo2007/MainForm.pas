@@ -63,7 +63,7 @@ procedure TfrmMain.Button6Click(Sender: TObject);
 var
   h: IStompHeaders;
 begin
-  h := StompHeaders;
+  h := StompUtils.StompHeaders;
   if chkPersistent.Checked then
     h.Add('persistent','true');
   if tr<>'' then
