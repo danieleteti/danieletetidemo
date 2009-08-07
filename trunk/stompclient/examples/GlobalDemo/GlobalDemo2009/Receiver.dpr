@@ -3,8 +3,8 @@ program Receiver;
 uses
   Forms,
   ReceiverForm in 'ReceiverForm.pas' {Form1},
-  StompClient in '..\..\StompClient.pas',
-  StompTypes in '..\..\StompTypes.pas';
+  StompClient in '..\..\..\StompClient.pas',
+  StompTypes in '..\..\..\StompTypes.pas';
 
 {$R *.res}
 

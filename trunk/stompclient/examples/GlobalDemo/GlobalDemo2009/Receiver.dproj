@@ -44,8 +44,8 @@
 			<DCCReference Include="ReceiverForm.pas">
 				<Form>Form1</Form>
 			</DCCReference>
-			<DCCReference Include="..\..\StompClient.pas"/>
-			<DCCReference Include="..\..\StompTypes.pas"/>
+			<DCCReference Include="..\..\..\StompClient.pas"/>
+			<DCCReference Include="..\..\..\StompTypes.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

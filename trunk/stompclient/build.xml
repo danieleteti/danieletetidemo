@@ -1,6 +1,16 @@
 <project basedir="." default="main">
   <property name="vclsrc" value="C:\Program Files\CodeGear\RAD Studio\6.0\source"/>
-  
+
+  <target name="delphicompile">
+      <exec dir="${projectdir}" executable="DCC32.EXE" failonerror="true">
+        <arg value="-U${vclsrc}\Indy\Indy10\Core;${vclsrc}\Indy\Indy10\Protocols;${vclsrc}\Indy\Indy10\System"/>
+        <arg value="-B"/>
+        <arg value="-$O+"/>
+        <arg value="-H"/>
+        <arg value="-E${output}"/>      
+        <arg value="${projectname}"/>      
+      </exec>  
+  </target>
 
   <target name="clean">
     <delete dir="bin"/>
@@ -20,35 +30,42 @@
     <mkdir dir="examples\bin"/>    
   </target>
 
-  <target name="main" depends="prepare">    
-    <exec executable="DCC32.EXE" failonerror="true">
-      <arg value="-U${vclsrc}\Indy\Indy10\Core;${vclsrc}\Indy\Indy10\Protocols;${vclsrc}\Indy\Indy10\System"/>
-      <arg value="-B"/>
-      <arg value="-$O+"/>
-      <arg value="-H"/>
-      <arg value="-Ebin"/>      
-      <arg value="teststompclient.dpr"/>      
-    </exec>
-    
-    <exec dir="examples\Chat\ChatClient" executable="DCC32.EXE" failonerror="true" >
-      <arg value="-U${vclsrc}\Indy\Indy10\Core;${vclsrc}\Indy\Indy10\Protocols;${vclsrc}\Indy\Indy10\System"/>
-      <arg value="-B"/>
-      <arg value="-$O+"/>
-      <arg value="-H"/>
-      <arg value="-E..\..\bin"/>      
-      <arg value="ChatClient.dpr"/>      
-    </exec>
-    
-    
+  
+
+
+  <target name="main" depends="prepare">
+  
+    <antcall target="delphicompile">
+      <param name="projectdir" value="."/>
+      <param name="projectname" value="teststompclient.dpr"/>
+      <param name="output" value="bin"/>    
+    </antcall>    
+
+    <antcall target="delphicompile">
+      <param name="projectdir" value="examples\Chat\ChatClient"/>    
+      <param name="projectname" value="ChatClient.dpr"/>
+      <param name="output" value="..\..\bin"/>    
+    </antcall>    
+
+    <antcall target="delphicompile">
+      <param name="projectdir" value="examples\GlobalDemo\GlobalDemo2009"/>    
+      <param name="projectname" value="GlobalDemo.dpr"/>
+      <param name="output" value="..\..\bin"/>    
+    </antcall>    
+
+    <antcall target="delphicompile">
+      <param name="projectdir" value="examples\GlobalDemo\GlobalDemo2009"/>    
+      <param name="projectname" value="Receiver.dpr"/>
+      <param name="output" value="..\..\bin"/>    
+    </antcall>   
+        
     <delete>
       <fileset dir="." includes="*.dcu"/>
-      <fileset dir=".\examples\Chat\ChatClient" includes="*.dcu"/>      
-      <fileset dir="." includes="*.exe"/>      
-      <fileset dir=".\examples\Chat\ChatClient" includes="*.exe"/>      
+      <fileset dir="." includes="*.exe"/>
+      <fileset dir=".\examples\bin" includes="*.exe"/>      
+      <fileset dir=".\examples\Chat\ChatClient" includes="*.dcu"/>                              
+      <fileset dir=".\examples\GlobalDemo\GlobalDemo2009" includes="*.dcu"/>                  
     </delete>
-    
-    
-              
   </target>
 
 
