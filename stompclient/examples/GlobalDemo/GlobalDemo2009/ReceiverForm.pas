@@ -64,7 +64,7 @@ end;
 
 procedure TForm1.Button5Click(Sender: TObject);
 begin
-  stomp.Subscribe(Edit1.Text, amAuto, StompHeaders
+  stomp.Subscribe(Edit1.Text, amAuto, StompUtils.StompHeaders
     .Add('activemq.subscriptionName','pippo'));
   //activemq.subscriptionName
 end;
