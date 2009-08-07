@@ -91,7 +91,6 @@ object Form5: TForm5
     Enabled = False
     TabOrder = 6
     OnClick = Button2Click
-    ExplicitTop = 336
   end
   object tmr: TTimer
     Enabled = False
