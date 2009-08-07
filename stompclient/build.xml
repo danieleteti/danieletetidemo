@@ -7,65 +7,72 @@
         <arg value="-B"/>
         <arg value="-$O+"/>
         <arg value="-H"/>
+        <arg value="-N0${dcuoutput}"/>        
         <arg value="-E${output}"/>      
         <arg value="${projectname}"/>      
       </exec>  
   </target>
 
   <target name="clean">
-    <delete dir="bin"/>
-    <delete dir="examples\bin"/>    
-    <delete dir="__history"/>    
-    <delete dir="examples\__history"/>    
     <delete>
       <fileset dir="." includes="*.dcu"/>
       <fileset dir=".\examples\Chat\ChatClient" includes="*.dcu"/>      
       <fileset dir="." includes="*.exe"/>      
       <fileset dir=".\examples\Chat\ChatClient" includes="*.exe"/>      
     </delete>
+    <delete dir="bin"/>
+    <delete dir="examples\bin"/>    
+    <delete dir="__history"/>    
+    <delete dir="examples\__history"/>    
   </target>
 
   <target name="prepare" depends="clean">
     <mkdir dir="bin"/>
-    <mkdir dir="examples\bin"/>    
-  </target>
-
-  
-
-
-  <target name="main" depends="prepare">
-  
-    <antcall target="delphicompile">
-      <param name="projectdir" value="."/>
-      <param name="projectname" value="teststompclient.dpr"/>
-      <param name="output" value="bin"/>    
-    </antcall>    
-
-    <antcall target="delphicompile">
-      <param name="projectdir" value="examples\Chat\ChatClient"/>    
-      <param name="projectname" value="ChatClient.dpr"/>
-      <param name="output" value="..\..\bin"/>    
-    </antcall>    
-
-    <antcall target="delphicompile">
-      <param name="projectdir" value="examples\GlobalDemo\GlobalDemo2009"/>    
-      <param name="projectname" value="GlobalDemo.dpr"/>
-      <param name="output" value="..\..\bin"/>    
-    </antcall>    
-
-    <antcall target="delphicompile">
-      <param name="projectdir" value="examples\GlobalDemo\GlobalDemo2009"/>    
-      <param name="projectname" value="Receiver.dpr"/>
-      <param name="output" value="..\..\bin"/>    
-    </antcall>   
-        
+    <mkdir dir="dcu"/>    
+    <mkdir dir="examples\bin"/>   
     <delete>
       <fileset dir="." includes="*.dcu"/>
       <fileset dir="." includes="*.exe"/>
       <fileset dir=".\examples\bin" includes="*.exe"/>      
       <fileset dir=".\examples\Chat\ChatClient" includes="*.dcu"/>                              
       <fileset dir=".\examples\GlobalDemo\GlobalDemo2009" includes="*.dcu"/>                  
-    </delete>
+    </delete>     
+  </target>
+  
+
+
+  <target name="main" depends="prepare">  
+    <antcall target="delphicompile">
+      <param name="projectdir" value="."/>
+      <param name="projectname" value="teststompclient.dpr"/>
+      <param name="output" value="bin"/>
+      <param name="dcuoutput" value="dcu"/>          
+    </antcall>    
+
+    <antcall target="delphicompile">
+      <param name="projectdir" value="examples\Chat\ChatClient"/>    
+      <param name="projectname" value="ChatClient.dpr"/>
+      <param name="output" value="..\..\bin"/>   
+      <param name="dcuoutput" value="..\..\..\dcu"/>       
+    </antcall>    
+
+    <antcall target="delphicompile">
+      <param name="projectdir" value="examples\GlobalDemo\GlobalDemo2009"/>    
+      <param name="projectname" value="GlobalDemo.dpr"/>
+      <param name="output" value="..\..\bin"/>    
+      <param name="dcuoutput" value="..\..\..\dcu"/>      
+    </antcall>    
+
+    <antcall target="delphicompile">
+      <param name="projectdir" value="examples\GlobalDemo\GlobalDemo2009"/>    
+      <param name="projectname" value="Receiver.dpr"/>
+      <param name="output" value="..\..\bin"/>    
+      <param name="dcuoutput" value="..\..\..\dcu"/>      
+    </antcall>
+    
+    <delete>
+      <fileset dir=".\dcu" includes="*.dcu"/>
+    </delete>       
   </target>
 
 
