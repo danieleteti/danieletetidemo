@@ -15,12 +15,14 @@ type
     chkPersistent: TCheckBox;
     Memo1: TMemo;
     Button6: TButton;
+    Button1: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Button6Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     stomp: TStompClient;
     tr: string;
@@ -35,15 +37,38 @@ implementation
 
 {$R *.dfm}
 
+procedure TfrmMain.Button1Click(Sender: TObject);
+var
+  h: IStompHeaders;
+  I: Integer;
+  msg: string;
+begin
+
+  h := StompUtils.StompHeaders;
+  if chkPersistent.Checked then
+    h.Add(shPersistent);
+
+  for I := 1 to 10 do
+  begin
+    msg := format('%2.2d - %s',[i, Memo1.Lines.Text]);
+    if tr <> '' then
+      Stomp.Send(Edit1.Text, msg, tr, h)
+    else
+      Stomp.Send(Edit1.Text, msg, h);
+  end;
+end;
+
 procedure TfrmMain.Button2Click(Sender: TObject);
 begin
-  if InputQuery('Begin transaction','Write a transaction identifier for this transaction', tr) then
+  if InputQuery('Begin transaction',
+    'Write a transaction identifier for this transaction', tr) then
     Stomp.BeginTransaction(tr);
 end;
 
 procedure TfrmMain.Button3Click(Sender: TObject);
 begin
-  if InputQuery('Abort transaction','Write a transaction identifier for this transaction', tr) then
+  if InputQuery('Abort transaction',
+    'Write a transaction identifier for this transaction', tr) then
   begin
     Stomp.AbortTransaction(tr);
     tr := '';
@@ -52,7 +77,8 @@ end;
 
 procedure TfrmMain.Button4Click(Sender: TObject);
 begin
-  if InputQuery('Commit transaction','Write a transaction identifier for this transaction', tr) then
+  if InputQuery('Commit transaction',
+    'Write a transaction identifier for this transaction', tr) then
   begin
     Stomp.CommitTransaction(tr);
     tr := '';
@@ -65,11 +91,11 @@ var
 begin
   h := StompUtils.StompHeaders;
   if chkPersistent.Checked then
-    h.Add('persistent','true');
-  if tr<>'' then
-    Stomp.Send(Edit1.Text, Memo1.Lines.Text, tr,h)
+    h.Add(shPersistent);
+  if tr <> '' then
+    Stomp.Send(Edit1.Text, Memo1.Lines.Text, tr, h)
   else
-    Stomp.Send(Edit1.Text, Memo1.Lines.Text,h);
+    Stomp.Send(Edit1.Text, Memo1.Lines.Text, h);
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -86,3 +112,4 @@ begin
 end;
 
 end.
+

@@ -63,6 +63,7 @@ type
     function InTransaction: Boolean;
     constructor Create;
     destructor Destroy; override;
+    function Connected: boolean;
     property UserName: string read FUserName write SetUserName;
     property Password: string read FPassword write SetPassword;
     property ClientID: string read FClientID write SetClientID;
@@ -97,7 +98,7 @@ begin
     finally
       Frame.Free;
     end;
-    FTransactions.Delete(FTransactions.IndexOf(TransactionIdentifier));    
+    FTransactions.Delete(FTransactions.IndexOf(TransactionIdentifier));
   end
   else
     raise
@@ -217,6 +218,11 @@ begin
   end;
 end;
 
+function TStompClient.Connected: boolean;
+begin
+  Result := tcp.Connected;
+end;
+
 constructor TStompClient.Create;
 begin
   inherited;
@@ -243,14 +249,17 @@ procedure TStompClient.Disconnect;
 var
   Frame: TStompFrame;
 begin
-  Frame := TStompFrame.Create;
-  try
-    Frame.Command := 'DISCONNECT';
-    SendFrame(Frame);
-  finally
-    Frame.Free;
+  if Connected then
+  begin
+    Frame := TStompFrame.Create;
+    try
+      Frame.Command := 'DISCONNECT';
+      SendFrame(Frame);
+    finally
+      Frame.Free;
+    end;
+    tcp.Disconnect;
   end;
-  tcp.Disconnect;
 end;
 
 function TStompClient.InTransaction: Boolean;

@@ -67,6 +67,7 @@ object Form1: TForm1
     Top = 274
     Width = 113
     Height = 17
+    Anchors = [akLeft, akBottom]
     Caption = 'Automatic Receive'
     Checked = True
     State = cbChecked
@@ -78,6 +79,7 @@ object Form1: TForm1
     Top = 270
     Width = 113
     Height = 25
+    Anchors = [akLeft, akBottom]
     Caption = 'Receive Now'
     TabOrder = 5
     OnClick = Button2Click
