@@ -75,9 +75,18 @@ object frmMain: TfrmMain
     Left = 431
     Top = 104
     Width = 111
-    Height = 69
+    Height = 41
     Caption = 'Send'
     TabOrder = 6
     OnClick = Button6Click
+  end
+  object Button1: TButton
+    Left = 431
+    Top = 149
+    Width = 111
+    Height = 25
+    Caption = 'Send x 10'
+    TabOrder = 7
+    OnClick = Button1Click
   end
 end

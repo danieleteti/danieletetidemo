@@ -64,7 +64,8 @@ end;
 
 procedure TForm1.Button5Click(Sender: TObject);
 begin
-  stomp.Subscribe(Edit1.Text, amAuto, StompUtils.StompHeaders.Add('activemq.subscriptionName','pippo'));
+  stomp.Subscribe(Edit1.Text, amAuto,
+    StompUtils.StompHeaders.Add('activemq.subscriptionName', 'pippo'));
   //activemq.subscriptionName
 end;
 
@@ -81,13 +82,12 @@ end;
 
 procedure TForm1.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  if assigned(stomp) then
-  begin
-    Timer1.Enabled := false;
-    sleep(500);
+  if Stomp.Connected then
     stomp.Disconnect;
-    stomp.Free;
-  end;
+
+  Timer1.Enabled := false;
+  sleep(500);
+  stomp.Free;
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -102,8 +102,10 @@ var
 begin
   fr := stomp.Receive(100);
   if assigned(fr) then
+  begin
     Memo1.Lines.Add(fr.Body);
-
+    rcv;
+  end;
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
@@ -112,3 +114,4 @@ begin
 end;
 
 end.
+
