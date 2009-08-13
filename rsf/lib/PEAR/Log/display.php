@@ -2,7 +2,7 @@
 /**
  * $Header: /repository/pear/Log/Log/display.php,v 1.10 2007/12/30 00:49:04 jon Exp $
  *
- * @version $Revision: 1.10 $
+ * @version $Revision$
  * @package Log
  */
 

@@ -2,7 +2,7 @@
 /**
  * $Header: /repository/pear/Log/Log/daemon.php,v 1.3 2008/01/19 22:12:16 jon Exp $
  *
- * @version $Revision: 1.3 $
+ * @version $Revision$
  * @package Log
  */
 
@@ -12,7 +12,7 @@
  * This class uses the syslog protocol: http://www.ietf.org/rfc/rfc3164.txt
  *
  * @author  Bart van der Schans <schans@dds.nl>
- * @version $Revision: 1.3 $
+ * @version $Revision$
  * @package Log
  */
 class Log_daemon extends Log

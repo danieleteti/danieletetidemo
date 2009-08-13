@@ -1,3 +1,8 @@
+// $Author$
+// $Date$
+// $Id$
+// $Revision$
+
 unit ChatRoomThread;
 
 interface

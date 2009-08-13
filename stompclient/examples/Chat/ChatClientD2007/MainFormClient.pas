@@ -81,10 +81,22 @@ end;
 procedure TForm5.tmrTimer(Sender: TObject);
 var
   f: TStompFrame;
+  fw: FLASHWINFO;
 begin
   f := stomp.Receive;
   if assigned(f) then
+  begin
     Memo1.Lines.Add('[' + f.Headers.Value('datetime') + ' ' + f.Headers.Value('sender') + ']' + sLineBreak + f.Body);
+    if (WindowState = wsMinimized) or (Application.ActiveFormHandle <> self.Handle) then
+    begin
+      fw.cbSize := SizeOf(FLASHWINFO);
+      fw.hwnd := self.Handle;
+      fw.dwFlags := FLASHW_ALL;
+      fw.uCount := 5;
+      fw.dwTimeout := 500;
+      FlashWindowEx(fw);
+    end;
+  end;
 end;
 
 end.

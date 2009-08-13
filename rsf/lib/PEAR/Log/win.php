@@ -2,7 +2,7 @@
 /**
  * $Header: /repository/pear/Log/Log/win.php,v 1.20 2006/07/26 05:21:47 jon Exp $
  *
- * @version $Revision: 1.20 $
+ * @version $Revision$
  * @package Log
  */
 
