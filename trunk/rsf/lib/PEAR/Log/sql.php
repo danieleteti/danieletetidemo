@@ -3,7 +3,7 @@
  * $Header: /repository/pear/Log/Log/sql.php,v 1.42 2008/01/19 22:12:16 jon Exp $
  * $Horde: horde/lib/Log/sql.php,v 1.12 2000/08/16 20:27:34 chuck Exp $
  *
- * @version $Revision: 1.42 $
+ * @version $Revision$
  * @package Log
  */
 

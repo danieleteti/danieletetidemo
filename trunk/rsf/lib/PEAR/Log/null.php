@@ -2,7 +2,7 @@
 /**
  * $Header: /repository/pear/Log/Log/null.php,v 1.5 2006/06/29 07:09:21 jon Exp $
  *
- * @version $Revision: 1.5 $
+ * @version $Revision$
  * @package Log
  */
 

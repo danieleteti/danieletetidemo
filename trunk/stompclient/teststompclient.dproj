@@ -22,6 +22,11 @@
 			<CfgParent>Base</CfgParent>
 			<Base>true</Base>
 		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='mio' or '$(Cfg_3)'!=''">
+			<Cfg_3>true</Cfg_3>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
 			<DCC_DependencyCheckOutputName>teststompclient.exe</DCC_DependencyCheckOutputName>
 		</PropertyGroup>
@@ -40,6 +45,7 @@
 			<DCC_ObjPath>C:\Programmi\CodeGear\RAD Studio\5.0\source\Indy\Indy10\Core;C:\Programmi\CodeGear\RAD Studio\5.0\source\Indy\Indy10\System;$(DCC_ObjPath)</DCC_ObjPath>
 			<DCC_IncludePath>C:\Programmi\CodeGear\RAD Studio\5.0\source\Indy\Indy10\Core;C:\Programmi\CodeGear\RAD Studio\5.0\source\Indy\Indy10\System;$(DCC_IncludePath)</DCC_IncludePath>
 		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_3)'!=''"/>
 		<ProjectExtensions>
 			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
 			<Borland.ProjectType>VCLApplication</Borland.ProjectType>
@@ -101,6 +107,10 @@
 			<DCCReference Include="StopWatch.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
+			</BuildConfiguration>
+			<BuildConfiguration Include="mio">
+				<Key>Cfg_3</Key>
+				<CfgParent>Base</CfgParent>
 			</BuildConfiguration>
 			<BuildConfiguration Include="Debug">
 				<Key>Cfg_2</Key>

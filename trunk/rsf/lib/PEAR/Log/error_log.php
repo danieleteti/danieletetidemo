@@ -2,7 +2,7 @@
 /**
  * $Header: /repository/pear/Log/Log/error_log.php,v 1.8 2006/06/29 07:09:21 jon Exp $
  *
- * @version $Revision: 1.8 $
+ * @version $Revision$
  * @package Log
  */
 
