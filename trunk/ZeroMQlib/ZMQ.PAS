@@ -9,6 +9,11 @@
 {           email:d.teti@bittime.it                     }
 {           VERSION: 1.0                                }
 {*******************************************************}
+// $Author$
+// $Date$
+// $Id$
+// $Revision$
+
 
 unit ZMQ;
 
