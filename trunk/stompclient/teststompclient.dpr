@@ -11,8 +11,10 @@ uses
 
 begin
   try
-    Main;
+//    Main;
     MainWithTransaction;
+//    Test_Unicode_Chars; //Non passa
+    Writeln('DONE');
   except
     on E: Exception do
       Writeln(E.Classname, ': ', E.Message);

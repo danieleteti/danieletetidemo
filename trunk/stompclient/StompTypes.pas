@@ -40,7 +40,7 @@ type
     function IndexOf(Key: string): Integer;
     function Count: Cardinal;
     function GetAt(const Index: Integer): TKeyValue;
-    function Output: string;
+    function Output: String;
   end;
 
   TStompHeaders = class(TInterfacedObject, IStompHeaders)
@@ -58,7 +58,7 @@ type
     function GetAt(const Index: Integer): TKeyValue;
     constructor Create;
     destructor Destroy; override;
-    function Output: string;
+    function Output: String;
     property Items[index: Cardinal]: TKeyValue read GetItems write SetItems;
     default;
   end;
@@ -131,10 +131,13 @@ begin
   inherited;
 end;
 
-function TStompFrame.output: string;
+function TStompFrame.output: String;
 begin
-  Result := FCommand + LINE_END + FHeaders.Output + LINE_END + FBody + LINE_END
-    + COMMAND_END;
+  Result :=
+    FCommand + LINE_END +
+    FHeaders.Output + LINE_END +
+    FBody + LINE_END +
+    COMMAND_END;
 end;
 
 procedure TStompFrame.SetHeaders(const Value: IStompHeaders);
@@ -295,7 +298,7 @@ begin
   end;
 end;
 
-function TStompHeaders.Output: string;
+function TStompHeaders.Output: String;
 var
   i: Integer;
   kv: TKeyValue;
@@ -344,5 +347,6 @@ begin
   if i > -1 then
     Result := GetItems(i).Value;
 end;
+
 end.
 
