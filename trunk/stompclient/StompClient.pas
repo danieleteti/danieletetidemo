@@ -32,20 +32,18 @@ type
     FSession: string;
     FInTransaction: Boolean;
     FTransactions: TStringList;
-    FEnableReceipts: Boolean;
-    FReceiptTimeout: Integer;
     FClientID: string;
+    FReceiptTimeout: Integer;
     procedure SetPassword(const Value: string);
     procedure SetUserName(const Value: string);
     procedure SetTimeout(const Value: Integer);
-    procedure SetEnableReceipts(const Value: Boolean);
-    procedure SetReceiptTimeout(const Value: Integer);
     procedure SetClientID(const Value: string);
+    procedure SetReceiptTimeout(const Value: Integer);
 
   protected
     procedure MergeHeaders(var AFrame: TStompFrame; var AHeaders: IStompHeaders);
     procedure SendFrame(AFrame: TStompFrame);
-    procedure CheckReceipt(Frame: TStompFrame);
+//    procedure CheckReceipt(Frame: TStompFrame);
 
   public
     function Receive: TStompFrame; overload;
@@ -53,10 +51,10 @@ type
     procedure Receipt(const ReceiptID: string);
     procedure Connect(Host: string; Port: Integer = 61613);
     procedure Disconnect;
-    procedure Subscribe(Queue: string; Ack: TAckMode = amAuto; Headers: IStompHeaders = nil);
+    procedure Subscribe(QueueOrTopicName: string; Ack: TAckMode = amAuto; Headers: IStompHeaders = nil);
     procedure Unsubscribe(Queue: string);
-    procedure Send(Queue: string; TextMessage: string; Headers: IStompHeaders = nil); overload;
-    procedure Send(Queue: string; TextMessage: string; TransactionIdentifier: string; Headers: IStompHeaders = nil);
+    procedure Send(QueueOrTopicName: string; TextMessage: string; Headers: IStompHeaders = nil); overload;
+    procedure Send(QueueOrTopicName: string; TextMessage: string; TransactionIdentifier: string; Headers: IStompHeaders = nil);
       overload;
     procedure Ack(const MessageID: string; const TransactionIdentifier: string = '');
     procedure BeginTransaction(const TransactionIdentifier: string);
@@ -72,7 +70,6 @@ type
     property ClientID: string read FClientID write SetClientID;
     property Timeout: Integer read FTimeout write SetTimeout;
     property Session: string read FSession;
-    property EnableReceipts: Boolean read FEnableReceipts write SetEnableReceipts;
     property ReceiptTimeout: Integer read FReceiptTimeout write SetReceiptTimeout;
     property Transactions: TStringList read FTransactions;
   end;
@@ -117,7 +114,8 @@ begin
     Frame.Headers.Add('message-id', MessageID);
     if TransactionIdentifier <> '' then
       Frame.Headers.Add('transaction', TransactionIdentifier);
-    CheckReceipt(Frame);
+    //CheckReceipt(Frame);
+    SendFrame(Frame);
   finally
     Frame.Free;
   end;
@@ -133,7 +131,8 @@ begin
     try
       Frame.Command := 'BEGIN';
       Frame.Headers.Add('transaction', TransactionIdentifier);
-      CheckReceipt(Frame);
+      SendFrame(Frame);
+      //CheckReceipt(Frame);
       FInTransaction := True;
     finally
       Frame.Free;
@@ -144,20 +143,20 @@ begin
     raise EStomp.CreateFmt('Begin Transaction Error. Transaction [%s] still open', [TransactionIdentifier]);
 end;
 
-procedure TStompClient.CheckReceipt(Frame: TStompFrame);
-var
-  ReceiptID: string;
-begin
-  if FEnableReceipts then
-  begin
-    ReceiptID := inttostr(GetTickCount);
-    Frame.Headers.Add('receipt', ReceiptID);
-    SendFrame(Frame);
-    Receipt(ReceiptID);
-  end
-  else
-    SendFrame(Frame);
-end;
+//procedure TStompClient.CheckReceipt(Frame: TStompFrame);
+//var
+//  ReceiptID: string;
+//begin
+//  if FEnableReceipts then
+//  begin
+//    ReceiptID := inttostr(GetTickCount);
+//    Frame.Headers.Add('receipt', ReceiptID);
+//    SendFrame(Frame);
+//    Receipt(ReceiptID);
+//  end
+//  else
+//    SendFrame(Frame);
+//end;
 
 procedure TStompClient.CommitTransaction(const TransactionIdentifier: string);
 var
@@ -169,7 +168,8 @@ begin
     try
       Frame.Command := 'COMMIT';
       Frame.Headers.Add('transaction', TransactionIdentifier);
-      CheckReceipt(Frame);
+      SendFrame(Frame);
+      //CheckReceipt(Frame);
       FInTransaction := False;
     finally
       Frame.Free;
@@ -223,14 +223,14 @@ constructor TStompClient.Create;
 begin
   inherited;
   FTransactions := TStringList.Create;
-  FEnableReceipts := False;
+//  FEnableReceipts := False;
   FInTransaction := False;
   FSession := '';
   FUserName := 'guest';
   FPassword := 'guest';
   FHeaders := TStompHeaders.Create;
   tcp := TIdTCPClient.Create(nil);
-  FTimeout := 1000;
+  FTimeout := 200;
   FReceiptTimeout := FTimeout;
 end;
 
@@ -350,34 +350,36 @@ begin
   Result := Receive(FTimeout);
 end;
 
-procedure TStompClient.Send(Queue, TextMessage: string; Headers: IStompHeaders);
+procedure TStompClient.Send(QueueOrTopicName: string; TextMessage: string; Headers: IStompHeaders);
 var
   Frame: TStompFrame;
 begin
   Frame := TStompFrame.Create;
   try
     Frame.Command := 'SEND';
-    Frame.Headers.Add('destination', Queue);
+    Frame.Headers.Add('destination', QueueOrTopicName);
     Frame.Body := TextMessage;
     MergeHeaders(Frame, Headers);
-    CheckReceipt(Frame);
+    SendFrame(Frame);
+    //CheckReceipt(Frame);
   finally
     Frame.Free;
   end;
 end;
 
-procedure TStompClient.Send(Queue, TextMessage, TransactionIdentifier: string; Headers: IStompHeaders);
+procedure TStompClient.Send(QueueOrTopicName: string; TextMessage: string; TransactionIdentifier: string; Headers: IStompHeaders);
 var
   Frame: TStompFrame;
 begin
   Frame := TStompFrame.Create;
   try
     Frame.Command := 'SEND';
-    Frame.Headers.Add('destination', Queue);
+    Frame.Headers.Add('destination', QueueOrTopicName);
     Frame.Headers.Add('transaction', TransactionIdentifier);
     Frame.Body := TextMessage;
     MergeHeaders(Frame, Headers);
-    CheckReceipt(Frame);
+    SendFrame(Frame);
+    //CheckReceipt(Frame);
   finally
     Frame.Free;
   end;
@@ -391,11 +393,6 @@ end;
 procedure TStompClient.SetClientID(const Value: string);
 begin
   FClientID := Value;
-end;
-
-procedure TStompClient.SetEnableReceipts(const Value: Boolean);
-begin
-  FEnableReceipts := Value;
 end;
 
 procedure TStompClient.SetPassword(const Value: string);
@@ -418,19 +415,19 @@ begin
   FUserName := Value;
 end;
 
-procedure TStompClient.Subscribe(Queue: string; Ack: TAckMode = amAuto; Headers: IStompHeaders = nil);
+procedure TStompClient.Subscribe(QueueOrTopicName: string; Ack: TAckMode = amAuto; Headers: IStompHeaders = nil);
 var
   Frame: TStompFrame;
 begin
   Frame := TStompFrame.Create;
   try
     Frame.Command := 'SUBSCRIBE';
-    Frame.Headers.Add('destination', Queue);
+    Frame.Headers.Add('destination', QueueOrTopicName);
     Frame.Headers.Add('ack', StompUtils.AckModeToStr(Ack));
     if Headers <> nil then
       MergeHeaders(Frame, Headers);
-
-    CheckReceipt(Frame);
+    SendFrame(Frame);
+    //CheckReceipt(Frame);
   finally
     Frame.Free;
   end;

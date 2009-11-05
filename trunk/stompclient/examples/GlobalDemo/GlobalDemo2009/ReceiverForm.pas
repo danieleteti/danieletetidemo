@@ -102,7 +102,6 @@ begin
   fr := stomp.Receive(100);
   if assigned(fr) then
     Memo1.Lines.Add(fr.Body);
-
 end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
