@@ -43,6 +43,17 @@ type
     function Output: String;
   end;
 
+  IStompFrame = interface
+    ['{68274885-D3C3-4890-A058-03B769B2191E}']
+    function Output: string;
+    procedure SetHeaders(const Value: IStompHeaders);
+    function GetCommand: string;
+    procedure SetCommand(const Value: string);
+    function GetBody: string;
+    procedure SetBody(const Value: string);
+    function GetHeaders: IStompHeaders;
+  end;
+
   TStompHeaders = class(TInterfacedObject, IStompHeaders)
   private
     FList: TList;
@@ -63,21 +74,26 @@ type
     default;
   end;
 
-  TStompFrame = class(TInterfacedObject)
+  TStompFrame = class(TInterfacedObject, IStompFrame)
   private
     FCommand: string;
     FBody: string;
     FHeaders: IStompHeaders;
     procedure SetHeaders(const Value: IStompHeaders);
+    function GetCommand: string;
+    procedure SetCommand(const Value: string);
+    function GetBody: string;
+    procedure SetBody(const Value: string);
+    function GetHeaders: IStompHeaders;
   public
     constructor Create;
     destructor Destroy; override;
-    property Command: string read FCommand write FCommand;
-    property Body: string read FBody write FBody;
+    property Command: string read GetCommand write SetCommand;
+    property Body: string read GetBody write SetBody;
     //return '', when Key doesn't exist or Value of Key is ''
     //otherwise, return Value;
     function Output: string;
-    property Headers: IStompHeaders read FHeaders write SetHeaders;
+    property Headers: IStompHeaders read GetHeaders write SetHeaders;
   end;
 
   TAddress = record
@@ -131,6 +147,21 @@ begin
   inherited;
 end;
 
+function TStompFrame.GetBody: string;
+begin
+  Result := FBody;
+end;
+
+function TStompFrame.GetCommand: string;
+begin
+  Result := FCommand;
+end;
+
+function TStompFrame.GetHeaders: IStompHeaders;
+begin
+  Result := FHeaders;
+end;
+
 function TStompFrame.output: String;
 begin
   Result :=
@@ -138,6 +169,16 @@ begin
     FHeaders.Output + LINE_END +
     FBody + LINE_END +
     COMMAND_END;
+end;
+
+procedure TStompFrame.SetBody(const Value: string);
+begin
+  FBody := Value;
+end;
+
+procedure TStompFrame.SetCommand(const Value: string);
+begin
+  FCommand := Value;
 end;
 
 procedure TStompFrame.SetHeaders(const Value: IStompHeaders);
