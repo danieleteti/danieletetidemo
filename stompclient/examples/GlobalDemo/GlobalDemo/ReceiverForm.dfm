@@ -4,7 +4,7 @@ object Form1: TForm1
   BorderIcons = [biSystemMenu]
   Caption = 'Receiver Form'
   ClientHeight = 299
-  ClientWidth = 602
+  ClientWidth = 750
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,15 +16,21 @@ object Form1: TForm1
   OnClose = FormClose
   OnCreate = FormCreate
   DesignSize = (
-    602
+    750
     299)
   PixelsPerInch = 96
   TextHeight = 13
   object Edit1: TEdit
     Left = 8
-    Top = 24
-    Width = 113
-    Height = 21
+    Top = 22
+    Width = 144
+    Height = 24
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
     TabOrder = 0
     Text = '/topic/mytopic'
     TextHint = 'Topic or queue name (/topic/thename or /queue/thename)'
@@ -50,8 +56,8 @@ object Form1: TForm1
   object Memo1: TMemo
     Left = 8
     Top = 53
-    Width = 586
-    Height = 211
+    Width = 734
+    Height = 238
     Anchors = [akLeft, akTop, akRight, akBottom]
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
@@ -62,26 +68,7 @@ object Form1: TForm1
     ReadOnly = True
     TabOrder = 3
     WordWrap = False
-  end
-  object CheckBox1: TCheckBox
-    Left = 8
-    Top = 274
-    Width = 113
-    Height = 17
-    Caption = 'Automatic Receive'
-    Checked = True
-    State = cbChecked
-    TabOrder = 4
-    OnClick = CheckBox1Click
-  end
-  object Button2: TButton
-    Left = 127
-    Top = 270
-    Width = 113
-    Height = 25
-    Caption = 'Receive Now'
-    TabOrder = 5
-    OnClick = Button2Click
+    ExplicitWidth = 586
   end
   object Button3: TButton
     Left = 439
@@ -89,7 +76,7 @@ object Form1: TForm1
     Width = 75
     Height = 25
     Caption = 'Unsubscribe'
-    TabOrder = 6
+    TabOrder = 4
     OnClick = Button3Click
   end
   object Button4: TButton
@@ -98,7 +85,7 @@ object Form1: TForm1
     Width = 75
     Height = 25
     Caption = 'Disconnect'
-    TabOrder = 7
+    TabOrder = 5
     OnClick = Button4Click
   end
   object Button6: TButton
@@ -107,14 +94,7 @@ object Form1: TForm1
     Width = 75
     Height = 25
     Caption = 'Connect'
-    TabOrder = 8
+    TabOrder = 6
     OnClick = Button6Click
-  end
-  object Timer1: TTimer
-    Enabled = False
-    Interval = 100
-    OnTimer = Timer1Timer
-    Left = 208
-    Top = 80
   end
 end

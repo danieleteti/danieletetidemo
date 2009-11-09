@@ -2,8 +2,8 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'Sender Form'
-  ClientHeight = 182
-  ClientWidth = 550
+  ClientHeight = 139
+  ClientWidth = 473
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,7 +17,7 @@ object frmMain: TfrmMain
   TextHeight = 13
   object Edit1: TEdit
     Left = 8
-    Top = 77
+    Top = 37
     Width = 193
     Height = 21
     TabOrder = 0
@@ -52,17 +52,19 @@ object frmMain: TfrmMain
     OnClick = Button4Click
   end
   object chkPersistent: TCheckBox
-    Left = 8
-    Top = 48
+    Left = 251
+    Top = 12
     Width = 97
     Height = 17
     Caption = 'Persistent'
+    Checked = True
+    State = cbChecked
     TabOrder = 4
   end
   object Memo1: TMemo
     Left = 8
-    Top = 104
-    Width = 417
+    Top = 64
+    Width = 340
     Height = 69
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
@@ -73,8 +75,8 @@ object frmMain: TfrmMain
     TabOrder = 5
   end
   object Button6: TButton
-    Left = 431
-    Top = 104
+    Left = 354
+    Top = 64
     Width = 111
     Height = 69
     Caption = 'Send'

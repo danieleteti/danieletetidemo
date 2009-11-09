@@ -1,13 +1,14 @@
 { ******************************************************* }
-{ }
-{ Stomp Client for Embarcadero Delphi }
-{ Tested With ApacheMQ 5.2 }
-{ Copyright (c) 2009-2009 Daniele Teti }
-{ }
-{ }
-{ WebSite: www.danieleteti.it }
-{ email:d.teti@bittime.it }
+{                                                         }
+{ Stomp Client for Embarcadero Delphi                     }
+{ Tested With ApacheMQ 5.2/5.3                            }
+{ Copyright (c) 2009-2009 Daniele Teti                    }
+{                                                         }
+{                                                         }
+{ WebSite: www.danieleteti.it                             }
+{ email:d.teti@bittime.it                                 }
 { ******************************************************* }
+
 unit StompTypes;
 
 interface
@@ -19,6 +20,7 @@ uses
 const
   LINE_END: char = #10;
   COMMAND_END: char = #0;
+  DEFAULT_STOMP_PORT = 61613;
 
 type
   TAckMode = (amAuto, amClient);
@@ -77,7 +79,6 @@ type
     function SetPassword(const Value: string): IStompClient;
     function SetUserName(const Value: string): IStompClient;
     function SetReceiveTimeout(const AMilliSeconds: UInt32): IStompClient;
-    function InTransaction: Boolean;
     function Connected: Boolean;
   end;
 
@@ -142,7 +143,7 @@ type
     procedure OnMessage(StompFrame: IStompFrame);
   end;
 
-  TStompListener = class(TThread)
+  TStompClientListener = class(TThread)
   strict protected
     FStompClientListener: IStompClientListener;
     FStompClient: IStompClient;
@@ -150,6 +151,7 @@ type
 
   public
     constructor Create(StompClient: IStompClient; StompClientListener: IStompClientListener);
+    procedure StopListening;
   end;
 
 type
@@ -158,9 +160,13 @@ type
     class function AckModeToStr(AckMode: TAckMode): string;
     class function NewHeaders: IStompHeaders;
     class function NewFrame: IStompFrame;
+    class function TimestampAsDateTime(const HeaderValue: String): TDateTime;
   end;
 
 implementation
+
+uses
+  Dateutils;
 
 class function TStompHeaders.NewDurableSubscriptionHeader(const SubscriptionName: String): TKeyValue;
 begin
@@ -183,6 +189,11 @@ end;
 class function StompUtils.NewHeaders: IStompHeaders;
 begin
   Result := TStompHeaders.Create;
+end;
+
+class function StompUtils.TimestampAsDateTime(const HeaderValue: String): TDateTime;
+begin
+  Result := EncodeDateTime(1970, 1, 1, 0, 0, 0, 0) + StrToInt64(HeaderValue) / 86400000;
 end;
 
 class function StompUtils.AckModeToStr(AckMode: TAckMode): string;
@@ -454,7 +465,7 @@ end;
 
 { TStompListener }
 
-constructor TStompListener.Create(StompClient: IStompClient; StompClientListener: IStompClientListener);
+constructor TStompClientListener.Create(StompClient: IStompClient; StompClientListener: IStompClientListener);
 begin
   inherited Create(true);
   FStompClientListener := StompClientListener;
@@ -462,7 +473,7 @@ begin
   Resume;
 end;
 
-procedure TStompListener.Execute;
+procedure TStompClientListener.Execute;
 var
   frame: IStompFrame;
 begin
@@ -471,6 +482,12 @@ begin
     if FStompClient.Receive(frame, 2000) then
       FStompClientListener.OnMessage(frame);
   end;
+end;
+
+procedure TStompClientListener.StopListening;
+begin
+  Terminate;
+  WaitFor;
 end;
 
 end.
