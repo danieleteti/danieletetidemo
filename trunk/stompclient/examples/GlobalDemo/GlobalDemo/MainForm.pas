@@ -63,9 +63,9 @@ procedure TfrmMain.Button6Click(Sender: TObject);
 var
   h: IStompHeaders;
 begin
-  h := StompUtils.StompHeaders;
+  h := StompUtils.NewHeaders;
   if chkPersistent.Checked then
-    h.Add(shPersistent);
+    h.Add(TStompHeaders.NewPersistentHeader(true));
   if tr<>'' then
     Stomp.Send(Edit1.Text, Memo1.Lines.Text, tr,h)
   else
