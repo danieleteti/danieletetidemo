@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2010/05/06 23.36.00.718.pas,C:\Users\Daniele\Documents\RAD Studio\Projects\Unit1.pas=C:\ProgettiMiei\ModelGUIMediator\02\MainForm.pas</Transaction>
+    <Transaction>2010/05/06 23.36.00.718.dfm,C:\Users\Daniele\Documents\RAD Studio\Projects\Unit1.dfm=C:\ProgettiMiei\ModelGUIMediator\02\MainForm.dfm</Transaction>
+    <Transaction>2010/05/06 23.36.07.286.dproj,C:\Users\Daniele\Documents\RAD Studio\Projects\Project1.dproj=C:\ProgettiMiei\ModelGUIMediator\02\MGM02.dproj</Transaction>
+    <Transaction>2010/05/06 23.36.48.435.pas,C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas=C:\ProgettiMiei\ModelGUIMediator\02\lib\MGM.pas</Transaction>
+    <Transaction>2010/05/06 23.50.00.185.pas,C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas=C:\ProgettiMiei\ModelGUIMediator\02\lib\MGM.EditMediator.pas</Transaction>
+    <Transaction>2010/05/06 23.56.41.616.pas,C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas=C:\ProgettiMiei\ModelGUIMediator\02\PersonU.pas</Transaction>
+    <Transaction>2010/05/07 00.37.36.835.pas,C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas=C:\ProgettiMiei\ModelGUIMediator\02\lib\MGM.LabelMediator.pas</Transaction>
+    <Transaction>2010/05/07 01.02.39.434.pas,C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas=C:\ProgettiMiei\ModelGUIMediator\02\lib\MGM.ListMediator.pas</Transaction>
+  </Transactions>
+</BorlandProject>
