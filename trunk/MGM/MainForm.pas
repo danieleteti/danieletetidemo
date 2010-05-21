@@ -18,7 +18,8 @@ uses
   StdCtrls,
   MGM.LabelMediator,
   Generics.Collections,
-  MGM.ListMediator;
+  MGM.ListMediator,
+  ComCtrls;
 
 type
   TForm1 = class(TForm)
@@ -33,6 +34,10 @@ type
     Button4: TButton;
     Button5: TButton;
     ListBox2: TListBox;
+    ListView1: TListView;
+    Edit3: TEdit;
+    ComboBox1: TComboBox;
+    ListView2: TListView;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Button1Click(Sender: TObject);
@@ -41,8 +46,12 @@ type
     procedure ListBox1Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
     procedure Button5Click(Sender: TObject);
+    procedure ComboBox1CloseUp(Sender: TObject);
   private
     Persone: TPersone;
+  strict protected
+    lbMed: TListBoxMediator<TPersona>;
+    cboTelefoni: TComboBoxMediator<TTelefono>;
     { Private declarations }
   public
     ds: TSubjectDataSource;
@@ -92,6 +101,11 @@ begin
   Persone.Delete(ListBox1.ItemIndex);
 end;
 
+procedure TForm1.ComboBox1CloseUp(Sender: TObject);
+begin
+  Caption := cboTelefoni.Selected.Numero;
+end;
+
 procedure TForm1.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Persona1.Free;
@@ -114,17 +128,39 @@ begin
   ds.AddObserver(TLabelMediator.Create(Label1, 'Cognome'));
   ds.AddObserver(TLabelIntegerMediator.Create(Label2, 'Eta'));
   ds.AddObserver(TEditIntegerMediator.Create(Edit2, 'Eta'));
+  ds.AddObserver(TEditCurrencyMediator.Create(Edit3, 'Salario', ceOnExit));
   ds.NotifyObservers;
 
   dsListTel := TSubjectListDataSource<TTelefono>.Create;
   dsListTel.CurrentListSubject := Persona1.Telefoni;
+  cboTelefoni := TComboBoxMediator<TTelefono>.Create(ComboBox1, 'Numero');
+  dsListTel.AddObserver(cboTelefoni);
   dsListTel.AddObserver(TListBoxMediator<TTelefono>.Create(ListBox2, 'Numero'));
+  dsListTel.AddObserver(TListViewMediator<TTelefono>.Create(ListView1,
+    procedure(li: TListItem; telefono: TTelefono)
+    begin
+      li.Caption := telefono.Tipo; li.SubItems.Add(telefono.Numero);
+    end));
+
   dsListTel.NotifyObservers;
 
   Persone := TPersone.Create;
   dsList := TSubjectListDataSource<TPersona>.Create;
   dsList.CurrentListSubject := Persone;
-  dsList.AddObserver(TListBoxMediator<TPersona>.Create(ListBox1, 'Nome'));
+  lbMed := TListBoxMediator<TPersona>.Create(ListBox1, 'Nome');
+  dsList.AddObserver(lbMed);
+
+
+  dsList.AddObserver(TListViewMediator<TPersona>.Create(ListView2,
+    procedure(li: TListItem; persona: TPersona)
+    begin
+      li.Caption := Persona.Nome;
+      li.SubItems.Add(Persona.Cognome);
+      li.SubItems.Add(CurrToStr(Persona.Salario));
+      li.SubItems.Add(IntToStr(Persona.Eta));
+    end));
+
+
   dsList.NotifyObservers;
   Persone.Add(TPersona.CreateNew);
   Persone.Add(TPersona.CreateNew);
@@ -135,7 +171,15 @@ end;
 
 procedure TForm1.ListBox1Click(Sender: TObject);
 begin
-  Caption := Persone[ListBox1.ItemIndex].Nome;
+  // Caption := Persone[ListBox1.ItemIndex].Nome;
+  Caption := lbMed.Selected.Cognome;
 end;
 
 end.
+procedure TForm1.ListView2CustomDraw(Sender: TCustomListView;
+  const ARect: TRect; var DefaultDraw: Boolean);
+begin
+
+end;
+
+

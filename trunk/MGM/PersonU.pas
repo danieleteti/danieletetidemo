@@ -26,10 +26,12 @@ type
     FEta: Integer;
     FNome: string;
     FTelefoni: TTelefoni;
+    FSalario: Currency;
     procedure SetCognome(const Value: string);
     procedure SetEta(const Value: Integer);
     procedure SetNome(const Value: string);
     procedure SetTelefoni(const Value: TTelefoni);
+    procedure SetSalario(const Value: Currency);
   public
     class function CreateNew: TPersona;
     constructor Create;
@@ -38,6 +40,7 @@ type
     property Nome: string read FNome write SetNome;
     property Cognome: string read FCognome write SetCognome;
     property Eta: Integer read FEta write SetEta;
+    property Salario: Currency read FSalario write SetSalario;
   end;
 
   TPersone = class(TSubjectList<TPersona>)
@@ -47,7 +50,7 @@ type
 implementation
 
 uses
-  SysUtils;
+  SysUtils, math;
 
 { TPersona }
 
@@ -65,17 +68,18 @@ begin
   Result.Nome := 'Daniele' + IntToStr(Random(10));
   Result.Cognome := 'Teti' + IntToStr(Random(10));
   Result.Eta := 20 + Random(20);
+  Result.Salario := RandomRange(100000, 500000) / 100;
   Tel := TTelefono.Create;
   Tel.Numero := '872648726' + IntToStr(Random(20));
-  Tel.Tipo := 'Casa';
+  Tel.Tipo := inttostr(RandomFrom([0,1,2]));
   Result.Telefoni.Add(Tel);
   Tel := TTelefono.Create;
   Tel.Numero := '979872347' + IntToStr(Random(20));
-  Tel.Tipo := 'Cellulare';
+  Tel.Tipo := inttostr(RandomFrom([0,1,2]));
   Result.Telefoni.Add(Tel);
   Tel := TTelefono.Create;
   Tel.Numero := '555-98723498' + IntToStr(Random(20));
-  Tel.Tipo := 'NY';
+  Tel.Tipo := inttostr(RandomFrom([0,1,2]));
   Result.Telefoni.Add(Tel);
 end;
 
@@ -101,6 +105,11 @@ procedure TPersona.SetNome(const Value: string);
 begin
   FNome := Value;
   NotifyObservers;
+end;
+
+procedure TPersona.SetSalario(const Value: Currency);
+begin
+  FSalario := Value;
 end;
 
 procedure TPersona.SetTelefoni(const Value: TTelefoni);
