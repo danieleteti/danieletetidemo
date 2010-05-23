@@ -9,5 +9,8 @@
     <Transaction>2010/05/06 23.56.41.616.pas,C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas=C:\ProgettiMiei\ModelGUIMediator\02\PersonU.pas</Transaction>
     <Transaction>2010/05/07 00.37.36.835.pas,C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas=C:\ProgettiMiei\ModelGUIMediator\02\lib\MGM.LabelMediator.pas</Transaction>
     <Transaction>2010/05/07 01.02.39.434.pas,C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas=C:\ProgettiMiei\ModelGUIMediator\02\lib\MGM.ListMediator.pas</Transaction>
+    <Transaction>2010/05/10 09.20.43.821.pas,C:\ProgettiMiei\danieletetidemo\MGM\Unit1.pas=C:\ProgettiMiei\danieletetidemo\MGM\lib\MGM.ButtonMediator.pas</Transaction>
+    <Transaction>2010/05/10 09.34.15.107.pas,C:\ProgettiMiei\danieletetidemo\MGM\Unit2.pas=C:\ProgettiMiei\danieletetidemo\MGM\PhoneEditForm.pas</Transaction>
+    <Transaction>2010/05/10 09.34.15.107.dfm,C:\ProgettiMiei\danieletetidemo\MGM\Unit2.dfm=C:\ProgettiMiei\danieletetidemo\MGM\PhoneEditForm.dfm</Transaction>
   </Transactions>
 </BorlandProject>
