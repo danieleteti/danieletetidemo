@@ -140,11 +140,14 @@ begin
 end;
 
 class function TData.GetInstance: TPersone;
+var
+  I: Integer;
 begin
   if not Assigned(FInstance) then
   begin
     FInstance := TPersone.Create;
-    FillPersone(FInstance);
+    for I := 1 to 10 do
+      FillPersone(FInstance);
   end;
   Result := FInstance;
 end;

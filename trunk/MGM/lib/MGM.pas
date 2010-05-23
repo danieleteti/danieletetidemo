@@ -23,10 +23,13 @@ type
 
   TSubjectList<T: class> = class(TObjectList<T>)
   private
-    FObservers: TObjectList<TSubjectListDataSource<T>>;
+    FUpdateCount: Cardinal;
+    FObservers: TObjectList < TSubjectListDataSource < T >> ;
   protected
     procedure Notify(const Item: T; Action: TCollectionNotification); override;
   public
+    procedure BeginUpdate;
+    procedure EndUpdate;
     constructor Create; virtual;
     destructor Destroy; override;
     procedure AddObserver(AObserver: TSubjectListDataSource<T>);
@@ -54,7 +57,7 @@ type
 
   TSubjectListDataSource<T: class> = class
   private
-    FObservers: TObjectList<TListMediatorObserver<T>>;
+    FObservers: TObjectList < TListMediatorObserver < T >> ;
     FCurrentListSubject: TSubjectList<T>;
     procedure SetCurrentListSubject(const Value: TSubjectList<T>);
   public
@@ -63,7 +66,8 @@ type
     procedure AddObserver(AListObserver: TListMediatorObserver<T>);
     procedure NotifyObservers; virtual;
     procedure Update(ASubjectList: TSubjectList<T>); virtual;
-    property CurrentListSubject: TSubjectList<T> read FCurrentListSubject write SetCurrentListSubject;
+    property CurrentListSubject
+      : TSubjectList<T>read FCurrentListSubject write SetCurrentListSubject;
   end;
 
   TMediatorObserver = class
@@ -194,10 +198,16 @@ begin
   FObservers.Add(AObserver);
 end;
 
+procedure TSubjectList<T>.BeginUpdate;
+begin
+  Inc(FUpdateCount);
+end;
+
 constructor TSubjectList<T>.Create;
 begin
   inherited Create(true);
-  FObservers := TObjectList<TSubjectListDataSource<T>>.Create(false);
+  FUpdateCount := 0;
+  FObservers := TObjectList < TSubjectListDataSource < T >> .Create(false);
 end;
 
 destructor TSubjectList<T>.Destroy;
@@ -206,8 +216,12 @@ begin
   inherited;
 end;
 
-procedure TSubjectList<T>.Notify(const Item: T;
-  Action: TCollectionNotification);
+procedure TSubjectList<T>.EndUpdate;
+begin
+  Dec(FUpdateCount);
+end;
+
+procedure TSubjectList<T>.Notify(const Item: T; Action: TCollectionNotification);
 begin
   inherited;
   NotifyObservers;
@@ -217,10 +231,9 @@ procedure TSubjectList<T>.NotifyObservers;
 var
   Observer: TSubjectListDataSource<T>;
 begin
-  for Observer in FObservers do
-  begin
-    Observer.Update(self)
-  end;
+  if (FUpdateCount = 0) and (FObservers.Count > 0) then
+    for Observer in FObservers do
+      Observer.Update(self)
 end;
 
 procedure TSubjectList<T>.RemoveObserver(AObserver: TSubjectListDataSource<T>);
@@ -238,7 +251,7 @@ end;
 constructor TSubjectListDataSource<T>.Create;
 begin
   inherited;
-  FObservers := TObjectList<TListMediatorObserver<T>>.Create(true);
+  FObservers := TObjectList < TListMediatorObserver < T >> .Create(true);
 end;
 
 destructor TSubjectListDataSource<T>.Destroy;
