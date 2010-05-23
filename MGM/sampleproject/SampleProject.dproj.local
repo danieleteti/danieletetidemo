@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2010/05/23 20.37.02.393.pas,C:\Users\Daniele\Documents\RAD Studio\Projects\Unit2.pas=C:\ProgettiMiei\danieletetidemo\MGM\sampleproject\MainForm.pas</Transaction>
+    <Transaction>2010/05/23 20.37.02.393.dfm,C:\Users\Daniele\Documents\RAD Studio\Projects\Unit2.dfm=C:\ProgettiMiei\danieletetidemo\MGM\sampleproject\MainForm.dfm</Transaction>
+    <Transaction>2010/05/23 20.37.09.065.dproj,C:\Users\Daniele\Documents\RAD Studio\Projects\Project1.dproj=C:\ProgettiMiei\danieletetidemo\MGM\sampleproject\SampleProject.dproj</Transaction>
+    <Transaction>2010/05/23 20.46.35.876.pas,C:\ProgettiMiei\danieletetidemo\MGM\sampleproject\Unit1.pas=C:\ProgettiMiei\danieletetidemo\MGM\sampleproject\BO\bo.pas</Transaction>
+    <Transaction>2010/05/23 21.35.04.166.pas,C:\ProgettiMiei\danieletetidemo\MGM\sampleproject\OKCANCL2.pas=C:\ProgettiMiei\danieletetidemo\MGM\sampleproject\PersonaEditForm.pas</Transaction>
+    <Transaction>2010/05/23 21.35.04.166.dfm,C:\ProgettiMiei\danieletetidemo\MGM\sampleproject\OKCANCL2.dfm=C:\ProgettiMiei\danieletetidemo\MGM\sampleproject\PersonaEditForm.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

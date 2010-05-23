@@ -3,7 +3,7 @@ object Form1: TForm1
   Top = 0
   Caption = 'Form1'
   ClientHeight = 423
-  ClientWidth = 566
+  ClientWidth = 746
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,7 +14,7 @@ object Form1: TForm1
   OnClose = FormClose
   OnCreate = FormCreate
   DesignSize = (
-    566
+    746
     423)
   PixelsPerInch = 96
   TextHeight = 13
@@ -27,7 +27,7 @@ object Form1: TForm1
   end
   object Label2: TLabel
     Left = 160
-    Top = 138
+    Top = 130
     Width = 31
     Height = 13
     Caption = 'Label1'
@@ -68,9 +68,9 @@ object Form1: TForm1
   end
   object ListBox1: TListBox
     Left = 89
-    Top = 168
+    Top = 154
     Width = 137
-    Height = 129
+    Height = 143
     ItemHeight = 13
     TabOrder = 4
     OnClick = ListBox1Click
@@ -104,17 +104,17 @@ object Form1: TForm1
   end
   object ListBox2: TListBox
     Left = 232
-    Top = 168
-    Width = 321
-    Height = 129
+    Top = 154
+    Width = 182
+    Height = 143
     ItemHeight = 13
     TabOrder = 8
   end
   object ListView1: TListView
     Left = 287
     Top = 18
-    Width = 266
-    Height = 95
+    Width = 218
+    Height = 130
     Columns = <
       item
         AutoSize = True
@@ -152,7 +152,7 @@ object Form1: TForm1
   object ListView2: TListView
     Left = 89
     Top = 303
-    Width = 464
+    Width = 644
     Height = 106
     Anchors = [akLeft, akTop, akRight, akBottom]
     Columns = <
@@ -178,5 +178,19 @@ object Form1: TForm1
     RowSelect = True
     TabOrder = 12
     ViewStyle = vsReport
+    ExplicitWidth = 464
+  end
+  object StringGrid1: TStringGrid
+    Left = 420
+    Top = 154
+    Width = 313
+    Height = 143
+    TabOrder = 13
+    RowHeights = (
+      24
+      24
+      24
+      24
+      33)
   end
 end

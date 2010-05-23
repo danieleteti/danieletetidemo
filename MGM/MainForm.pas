@@ -19,7 +19,7 @@ uses
   MGM.LabelMediator,
   Generics.Collections,
   MGM.ListMediator,
-  ComCtrls;
+  ComCtrls, Grids;
 
 type
   TForm1 = class(TForm)
@@ -38,6 +38,7 @@ type
     Edit3: TEdit;
     ComboBox1: TComboBox;
     ListView2: TListView;
+    StringGrid1: TStringGrid;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure Button1Click(Sender: TObject);
