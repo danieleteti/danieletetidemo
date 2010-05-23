@@ -43,7 +43,8 @@ type
 implementation
 
 uses
-  RTTI;
+  RTTI,
+  Windows;
 
 { TListBoxMediator }
 
@@ -92,7 +93,6 @@ constructor TListViewMediator<T>.Create(AListView: TListView; AProcRow: TProc<TL
 begin
   inherited Create;
   FListView := AListView;
-//  FPropertyName := APropertyName;
   FProcRow := AProcRow;
 end;
 
@@ -103,9 +103,11 @@ var
   obj: TObject;
   prop: TRttiProperty;
   li: TListItem;
+  SavedIDX: Integer;
 begin
   FListView.Items.BeginUpdate;
   try
+    SavedIDX := FListView.ItemIndex;
     FListView.Items.Clear;
     List := AListSubjectDataSource.CurrentListSubject;
     for Subject in List do
@@ -114,6 +116,8 @@ begin
       li.Data := TObject(Subject);
       FProcRow(li, Subject);
     end;
+    if FListView.Items.Count > SavedIDX then
+      FListView.ItemIndex := SavedIDX;
   finally
     FListView.Items.EndUpdate;
   end;
@@ -128,16 +132,14 @@ end;
 
 { TComboBoxMediator<T> }
 
-constructor TComboBoxMediator<T>.Create(AComboBox: TComboBox;
-  APropertyName: string);
+constructor TComboBoxMediator<T>.Create(AComboBox: TComboBox; APropertyName: string);
 begin
   inherited Create;
   FComboBox := AComboBox;
   FPropertyName := APropertyName;
 end;
 
-procedure TComboBoxMediator<T>.ObjectToGUI(
-  AListSubjectDataSource: TSubjectListDataSource<T>);
+procedure TComboBoxMediator<T>.ObjectToGUI(AListSubjectDataSource: TSubjectListDataSource<T>);
 var
   List: TSubjectList<T>;
   Subject: T;
@@ -154,14 +156,13 @@ begin
     begin
       if not Assigned(TheType) then
         TheType := CTX.GetType(Subject.ClassInfo);
-      Obj := Subject; //Compiler will be happy
-      FComboBox.Items.Add(TheType.GetProperty(FPropertyName).GetValue(Obj).AsString);
+      obj := Subject; // Compiler will be happy
+      FComboBox.Items.Add(TheType.GetProperty(FPropertyName).GetValue(obj).AsString);
     end;
   finally
     FComboBox.Items.EndUpdate;
   end;
 end;
-
 
 function TComboBoxMediator<T>.Selected: T;
 begin

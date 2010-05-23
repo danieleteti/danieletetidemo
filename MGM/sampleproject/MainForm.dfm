@@ -3,7 +3,7 @@ object Form2: TForm2
   Top = 0
   Caption = 'Form2'
   ClientHeight = 402
-  ClientWidth = 519
+  ClientWidth = 700
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,7 +18,7 @@ object Form2: TForm2
     AlignWithMargins = True
     Left = 3
     Top = 41
-    Width = 513
+    Width = 387
     Height = 358
     Align = alClient
     Columns = <
@@ -39,16 +39,15 @@ object Form2: TForm2
     RowSelect = True
     TabOrder = 0
     ViewStyle = vsReport
-    ExplicitTop = 52
-    ExplicitHeight = 347
   end
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 519
+    Width = 700
     Height = 38
     Align = alTop
     TabOrder = 1
+    ExplicitWidth = 519
     object Button1: TButton
       Left = 3
       Top = 7
@@ -65,6 +64,26 @@ object Form2: TForm2
       Action = Action2
       TabOrder = 1
     end
+    object Button3: TButton
+      Left = 219
+      Top = 7
+      Width = 102
+      Height = 25
+      Action = Action3
+      TabOrder = 2
+    end
+  end
+  object ListBox1: TListBox
+    AlignWithMargins = True
+    Left = 396
+    Top = 41
+    Width = 301
+    Height = 358
+    Align = alRight
+    ItemHeight = 13
+    TabOrder = 2
+    ExplicitLeft = 391
+    ExplicitHeight = 353
   end
   object ActionList1: TActionList
     Left = 256
@@ -78,7 +97,9 @@ object Form2: TForm2
       OnExecute = Action2Execute
     end
     object Action3: TAction
-      Caption = 'Action3'
+      Caption = 'Delete Persona'
+      OnExecute = Action3Execute
+      OnUpdate = Action3Update
     end
     object Action4: TAction
       Caption = 'Action4'
