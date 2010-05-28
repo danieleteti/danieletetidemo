@@ -4,30 +4,51 @@ interface
 
 uses
   Generics.Collections,
-  RTTI;
+  RTTI, sysutils, func;
 
 type
+  TSubject = class;
   TSubjectDataSource = class;
-  TSubjectListDataSource<T: class> = class;
 
-  TSubject = class
+  ICloneable = interface ['{EA2DCA86-4EC8-452F-879B-4CD7BFC89F6B}']
+    procedure CopyTo(Value: TSubject);
+  end;
+
+  ICloneable1 = interface ['{650A0F7A-88C9-49F0-8DBF-B11005C66D39}']
+    procedure CopyTo(Value: TSubject);
+  end;
+
+
+  TSubject = class(TInterfacedObject, ICloneable)
   private
     FObservers: TObjectList<TSubjectDataSource>;
   public
     constructor Create; virtual;
     destructor Destroy; override;
+    procedure CopyTo(ASubject: TSubject); overload; virtual;
     procedure AddObserver(AObserver: TSubjectDataSource);
     procedure RemoveObserver(AObserver: TSubjectDataSource);
     procedure NotifyObservers; virtual;
   end;
 
-  TSubjectList<T: class> = class(TObjectList<T>)
+  TSubjectListDataSource<T: TSubject> = class;
+  TSubjectList<T: TSubject> = class;
+
+  ICloneableList<T: TSubject> = interface ['{CCDCADD6-F5CB-400B-B935-3CF019F919BE}']
+    procedure CopyTo(AList: TSubjectList<T>);
+  end;
+
+  TSubjectList<T: TSubject> = class(TSubject,  ICloneable1)
   private
+    FItems: TObjectList<T>;
     FUpdateCount: Cardinal;
-    FObservers: TObjectList < TSubjectListDataSource < T >> ;
+    FObservers: TObjectList < TSubjectListDataSource<T>> ;
+    function GetItem(index: Int64): T;
+    procedure SetItem(index: Int64; const Value: T);
   protected
-    procedure Notify(const Item: T; Action: TCollectionNotification); override;
+    procedure Notify(const Item: T; Action: TCollectionNotification);
   public
+    procedure CopyTo(AList: TSubject); override;
     procedure BeginUpdate;
     procedure EndUpdate;
     constructor Create; virtual;
@@ -35,6 +56,13 @@ type
     procedure AddObserver(AObserver: TSubjectListDataSource<T>);
     procedure RemoveObserver(AObserver: TSubjectListDataSource<T>);
     procedure NotifyObservers; virtual;
+    //List method
+    function GetEnumerator: TList<T>.TEnumerator;
+    function Add(AItem: T): TSubjectList<T>;
+    function Remove(AItem: T): TSubjectList<T>;
+    function Count: Int64;
+    function Clear: TSubjectList<T>;
+    property Items[index: Int64]: T read GetItem write SetItem; default;
   end;
 
   TMediatorObserver = class;
@@ -53,9 +81,9 @@ type
     property CurrentSubject: TSubject read FCurrentSubject write SetCurrentSubject;
   end;
 
-  TListMediatorObserver<T: class> = class;
+  TListMediatorObserver<T: TSubject> = class;
 
-  TSubjectListDataSource<T: class> = class
+  TSubjectListDataSource<T: TSubject> = class
   private
     FObservers: TObjectList < TListMediatorObserver < T >> ;
     FCurrentListSubject: TSubjectList<T>;
@@ -80,7 +108,7 @@ type
     procedure Update(ASubjectDataSource: TSubjectDataSource); virtual;
   end;
 
-  TListMediatorObserver<T: class> = class
+  TListMediatorObserver<T: TSubject> = class
   protected
     DataSource: TSubjectListDataSource<T>;
     CTX: TRTTIContext;
@@ -92,11 +120,76 @@ type
 
 implementation
 
+uses
+  Windows,
+  TypInfo;
+
 { TSubject }
 
 procedure TSubject.AddObserver(AObserver: TSubjectDataSource);
 begin
   FObservers.Add(AObserver);
+end;
+
+procedure TSubject.CopyTo(ASubject: TSubject);
+var
+  CTX: TRTTIContext;
+  the_type: TRttiType;
+  field: TRTTIField;
+  fields: TArray<TRTTIField>;
+  x: ICloneable;
+  qn: string;
+  sub: TSubject;
+  obj: TObject;
+  v: TValue;
+  props: TArray<Rtti.TRttiProperty>;
+  prop: TRttiProperty;
+  intfCloneable: ICloneable;
+  intfCloneable1: ICloneable1;
+  sSelf,sCopy: TSubject;
+begin
+  the_type := CTX.GetType(self.ClassInfo);
+  fields := the_type.GetFields;
+  for field in fields do
+  begin
+    qn:= field.Name + ' @ ' + field.Parent.Name;
+    case field.FieldType.TypeKind of
+      tkInteger, tkChar, tkEnumeration, tkFloat,
+      tkString, tkSet, tkWChar, tkLString,
+      tkWString, tkVariant, tkArray, tkRecord,
+      tkInt64, tkUString: begin
+          field.SetValue(ASubject, field.GetValue(self));
+        end;
+      tkClass: begin
+        obj := the_type.GetField(field.Name).GetValue(Self).AsObject;
+        if Supports(obj, ICloneable1, intfCloneable1) then
+        begin
+          intfCloneable1.CopyTo(the_type
+            .GetField(field.Name)
+            .GetValue(ASubject)
+            .AsObject as TSubject);
+        end
+        else //if Supports(obj, ICloneable, intfCloneable) then
+        begin  //ancora non funziona!!!
+          sCopy := the_type
+            .GetField(field.Name)
+            .GetValue(ASubject)
+            .AsObject as TSubject;
+
+          sSelf := the_type
+            .GetField(field.Name)
+            .GetValue(Self)
+            .AsObject as TSubject;
+
+          sSelf.CopyTo(sCopy);
+//          intfCloneable.CopyTo(the_type
+//            .GetField(field.Name)
+//            .GetValue(ASubject)
+//            .AsObject as TSubject);
+        end;
+      end;
+    end;
+  end;
 end;
 
 constructor TSubject.Create;
@@ -193,6 +286,13 @@ end;
 
 { TSubjectList }
 
+function TSubjectList<T>.Add(AItem: T): TSubjectList<T>;
+begin
+  FItems.Add(AItem);
+  Result := Self;
+  NotifyObservers;
+end;
+
 procedure TSubjectList<T>.AddObserver(AObserver: TSubjectListDataSource<T>);
 begin
   FObservers.Add(AObserver);
@@ -203,9 +303,38 @@ begin
   Inc(FUpdateCount);
 end;
 
+function TSubjectList<T>.Clear: TSubjectList<T>;
+begin
+  FItems.Clear;
+  Result := Self;
+end;
+
+procedure TSubjectList<T>.CopyTo(AList: TSubject);
+var
+  item: T;
+  o: TSubject;
+  lst: TSubjectList<T>;
+begin
+  lst := TSubjectList<T>(AList);
+  lst.Clear;
+  for item in self do
+  begin
+    o := item.classtype.Create as TSubject;
+    item.CopyTo(o);
+    lst.Add(o);
+  end;
+end;
+
+function TSubjectList<T>.Count: Int64;
+begin
+  Result := FItems.Count;
+end;
+
 constructor TSubjectList<T>.Create;
 begin
-  inherited Create(true);
+  inherited Create;
+  FItems := TObjectList<T>.Create(true);
+//  FItems.OnNotify := Notify;
   FUpdateCount := 0;
   FObservers := TObjectList < TSubjectListDataSource < T >> .Create(false);
 end;
@@ -219,6 +348,16 @@ end;
 procedure TSubjectList<T>.EndUpdate;
 begin
   Dec(FUpdateCount);
+end;
+
+function TSubjectList<T>.GetEnumerator: TList<T>.TEnumerator;
+begin
+  Result := FItems.GetEnumerator;
+end;
+
+function TSubjectList<T>.GetItem(index: Int64): T;
+begin
+  Result := FItems[index];
 end;
 
 procedure TSubjectList<T>.Notify(const Item: T; Action: TCollectionNotification);
@@ -236,9 +375,22 @@ begin
       Observer.Update(self)
 end;
 
+function TSubjectList<T>.Remove(AItem: T): TSubjectList<T>;
+begin
+  FItems.Remove(AItem);
+  Result := Self;
+  NotifyObservers;
+end;
+
 procedure TSubjectList<T>.RemoveObserver(AObserver: TSubjectListDataSource<T>);
 begin
   FObservers.Remove(AObserver);
+end;
+
+procedure TSubjectList<T>.SetItem(index: Int64; const Value: T);
+begin
+  FItems.Items[index] := Value;
+  NotifyObservers;
 end;
 
 { TListSubjectDataSource }
