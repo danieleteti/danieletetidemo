@@ -8,10 +8,22 @@ uses
 type
   TContatti = class;
   TContatto = class;
-  TPersona = class;
-
-  TPersone = class(TSubjectList<TPersona>)
+  TAutomobile = class(TSubject)
+  private
+    FAnnoImmatricolazione: Integer;
+    FModello: String;
+    FMarca: String;
+    procedure SetAnnoImmatricolazione(const Value: Integer);
+    procedure SetMarca(const Value: String);
+    procedure SetModello(const Value: String);
+  public
+    constructor Create; overload;
+    constructor Create(Marca, Modello: String; AnnoImmatricolazione: Integer); overload;
+    property Marca: String read FMarca write SetMarca;
+    property Modello: String read FModello write SetModello;
+    property AnnoImmatricolazione: Integer read FAnnoImmatricolazione write SetAnnoImmatricolazione;
   end;
+
 
   TPersona = class(TSubject)
   private
@@ -19,20 +31,24 @@ type
     FNome: string;
     FTipo: string;
     FContatti: TContatti;
+    FAutomobile: TAutomobile;
     procedure SetIndirizzo(const Value: string);
     procedure SetNome(const Value: string);
     procedure SetTipo(const Value: string);
     procedure SetContatti(const Value: TContatti);
+    function GetContatti: TContatti;
+    procedure SetAutomobile(const Value: TAutomobile);
   public
     constructor Create; override;
     destructor Destroy; override;
     property Nome: string read FNome write SetNome;
     property Indirizzo: string read FIndirizzo write SetIndirizzo;
     property Tipo: string read FTipo write SetTipo;
-    property Contatti: TContatti read FContatti write SetContatti;
+    property Automobile: TAutomobile read FAutomobile write SetAutomobile;
+    property Contatti: TContatti read GetContatti write SetContatti;
   end;
 
-  TContatti = class(TSubjectList<TContatto>)
+  TPersone = class(TSubjectList<TPersona>)
   end;
 
   TContatto = class(TSubject)
@@ -42,8 +58,13 @@ type
     procedure SetTipo(const Value: string);
     procedure SetValore(const Value: string);
   public
+    constructor Create; overload; override;
+    constructor Create(Tipo, Valore: String); overload; virtual;
     property Tipo: string read FTipo write SetTipo;
     property Valore: string read FValore write SetValore;
+  end;
+
+  TContatti = class(TSubjectList<TContatto>)
   end;
 
   TData = class
@@ -63,13 +84,26 @@ implementation
 constructor TPersona.Create;
 begin
   inherited;
+  FContatti := TContatti.Create;
+  FAutomobile := TAutomobile.Create;
   Nome := '<insert your name>';
 end;
 
 destructor TPersona.Destroy;
 begin
-
+  FContatti.Free;
+  FAutomobile.Free;
   inherited;
+end;
+
+function TPersona.GetContatti: TContatti;
+begin
+  Result := FContatti;
+end;
+
+procedure TPersona.SetAutomobile(const Value: TAutomobile);
+begin
+  FAutomobile := Value;
 end;
 
 procedure TPersona.SetContatti(const Value: TContatti);
@@ -93,6 +127,19 @@ begin
 end;
 
 { TContatto }
+
+constructor TContatto.Create(Tipo, Valore: String);
+begin
+  inherited create;
+  Self.Tipo := Tipo;
+  Self.Valore := Valore;
+end;
+
+constructor TContatto.Create;
+begin
+  inherited;
+
+end;
 
 procedure TContatto.SetTipo(const Value: string);
 begin
@@ -150,6 +197,37 @@ begin
       FillPersone(FInstance);
   end;
   Result := FInstance;
+end;
+
+{ TAutomobile }
+
+constructor TAutomobile.Create(Marca, Modello: String;
+  AnnoImmatricolazione: Integer);
+begin
+  inherited Create;
+  Self.Marca := Marca;
+  Self.Modello := Modello;
+  Self.AnnoImmatricolazione := AnnoImmatricolazione;
+end;
+
+constructor TAutomobile.Create;
+begin
+  inherited Create;
+end;
+
+procedure TAutomobile.SetAnnoImmatricolazione(const Value: Integer);
+begin
+  FAnnoImmatricolazione := Value;
+end;
+
+procedure TAutomobile.SetMarca(const Value: String);
+begin
+  FMarca := Value;
+end;
+
+procedure TAutomobile.SetModello(const Value: String);
+begin
+  FModello := Value;
 end;
 
 end.
