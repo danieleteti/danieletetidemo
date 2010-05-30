@@ -59,6 +59,7 @@ var
   frmPersonaEdit: TfrmPersoneEdit;
   OK: boolean;
 begin
+  OK := False;
   p := TPersona.Create;
   try
     frmPersonaEdit := TfrmPersoneEdit.Create(Self, p);
@@ -78,12 +79,20 @@ end;
 procedure TForm2.Action2Execute(Sender: TObject);
 var
   frmPersonaEdit: TfrmPersoneEdit;
+  obj: TPersona;
 begin
-  frmPersonaEdit := TfrmPersoneEdit.Create(Self, lvMed.Selected);
+  obj := TPersona.Create;
   try
-    frmPersonaEdit.ShowModal; // user cannot "Cancel" the changes :-(
+    lvMed.Selected.CopyTo(obj);
+    frmPersonaEdit := TfrmPersoneEdit.Create(Self, obj);
+    try
+      if frmPersonaEdit.ShowModal = mrOk then
+        obj.CopyTo(lvMed.Selected);
+    finally
+      frmPersonaEdit.Free;
+    end;
   finally
-    frmPersonaEdit.Free;
+    obj.Free;
   end;
   dsPersone.NotifyObservers;
 end;
@@ -94,8 +103,8 @@ begin
 end;
 
 procedure TForm2.Action3Update(Sender: TObject);
-begin
-  (Sender as TAction).Enabled := lvMed.Selected <> nil;
+begin (Sender as TAction)
+  .Enabled := lvMed.Selected <> nil;
 end;
 
 procedure TForm2.FormCreate(Sender: TObject);
@@ -104,13 +113,9 @@ begin
   dsPersone.CurrentListSubject := TData.GetInstance;
   TData.GetInstance.BeginUpdate;
   try
-    lvMed := TListViewMediator<TPersona>.Create(ListView1,
-      procedure(li: TListItem; Persona: TPersona)
-      begin
-        li.Caption := Persona.Nome;
-        li.SubItems.Add(Persona.Indirizzo);
-        li.SubItems.Add(Persona.Tipo);
-      end);
+    lvMed := TListViewMediator<TPersona>.Create(ListView1, procedure(li: TListItem;
+        Persona: TPersona)begin li.Caption := Persona.Nome; li.SubItems.Add(Persona.Indirizzo);
+      li.SubItems.Add(Persona.Tipo); end);
     dsPersone.AddObserver(lvMed);
     dsPersone.AddObserver(TListBoxMediator<TPersona>.Create(ListBox1, 'Nome'));
   finally
