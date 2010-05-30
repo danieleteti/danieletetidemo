@@ -9,7 +9,7 @@ uses
   StdCtrls;
 
 type
-  TListBoxMediator<T: class> = class(TListMediatorObserver<T>)
+  TListBoxMediator<T: TSubject, constructor> = class(TListMediatorObserver<T>)
   strict protected
     FListBox: TListBox;
     FPropertyName: string;
@@ -19,7 +19,7 @@ type
     function Selected: T;
   end;
 
-  TComboBoxMediator<T: class> = class(TListMediatorObserver<T>)
+  TComboBoxMediator<T: TSubject, constructor> = class(TListMediatorObserver<T>)
   strict protected
     FComboBox: TComboBox;
     FPropertyName: string;
@@ -29,7 +29,7 @@ type
     function Selected: T;
   end;
 
-  TListViewMediator<T: class> = class(TListMediatorObserver<T>)
+  TListViewMediator<T: TSubject, constructor> = class(TListMediatorObserver<T>)
   strict protected
     FListView: TListView;
     FPropertyName: string;
@@ -82,7 +82,7 @@ end;
 
 function TListBoxMediator<T>.Selected: T;
 begin
-  Result := nil;
+//  Result := nil;
   if FListBox.ItemIndex > -1 then
     Result := DataSource.CurrentListSubject[FListBox.ItemIndex];
 end;
@@ -125,7 +125,7 @@ end;
 
 function TListViewMediator<T>.Selected: T;
 begin
-  Result := nil;
+//  Result := nil;
   if FListView.ItemIndex > -1 then
     Result := DataSource.CurrentListSubject[FListView.ItemIndex];
 end;
@@ -166,7 +166,7 @@ end;
 
 function TComboBoxMediator<T>.Selected: T;
 begin
-  Result := nil;
+//  Result := nil;
   if FComboBox.ItemIndex > -1 then
     Result := DataSource.CurrentListSubject[FComboBox.ItemIndex];
 end;

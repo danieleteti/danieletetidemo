@@ -54,6 +54,7 @@
 			<DCCReference Include="PersonaEditForm.pas">
 				<Form>frmPersoneEdit</Form>
 			</DCCReference>
+			<DCCReference Include="..\lib\func.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

@@ -47,9 +47,15 @@ begin
   FEdit := AEdit;
   FPropertyName := APropertyName;
   if OnChangeEvent = ceOnChange then
+  begin
+    CheckNotAssignedEvent(FEdit.OnChange, 'OnChange');
     FEdit.OnChange := OnChange
+  end
   else
+  begin
+    CheckNotAssignedEvent(FEdit.OnExit, 'OnExit');
     FEdit.OnExit := OnChange;
+  end;
 end;
 
 procedure TEditMediator.GUIToObject(ASubjectDataSource: TSubjectDataSource);

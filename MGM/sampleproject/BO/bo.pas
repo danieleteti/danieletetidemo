@@ -8,22 +8,23 @@ uses
 type
   TContatti = class;
   TContatto = class;
+
   TAutomobile = class(TSubject)
   private
     FAnnoImmatricolazione: Integer;
-    FModello: String;
-    FMarca: String;
+    FModello: string;
+    FMarca: string;
     procedure SetAnnoImmatricolazione(const Value: Integer);
-    procedure SetMarca(const Value: String);
-    procedure SetModello(const Value: String);
+    procedure SetMarca(const Value: string);
+    procedure SetModello(const Value: string);
   public
     constructor Create; overload;
-    constructor Create(Marca, Modello: String; AnnoImmatricolazione: Integer); overload;
-    property Marca: String read FMarca write SetMarca;
-    property Modello: String read FModello write SetModello;
+    destructor Destroy; override;
+    constructor Create(Marca, Modello: string; AnnoImmatricolazione: Integer); overload;
+    property Marca: string read FMarca write SetMarca;
+    property Modello: string read FModello write SetModello;
     property AnnoImmatricolazione: Integer read FAnnoImmatricolazione write SetAnnoImmatricolazione;
   end;
-
 
   TPersona = class(TSubject)
   private
@@ -59,12 +60,13 @@ type
     procedure SetValore(const Value: string);
   public
     constructor Create; overload; override;
-    constructor Create(Tipo, Valore: String); overload; virtual;
+    constructor Create(Tipo, Valore: string); reintroduce; overload; virtual;
     property Tipo: string read FTipo write SetTipo;
     property Valore: string read FValore write SetValore;
   end;
 
   TContatti = class(TSubjectList<TContatto>)
+    destructor Destroy; override;
   end;
 
   TData = class
@@ -72,12 +74,16 @@ type
     class var FInstance: TPersone;
     constructor Create;
     destructor Destroy; override;
+    class destructor Destroy;
     class procedure FillPersone(Persone: TPersone);
   public
     class function GetInstance: TPersone;
   end;
 
 implementation
+
+uses
+  sysutils;
 
 { TPersona }
 
@@ -86,7 +92,6 @@ begin
   inherited;
   FContatti := TContatti.Create;
   FAutomobile := TAutomobile.Create;
-  Nome := '<insert your name>';
 end;
 
 destructor TPersona.Destroy;
@@ -128,9 +133,9 @@ end;
 
 { TContatto }
 
-constructor TContatto.Create(Tipo, Valore: String);
+constructor TContatto.Create(Tipo, Valore: string);
 begin
-  inherited create;
+  inherited Create;
   Self.Tipo := Tipo;
   Self.Valore := Valore;
 end;
@@ -163,6 +168,12 @@ begin
   inherited;
 end;
 
+class destructor TData.Destroy;
+begin
+  if assigned(TData.FInstance) then
+    TData.FInstance.Free
+end;
+
 class procedure TData.FillPersone(Persone: TPersone);
 var
   Persona: TPersona;
@@ -171,18 +182,36 @@ begin
   Persona.Nome := 'Daniele Teti';
   Persona.Indirizzo := 'Via Roma, 13';
   Persona.Tipo := 'Amico';
+  Persona.Automobile.Marca := 'Ford';
+  Persona.Automobile.Modello := 'Focus';
+  Persona.Automobile.AnnoImmatricolazione := 2004;
+  Persona.Contatti.Add(TContatto.Create('Casa','06-76458734'));
+  Persona.Contatti.Add(TContatto.Create('Ufficio','06-4050600'));
+  Persona.Contatti.Add(TContatto.Create('email','d.teti@bittime.it'));
   Persone.Add(Persona);
 
   Persona := TPersona.Create;
   Persona.Nome := 'Bruce Banner';
   Persona.Indirizzo := 'Via Firenze, 30';
   Persona.Tipo := 'Collega';
+  Persona.Automobile.Marca := 'Lexus';
+  Persona.Automobile.Modello := 'CT 200h';
+  Persona.Automobile.AnnoImmatricolazione := 2010;
+  Persona.Contatti.Add(TContatto.Create('Casa','02-7693489834'));
+  Persona.Contatti.Add(TContatto.Create('Ufficio','02-42222200'));
   Persone.Add(Persona);
 
   Persona := TPersona.Create;
   Persona.Nome := 'Scott Summer';
   Persona.Indirizzo := 'Via Sempronio, 40';
   Persona.Tipo := 'Oculista';
+  Persona.Automobile.Marca := 'Ferrari';
+  Persona.Automobile.Modello := '360 Modena';
+  Persona.Automobile.AnnoImmatricolazione := 2009;
+  Persona.Contatti.Add(TContatto.Create('Casa','06-234234234'));
+  Persona.Contatti.Add(TContatto.Create('Casa al mare','06-78839934'));
+  Persona.Contatti.Add(TContatto.Create('Ufficio','06-443344433'));
+  Persona.Contatti.Add(TContatto.Create('email','s.summer@bittime.it'));
   Persone.Add(Persona);
 end;
 
@@ -201,13 +230,18 @@ end;
 
 { TAutomobile }
 
-constructor TAutomobile.Create(Marca, Modello: String;
-  AnnoImmatricolazione: Integer);
+constructor TAutomobile.Create(Marca, Modello: string; AnnoImmatricolazione: Integer);
 begin
   inherited Create;
   Self.Marca := Marca;
   Self.Modello := Modello;
   Self.AnnoImmatricolazione := AnnoImmatricolazione;
+end;
+
+destructor TAutomobile.Destroy;
+begin
+
+  inherited;
 end;
 
 constructor TAutomobile.Create;
@@ -220,14 +254,22 @@ begin
   FAnnoImmatricolazione := Value;
 end;
 
-procedure TAutomobile.SetMarca(const Value: String);
+procedure TAutomobile.SetMarca(const Value: string);
 begin
   FMarca := Value;
 end;
 
-procedure TAutomobile.SetModello(const Value: String);
+procedure TAutomobile.SetModello(const Value: string);
 begin
   FModello := Value;
+end;
+
+{ TContatti }
+
+destructor TContatti.Destroy;
+begin
+
+  inherited;
 end;
 
 end.
