@@ -44,7 +44,7 @@
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
 			<DCCReference Include="MainForm.pas">
-				<Form>Form2</Form>
+				<Form>frmMain</Form>
 			</DCCReference>
 			<DCCReference Include="BO\bo.pas"/>
 			<DCCReference Include="..\lib\MGM.pas"/>
