@@ -22,7 +22,7 @@ uses
   PersonaEditForm;
 
 type
-  TForm2 = class(TForm)
+  TfrmMain = class(TForm)
     ListView1: TListView;
     Panel1: TPanel;
     Button1: TButton;
@@ -39,6 +39,7 @@ type
     procedure Action2Execute(Sender: TObject);
     procedure Action3Execute(Sender: TObject);
     procedure Action3Update(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     lvMed: TListViewMediator<TPersona>;
     dsPersone: TSubjectListDataSource<TPersona>;
@@ -47,13 +48,13 @@ type
   end;
 
 var
-  Form2: TForm2;
+  frmMain: TfrmMain;
 
 implementation
 
 {$R *.dfm}
 
-procedure TForm2.Action1Execute(Sender: TObject);
+procedure TfrmMain.Action1Execute(Sender: TObject);
 var
   p: TPersona;
   frmPersonaEdit: TfrmPersoneEdit;
@@ -76,7 +77,7 @@ begin
   end;
 end;
 
-procedure TForm2.Action2Execute(Sender: TObject);
+procedure TfrmMain.Action2Execute(Sender: TObject);
 var
   frmPersonaEdit: TfrmPersoneEdit;
   obj: TPersona;
@@ -97,17 +98,22 @@ begin
   dsPersone.NotifyObservers;
 end;
 
-procedure TForm2.Action3Execute(Sender: TObject);
+procedure TfrmMain.Action3Execute(Sender: TObject);
 begin
   TData.GetInstance.Remove(lvMed.Selected);
 end;
 
-procedure TForm2.Action3Update(Sender: TObject);
+procedure TfrmMain.Action3Update(Sender: TObject);
 begin (Sender as TAction)
   .Enabled := lvMed.Selected <> nil;
 end;
 
-procedure TForm2.FormCreate(Sender: TObject);
+procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  dsPersone.Free;
+end;
+
+procedure TfrmMain.FormCreate(Sender: TObject);
 begin
   dsPersone := TSubjectListDataSource<TPersona>.Create;
   dsPersone.CurrentListSubject := TData.GetInstance;

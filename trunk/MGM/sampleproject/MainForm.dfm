@@ -1,7 +1,7 @@
-object Form2: TForm2
+object frmMain: TfrmMain
   Left = 0
   Top = 0
-  Caption = 'Form2'
+  Caption = 'frmMain'
   ClientHeight = 402
   ClientWidth = 700
   Color = clBtnFace
@@ -11,6 +11,7 @@ object Form2: TForm2
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnClose = FormClose
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
