@@ -50,6 +50,7 @@ type
   end;
 
   TPersone = class(TSubjectList<TPersona>)
+
   end;
 
   TContatto = class(TSubject)

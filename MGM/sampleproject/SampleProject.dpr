@@ -8,8 +8,7 @@ uses
   MGM.ListMediator in '..\lib\MGM.ListMediator.pas',
   MGM.LabelMediator in '..\lib\MGM.LabelMediator.pas',
   MGM.EditMediator in '..\lib\MGM.EditMediator.pas',
-  PersonaEditForm in 'PersonaEditForm.pas' {frmPersoneEdit},
-  func in '..\lib\func.pas';
+  PersonaEditForm in 'PersonaEditForm.pas' {frmPersoneEdit};
 
 {$R *.res}
 

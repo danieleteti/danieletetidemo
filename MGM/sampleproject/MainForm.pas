@@ -57,18 +57,15 @@ procedure TfrmMain.Action1Execute(Sender: TObject);
 var
   p: TPersona;
   frmPersonaEdit: TfrmPersoneEdit;
-  OK: boolean;
   P1: TPersona;
 begin
-  OK := False;
   p := TPersona.Create;
   try
     frmPersonaEdit := TfrmPersoneEdit.Create(Self, p);
     try
       if frmPersonaEdit.ShowModal = mrOk then
       begin
-        P1 := TPersona.Create;
-        TData.GetInstance.Add(P1);
+        P1 := TData.GetInstance.Add;
         p.CopyTo(P1);
         dsPersone.NotifyObservers;
       end;
