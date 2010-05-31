@@ -4,7 +4,7 @@ interface
 
 uses
   Generics.Collections,
-  RTTI, sysutils, func, Classes;
+  RTTI, sysutils, Classes;
 
 type
   TSubject = class;
@@ -48,7 +48,8 @@ type
     procedure NotifyObservers; override;
     //List method
     function GetEnumerator: TList<T>.TEnumerator;
-    function Add(AItem: T): TSubjectList<T>;
+    function Add(AItem: T): TSubjectList<T>; overload;
+    function Add: T; overload;
     function Remove(AItem: T): TSubjectList<T>;
     function Count: Int64;
     function Clear: TSubjectList<T>;
@@ -266,6 +267,15 @@ begin
   FItems.Add(AItem);
   Result := Self;
   NotifyObservers;
+end;
+
+function TSubjectList<T>.Add: T;
+var
+  v: T;
+begin
+  v := T.Create;
+  Add(v);
+  Result := v;
 end;
 
 procedure TSubjectList<T>.AddObserver(AObserver: TSubjectListDataSource<T>);
