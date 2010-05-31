@@ -19,7 +19,7 @@ object frmMain: TfrmMain
     AlignWithMargins = True
     Left = 3
     Top = 41
-    Width = 387
+    Width = 694
     Height = 358
     Align = alClient
     Columns = <
@@ -40,6 +40,7 @@ object frmMain: TfrmMain
     RowSelect = True
     TabOrder = 0
     ViewStyle = vsReport
+    ExplicitWidth = 387
   end
   object Panel1: TPanel
     Left = 0
@@ -72,16 +73,6 @@ object frmMain: TfrmMain
       Action = Action3
       TabOrder = 2
     end
-  end
-  object ListBox1: TListBox
-    AlignWithMargins = True
-    Left = 396
-    Top = 41
-    Width = 301
-    Height = 358
-    Align = alRight
-    ItemHeight = 13
-    TabOrder = 2
   end
   object ActionList1: TActionList
     Left = 256

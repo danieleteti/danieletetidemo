@@ -18,9 +18,9 @@ type
     procedure SetMarca(const Value: string);
     procedure SetModello(const Value: string);
   public
-    constructor Create; overload;
+    constructor Create; reintroduce; overload;
     destructor Destroy; override;
-    constructor Create(Marca, Modello: string; AnnoImmatricolazione: Integer); overload;
+    constructor Create(Marca, Modello: string; AnnoImmatricolazione: Integer); reintroduce; overload;
     property Marca: string read FMarca write SetMarca;
     property Modello: string read FModello write SetModello;
     property AnnoImmatricolazione: Integer read FAnnoImmatricolazione write SetAnnoImmatricolazione;

@@ -40,7 +40,7 @@ type
     dsPersona, dsAutomobile: TSubjectDataSource;
     dsContatti: TSubjectListDataSource<TContatto>;
   public
-    constructor Create(AOwner: TComponent; APersona: TPersona);
+    constructor Create(AOwner: TComponent; APersona: TPersona); reintroduce;
     destructor Destroy; override;
   end;
 

@@ -41,11 +41,11 @@ type
     function CopyTo(ACloneable: TCloneable): TCloneable; override;
     procedure BeginUpdate;
     procedure EndUpdate;
-    constructor Create; virtual;
+    constructor Create; reintroduce; virtual;
     destructor Destroy; override;
     procedure AddObserver(AObserver: TSubjectListDataSource<T>);
     procedure RemoveObserver(AObserver: TSubjectListDataSource<T>);
-    procedure NotifyObservers; virtual;
+    procedure NotifyObservers; override;
     //List method
     function GetEnumerator: TList<T>.TEnumerator;
     function Add(AItem: T): TSubjectList<T>;
@@ -129,16 +129,7 @@ var
   field: TRTTIField;
   fields: TArray<TRTTIField>;
   qn: string;
-  sub: TSubject;
-  obj: TObject;
-  v: TValue;
-  props: TArray<Rtti.TRttiProperty>;
-  prop: TRttiProperty;
-  sSelf,sCopy: TSubject;
-  subject: TSubject;
-  ref_copy_to: TRttiMethod;
   xx: TCloneable;
-  f: TValue;
   obj_self: TValue;
   obj_subject: TValue;
 begin
@@ -159,7 +150,7 @@ begin
         if obj_self.IsType<TCloneable> then
         begin
           obj_subject := the_type.GetField(field.Name).GetValue(ACloneable);
-          ref_copy_to := the_type.GetMethod('CopyTo');
+//          ref_copy_to := the_type.GetMethod('CopyTo');
           xx := obj_self.AsType<TCloneable>;
           xx.CopyTo(obj_subject.AsObject as TCloneable);
         end;

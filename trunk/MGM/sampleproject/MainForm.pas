@@ -33,7 +33,6 @@ type
     Action4: TAction;
     Button2: TButton;
     Button3: TButton;
-    ListBox1: TListBox;
     procedure FormCreate(Sender: TObject);
     procedure Action1Execute(Sender: TObject);
     procedure Action2Execute(Sender: TObject);
@@ -59,21 +58,25 @@ var
   p: TPersona;
   frmPersonaEdit: TfrmPersoneEdit;
   OK: boolean;
+  P1: TPersona;
 begin
   OK := False;
   p := TPersona.Create;
   try
     frmPersonaEdit := TfrmPersoneEdit.Create(Self, p);
     try
-      OK := frmPersonaEdit.ShowModal = mrOk; // too much complicated...
+      if frmPersonaEdit.ShowModal = mrOk then
+      begin
+        P1 := TPersona.Create;
+        TData.GetInstance.Add(P1);
+        p.CopyTo(P1);
+        dsPersone.NotifyObservers;
+      end;
     finally
       frmPersonaEdit.Free;
     end;
-    if OK then
-      TData.GetInstance.Add(p);
   finally
-    if not OK then
-      p.Free;
+    p.Free;
   end;
 end;
 
@@ -119,11 +122,14 @@ begin
   dsPersone.CurrentListSubject := TData.GetInstance;
   TData.GetInstance.BeginUpdate;
   try
-    lvMed := TListViewMediator<TPersona>.Create(ListView1, procedure(li: TListItem;
-        Persona: TPersona)begin li.Caption := Persona.Nome; li.SubItems.Add(Persona.Indirizzo);
-      li.SubItems.Add(Persona.Tipo); end);
+    lvMed := TListViewMediator<TPersona>.Create(ListView1,
+      procedure(li: TListItem; Persona: TPersona)
+      begin
+        li.Caption := Persona.Nome;
+        li.SubItems.Add(Persona.Indirizzo);
+        li.SubItems.Add(Persona.Tipo);
+      end);
     dsPersone.AddObserver(lvMed);
-    dsPersone.AddObserver(TListBoxMediator<TPersona>.Create(ListBox1, 'Nome'));
   finally
     TData.GetInstance.EndUpdate;
   end;
