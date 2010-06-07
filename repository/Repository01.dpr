@@ -24,8 +24,13 @@ begin
 
     persone := rep.GetAll;
     try
-      for Persona in persone do
-        Writeln(Persona.ToString);
+      rep.Remove(rep.Get(1));
+      rep.Remove(rep.Get(2));
+      Functional.Map<TPersona>(Persone,
+        procedure (var item: TPersona)
+        begin
+          Writeln(item.ToString);
+        end);
     finally
       persone.Free;
     end;

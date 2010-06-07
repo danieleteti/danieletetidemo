@@ -11,6 +11,7 @@ type
     function Get(id: integer): T;
     function Save(AObject: T): T;
     function GetAll: TObjectList<T>;
+    procedure Remove(AObject: T);
   end;
 
   TPersonaRepository = class(TInterfacedObject, IRepository<TPersona>)
@@ -20,6 +21,7 @@ type
     function Get(id: integer): TPersona;
     function Save(AObject: TPersona): TPersona;
     function GetAll: TObjectList<TPersona>;
+    procedure Remove(AObject: TPersona);
     constructor Create(AStrategy: TRepositoryPersonaStrategy);
     destructor Destroy; override;
   end;
@@ -49,6 +51,11 @@ end;
 function TPersonaRepository.GetAll: TObjectList<TPersona>;
 begin
   Result := _strategy.GetAll;
+end;
+
+procedure TPersonaRepository.Remove(AObject: TPersona);
+begin
+  _strategy.Remove(AObject);
 end;
 
 function TPersonaRepository.Save(AObject: TPersona): TPersona;

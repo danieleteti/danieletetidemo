@@ -9,11 +9,13 @@ uses
 
 type
   TRepositoryMemoryStrategyPersona = class(TRepositoryPersonaStrategy)
+  protected
+    function GetIndexByID(id: integer): Integer;
   public
     function Get(id: integer): TPersona; override;
     function Save(AObject: TPersona): TPersona; override;
     function GetAll: TObjectList<TPersona>; override;
-    function Remove(AObject: TPersona): TPersona; override;
+    procedure Remove(AObject: TPersona); override;
     class constructor Create;
     class destructor Destroy;
   private
@@ -39,7 +41,7 @@ var
   persona: TPersona;
 begin
   Functional.Map<TPersona>(MemoryData,
-    function (item: TPersona): TPersona
+    procedure (var item: TPersona)
     begin
       persona.Free;
     end);
@@ -65,16 +67,34 @@ var
 begin
   all := TObjectList<TPersona>.Create(false);
   Functional.Map<TPersona>(MemoryData,
-  function (item: TPersona): TPersona
+  procedure (var item: TPersona)
   begin
     all.Add(item);
   end);
   Result := all;
 end;
 
-function TRepositoryMemoryStrategyPersona.Remove(AObject: TPersona): TPersona;
+function TRepositoryMemoryStrategyPersona.GetIndexByID(id: integer): Integer;
+var
+  p: TPersona;
+  index: Integer;
 begin
-  //
+  index := -1;
+  p := Functional.FindFirst<TPersona>(MemoryData,
+  function (item: TPersona): boolean
+  begin
+    Result := id = item.ID;
+    inc(index);
+  end);
+  Result := index;
+end;
+
+procedure TRepositoryMemoryStrategyPersona.Remove(AObject: TPersona);
+var
+  idx: Integer;
+begin
+  idx := GetIndexByID(AObject.ID);
+  //array slice. Still not implemented... I must go to bed
 end;
 
 function TRepositoryMemoryStrategyPersona.Save(AObject: TPersona): TPersona;
