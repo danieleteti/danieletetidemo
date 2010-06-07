@@ -47,9 +47,9 @@ var
 begin
   d := GetData;
   Functional.Map<string>(d,
-    function (item: string): string
+    procedure (var item: string)
     begin
-      Result := '*' + item;
+      item := '*' + item;
     end);
   CheckEquals(6, Length(d));
   CheckEquals('*Daniele Teti', d[0]);
