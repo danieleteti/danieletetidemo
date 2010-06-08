@@ -3,7 +3,9 @@ unit Repositories;
 interface
 
 uses
-  Generics.collections, Strategies, func, BO;
+  Generics.collections,
+  Strategies,
+  BO;
 
 type
   IRepository<T: class> = interface
@@ -14,20 +16,30 @@ type
     procedure Remove(AObject: T);
   end;
 
-  TPersonaRepository = class(TInterfacedObject, IRepository<TPersona>)
+  IPersonaRepository = interface(IRepository<TPersona>)
+    ['{AF0FD1B8-CE8E-4719-9128-ACB89EF8CD6E}']
+    function FindUltraQuarantenni: TObjectList<TPersona>;
+    function FindMaggiorenni: TObjectList<TPersona>;
+  end;
+
+  TPersonaRepository = class(TInterfacedObject, IPersonaRepository)
   protected
     _strategy: TRepositoryPersonaStrategy;
   public
     function Get(id: integer): TPersona;
     function Save(AObject: TPersona): TPersona;
     function GetAll: TObjectList<TPersona>;
+    function FindUltraQuarantenni: TObjectList<TPersona>;
+    function FindMaggiorenni: TObjectList<TPersona>;
     procedure Remove(AObject: TPersona);
     constructor Create(AStrategy: TRepositoryPersonaStrategy);
     destructor Destroy; override;
   end;
 
-
 implementation
+
+uses
+  func;
 
 { TPersonaRepository }
 
@@ -41,6 +53,16 @@ destructor TPersonaRepository.Destroy;
 begin
   _strategy.Free;
   inherited;
+end;
+
+function TPersonaRepository.FindMaggiorenni: TObjectList<TPersona>;
+begin
+  Result := _strategy.FindWhereEtaGreaterThan(17);
+end;
+
+function TPersonaRepository.FindUltraQuarantenni: TObjectList<TPersona>;
+begin
+  Result := _strategy.FindUltraQuarantenni;
 end;
 
 function TPersonaRepository.Get(id: integer): TPersona;

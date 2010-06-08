@@ -74,7 +74,7 @@ end;
 
 function TPersona.ToString: String;
 begin
-  Result := Nome + ', ' + IntToStr(Eta);
+  Result := IntToStr(ID) + ': ' + Nome + ', ' + IntToStr(Eta);
 end;
 
 end.

@@ -50,6 +50,16 @@
 			<DCCReference Include="MemoryStrategy.pas"/>
 			<DCCReference Include="Strategies.pas"/>
 			<DCCReference Include="..\Functional\func.pas"/>
+			<None Include="ModelSupport_Repository01\default.txaPackage"/>
+			<None Include="ModelSupport_Repository01\default.txvpck"/>
+			<None Include="ModelSupport_Repository01\BO\default.txvpck"/>
+			<None Include="ModelSupport_Repository01\Repository01\default.txvpck"/>
+			<None Include="ModelSupport_Repository01\BO\default.txaPackage"/>
+			<None Include="ModelSupport_Repository01\Repositories\default.txvpck"/>
+			<None Include="ModelSupport_Repository01\Repositories\default.txaPackage"/>
+			<None Include="ModelSupport_Repository01\MemoryStrategy\default.txvpck"/>
+			<None Include="ModelSupport_Repository01\MemoryStrategy\default.txaPackage"/>
+			<None Include="ModelSupport_Repository01\Strategies\default.txvpck"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
@@ -104,6 +114,7 @@
 						<VersionInfoKeys Name="Comments"/>
 					</VersionInfoKeys>
 				</Delphi.Personality>
+				<ModelSupport>True</ModelSupport>
 			</BorlandProject>
 			<ProjectFileVersion>12</ProjectFileVersion>
 		</ProjectExtensions>

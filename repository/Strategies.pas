@@ -3,7 +3,7 @@ unit Strategies;
 interface
 
 uses
-  Generics.collections, BO;
+  Generics.collections, BO, func;
 
 type
   TRepositoryStrategy<T: class> = class abstract
@@ -14,6 +14,8 @@ type
   end;
 
   TRepositoryPersonaStrategy = class(TRepositoryStrategy<TPersona>)
+    function FindUltraQuarantenni: TObjectList<TPersona>; virtual; abstract;
+    function FindWhereEtaGreaterThan(const Eta: Integer): TObjectList<TPersona>; virtual; abstract;
   end;
 
 implementation
