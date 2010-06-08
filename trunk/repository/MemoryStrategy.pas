@@ -5,19 +5,22 @@ interface
 uses
   Strategies,
   BO,
-  Generics.collections, func;
+  Generics.collections,
+  func;
 
 type
   TRepositoryMemoryStrategyPersona = class(TRepositoryPersonaStrategy)
   protected
-    function GetIndexByID(id: integer): Integer;
+    function GetIndexByID(id: Integer): Integer;
   public
-    function Get(id: integer): TPersona; override;
+    function Get(id: Integer): TPersona; override;
     function Save(AObject: TPersona): TPersona; override;
     function GetAll: TObjectList<TPersona>; override;
+    function FindUltraQuarantenni: TObjectList<TPersona>; override;
+    function FindWhereEtaGreaterThan(const Eta: Integer): TObjectList<TPersona>; override;
     procedure Remove(AObject: TPersona); override;
     class constructor Create;
-    class destructor Destroy;
+    destructor Destroy; override;
   private
     class var MemoryData: TArray<TPersona>;
   end;
@@ -25,6 +28,31 @@ type
 implementation
 
 { TRepositoryMemoryStrategyPersona }
+
+function TRepositoryMemoryStrategyPersona.FindUltraQuarantenni: TObjectList<TPersona>;
+var
+  List: TObjectList<TPersona>;
+begin
+  List := TObjectList<TPersona>.Create(false);
+  Functional.Map<TPersona>(MemoryData,
+    procedure(var Item: TPersona)begin if Item.Eta > 40 then List.Add(Item); end);
+  Result := List;
+end;
+
+function TRepositoryMemoryStrategyPersona.FindWhereEtaGreaterThan(const Eta: Integer)
+  : TObjectList<TPersona>;
+var
+  List: TObjectList<TPersona>;
+begin
+  List := TObjectList<TPersona>.Create(false);
+  Functional.Map<TPersona>(MemoryData,
+    procedure(var Item: TPersona)
+    begin
+      if Item.Eta > Eta then
+        List.Add(Item);
+    end);
+  Result := List;
+end;
 
 class constructor TRepositoryMemoryStrategyPersona.Create;
 begin
@@ -36,29 +64,23 @@ begin
   MemoryData[4] := TPersona.CreateNew(5, 'Clark Kent', 60);
 end;
 
-class destructor TRepositoryMemoryStrategyPersona.Destroy;
+destructor TRepositoryMemoryStrategyPersona.Destroy;
 var
   persona: TPersona;
 begin
-  Functional.Map<TPersona>(MemoryData,
-    procedure (var item: TPersona)
-    begin
-      persona.Free;
-    end);
+  inherited;
+  Functional.Map<TPersona>(MemoryData, procedure(var Item: TPersona)begin persona.Free; end);
   SetLength(MemoryData, 0);
 end;
 
-function TRepositoryMemoryStrategyPersona.Get(id: integer): TPersona;
+function TRepositoryMemoryStrategyPersona.Get(id: Integer): TPersona;
 var
-  list: TArray<TPersona>;
+  List: TArray<TPersona>;
 begin
-  list := Functional.Filter<TPersona>(MemoryData,
-  function (item: TPersona): boolean
-  begin
-    Result := id = item.ID;
-  end);
-  if Length(list) = 1 then
-    Result := list[0];
+  List := Functional.Filter<TPersona>(MemoryData,
+    function(Item: TPersona): boolean begin Result := id = Item.id; end);
+  if Length(List) = 1 then
+    Result := List[0];
 end;
 
 function TRepositoryMemoryStrategyPersona.GetAll: TObjectList<TPersona>;
@@ -66,47 +88,51 @@ var
   all: TObjectList<TPersona>;
 begin
   all := TObjectList<TPersona>.Create(false);
-  Functional.Map<TPersona>(MemoryData,
-  procedure (var item: TPersona)
-  begin
-    all.Add(item);
-  end);
+  Functional.Map<TPersona>(MemoryData, procedure(var Item: TPersona)begin all.Add(Item); end);
   Result := all;
 end;
 
-function TRepositoryMemoryStrategyPersona.GetIndexByID(id: integer): Integer;
+function TRepositoryMemoryStrategyPersona.GetIndexByID(id: Integer): Integer;
 var
   p: TPersona;
   index: Integer;
 begin
   index := -1;
-  p := Functional.FindFirst<TPersona>(MemoryData,
-  function (item: TPersona): boolean
-  begin
-    Result := id = item.ID;
-    inc(index);
-  end);
+  Functional.FindFirst<TPersona>(MemoryData, p,
+    function(Item: TPersona): boolean begin Result := id = Item.id; inc(index); end);
   Result := index;
 end;
 
 procedure TRepositoryMemoryStrategyPersona.Remove(AObject: TPersona);
 var
   idx: Integer;
+  MemoryDataCopy: TArray<TPersona>;
+  I: Integer;
 begin
-  idx := GetIndexByID(AObject.ID);
-  //array slice. Still not implemented... I must go to bed
+  idx := GetIndexByID(AObject.id);
+  SetLength(MemoryDataCopy, Length(MemoryData) - 1);
+  for I := 0 to Length(MemoryData) - 1 do
+  begin
+    if I < idx then
+      MemoryDataCopy[I] := MemoryData[I]
+    else if I = idx then
+      MemoryData[I].Free
+    else if I > idx then
+      MemoryDataCopy[I - 1] := MemoryData[I];
+  end;
+  MemoryData := MemoryDataCopy;
 end;
 
 function TRepositoryMemoryStrategyPersona.Save(AObject: TPersona): TPersona;
 var
   obj: TPersona;
 begin
-  if AObject.ID = 0 then
+  if AObject.id = 0 then
   begin
     SetLength(MemoryData, Length(MemoryData) + 1);
     obj := TPersona.Create;
-    obj.ID := Length(MemoryData);
-    MemoryData[Length(MemoryData)-1] := obj;
+    obj.id := Length(MemoryData);
+    MemoryData[Length(MemoryData) - 1] := obj;
     obj.Nome := AObject.Nome;
     obj.Eta := AObject.Eta;
     Result := obj;
