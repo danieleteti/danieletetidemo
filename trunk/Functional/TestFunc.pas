@@ -25,6 +25,11 @@ type
     procedure TestFindFirstNoData;
     procedure TestFindFirstWithData;
     procedure TestYield;
+    procedure TestFileForEach;
+    procedure TestListForEach;
+    procedure TestListForEachString;
+    procedure TestIterator;
+    procedure TestFileIterator;
   end;
 
 implementation
@@ -94,6 +99,54 @@ begin
   CheckTrue(r);
 end;
 
+procedure TTestFunc.TestIterator;
+var
+  i, x: integer;
+begin
+  x := 0;
+  for i in List<integer>.From([1,3,5,7,9]) do
+    x := x + i;
+  CheckEquals(25, x);
+
+  x := 0;
+  for i in List<integer>.From([]) do
+    x := x + i;
+  CheckEquals(0, x);
+end;
+
+procedure TTestFunc.TestListForEach;
+var
+  sum: PInteger;
+begin
+  sum := New(PInteger);
+  try
+    sum^ := 0;
+    List<integer>.From([10,20,30]).ForEach(
+      procedure (item: integer)
+      begin
+        sum^ := sum^ + item;
+      end
+    );
+    CheckEquals(60, sum^);
+  finally
+    Dispose(sum);
+  end;
+end;
+
+procedure TTestFunc.TestListForEachString;
+var
+  sum: string;
+begin
+  sum := '';
+  List<string>.From(['Daniele','Teti','and','Peter','Parker']).ForEach(
+    procedure (item: string)
+    begin
+      sum := sum + ',' + item
+    end
+  );
+  CheckEquals(',Daniele,Teti,and,Peter,Parker', sum);
+end;
+
 procedure TTestFunc.TestMap;
 var
   d: TArray<string>;
@@ -145,6 +198,30 @@ begin
       Result := True;
     end);
   CheckEquals(6, Length(d));
+end;
+
+procedure TTestFunc.TestFileForEach;
+var
+  s: string;
+begin
+  s := '';
+  F.Open('file.txt').ForEachLine(
+    procedure (value: string)
+    begin
+      s := s + value;
+    end
+  );
+  CheckEquals('onetwothreefourfive', s);
+end;
+
+procedure TTestFunc.TestFileIterator;
+var
+  s, x: string;
+  i: IFileOperation;
+begin
+  s := '';
+  for x in F.Open('file.txt') do s := s + x;
+  CheckEquals('onetwothreefourfive', s);
 end;
 
 procedure TTestFunc.TestFilter;
