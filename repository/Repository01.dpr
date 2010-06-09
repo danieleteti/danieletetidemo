@@ -16,7 +16,7 @@ var
   persone: TObjectList<TPersona>;
 
 begin
-//  ReportMemoryLeaksOnShutdown := True;
+  ReportMemoryLeaksOnShutdown := True;
 
   try
     rep := TPersonaRepository.Create(TRepositoryMemoryStrategyPersona.Create) as IPersonaRepository;
@@ -25,7 +25,7 @@ begin
     Persona.Eta := 15;
     rep.Save(Persona);
 
-    //Questa logica è dentro il repository
+//    Questa logica è dentro il repository
     persone := rep.FindMaggiorenni;
     try
       WriteLn('Maggiorenni');
@@ -38,7 +38,7 @@ begin
       persone.Free;
     end;
 
-    //Questa logica NON è dentro il repository SBAGLIATO!!!
+//    Questa logica NON è dentro il repository SBAGLIATO!!!
     persone := rep.FindUltraQuarantenni;
     try
       WriteLn('UltraQuarantenni');

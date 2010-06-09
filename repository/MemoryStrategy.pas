@@ -19,10 +19,10 @@ type
     function FindUltraQuarantenni: TObjectList<TPersona>; override;
     function FindWhereEtaGreaterThan(const Eta: Integer): TObjectList<TPersona>; override;
     procedure Remove(AObject: TPersona); override;
-    class constructor Create;
+    constructor Create; virtual;
     destructor Destroy; override;
   private
-    class var MemoryData: TArray<TPersona>;
+    MemoryData: TArray<TPersona>;
   end;
 
 implementation
@@ -35,7 +35,11 @@ var
 begin
   List := TObjectList<TPersona>.Create(false);
   Functional.Map<TPersona>(MemoryData,
-    procedure(var Item: TPersona)begin if Item.Eta > 40 then List.Add(Item); end);
+    procedure(var Item: TPersona)
+    begin
+      if Item.Eta > 40 then
+        List.Add(Item);
+    end);
   Result := List;
 end;
 
@@ -54,8 +58,9 @@ begin
   Result := List;
 end;
 
-class constructor TRepositoryMemoryStrategyPersona.Create;
+constructor TRepositoryMemoryStrategyPersona.Create;
 begin
+  inherited;
   SetLength(MemoryData, 5);
   MemoryData[0] := TPersona.CreateNew(1, 'Daniele Teti', 30);
   MemoryData[1] := TPersona.CreateNew(2, 'Scott Summer', 35);
@@ -67,20 +72,30 @@ end;
 destructor TRepositoryMemoryStrategyPersona.Destroy;
 var
   persona: TPersona;
+  I: Integer;
 begin
-  inherited;
-  Functional.Map<TPersona>(MemoryData, procedure(var Item: TPersona)begin persona.Free; end);
+  Functional.Map<TPersona>(MemoryData,
+    procedure(var Item: TPersona)
+    begin
+      Persona.Free;
+    end);
+
+  for I := 0 to 4 do MemoryData[I].Free;
+
   SetLength(MemoryData, 0);
+  inherited;
 end;
 
 function TRepositoryMemoryStrategyPersona.Get(id: Integer): TPersona;
 var
   List: TArray<TPersona>;
+  P: TPersona;
 begin
-  List := Functional.Filter<TPersona>(MemoryData,
-    function(Item: TPersona): boolean begin Result := id = Item.id; end);
-  if Length(List) = 1 then
-    Result := List[0];
+  if not Functional.FindFirst<TPersona>(MemoryData, Result,
+    function(Item: TPersona): boolean
+    begin
+      Result := id = Item.id;
+    end) then Result := nil;
 end;
 
 function TRepositoryMemoryStrategyPersona.GetAll: TObjectList<TPersona>;
