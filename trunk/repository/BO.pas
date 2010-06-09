@@ -6,7 +6,7 @@ type
   TIDObject = class
   private
     FID: Int64;
-  published
+  public
     property ID: Int64 read FID write FID;
   end;
 
