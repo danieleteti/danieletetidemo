@@ -2,8 +2,8 @@ object frmMain: TfrmMain
   Left = 0
   Top = 0
   Caption = 'frmMain'
-  ClientHeight = 402
-  ClientWidth = 700
+  ClientHeight = 271
+  ClientWidth = 561
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,8 +19,8 @@ object frmMain: TfrmMain
     AlignWithMargins = True
     Left = 3
     Top = 41
-    Width = 694
-    Height = 358
+    Width = 555
+    Height = 227
     Align = alClient
     Columns = <
       item
@@ -40,15 +40,17 @@ object frmMain: TfrmMain
     RowSelect = True
     TabOrder = 0
     ViewStyle = vsReport
-    ExplicitWidth = 387
+    ExplicitWidth = 694
+    ExplicitHeight = 358
   end
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 700
+    Width = 561
     Height = 38
     Align = alTop
     TabOrder = 1
+    ExplicitWidth = 700
     object Button1: TButton
       Left = 3
       Top = 7

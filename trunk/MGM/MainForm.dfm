@@ -178,7 +178,6 @@ object Form1: TForm1
     RowSelect = True
     TabOrder = 12
     ViewStyle = vsReport
-    ExplicitWidth = 464
   end
   object StringGrid1: TStringGrid
     Left = 420
