@@ -51,6 +51,7 @@ type
     function Add(AItem: T): TSubjectList<T>; overload;
     function Add: T; overload;
     function Remove(AItem: T): TSubjectList<T>;
+    function Delete(const Index: Int64): TSubjectList<T>;
     function Count: Int64;
     function Clear: TSubjectList<T>;
     property Items[index: Int64]: T read GetItem write SetItem; default;
@@ -322,6 +323,11 @@ begin
   FItems := TObjectList<T>.Create(true);
   FUpdateCount := 0;
   FObservers := TObjectList < TSubjectListDataSource < T >> .Create(false);
+end;
+
+function TSubjectList<T>.Delete(const Index: Int64): TSubjectList<T>;
+begin
+  Result := Remove(Items[Index]);
 end;
 
 destructor TSubjectList<T>.Destroy;
