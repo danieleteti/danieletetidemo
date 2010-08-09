@@ -40,8 +40,6 @@ object frmMain: TfrmMain
     RowSelect = True
     TabOrder = 0
     ViewStyle = vsReport
-    ExplicitWidth = 694
-    ExplicitHeight = 358
   end
   object Panel1: TPanel
     Left = 0
@@ -50,7 +48,6 @@ object frmMain: TfrmMain
     Height = 38
     Align = alTop
     TabOrder = 1
-    ExplicitWidth = 700
     object Button1: TButton
       Left = 3
       Top = 7
