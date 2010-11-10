@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2010/09/24 10.00.00.000.302,=C:\Users\Daniele\Documents\RAD Studio\Projects\Unit3.pas</Transaction>
+    <Transaction>2010/10/13 17.00.00.000.263,=C:\Users\Daniele\Documents\RAD Studio\Projects\ServerMethodsUnit1.pas</Transaction>
+    <Transaction>2010/10/13 17.00.00.000.461,C:\Corsi\Brasil Conference 2010\DEMOS\Server\DSServer.dproj=C:\Corsi\Brasil Conference 2010\DEMOS\Server\DEMOServer.dproj</Transaction>
+    <Transaction>2010/10/13 17.00.00.000.124,C:\Users\Daniele\Documents\RAD Studio\Projects\ServerMethodsUnit1.pas=C:\Corsi\Brasil Conference 2010\DEMOS\Server\ServerMethodsUnit.pas</Transaction>
+    <Transaction>2010/10/13 17.00.00.000.795,C:\Corsi\Brasil Conference 2010\DEMOS\Server\CustomerResourceUnit.dfm=C:\Corsi\Brasil Conference 2010\DEMOS\Server\ServiceResourceUnit.dfm</Transaction>
+    <Transaction>2010/10/13 17.00.00.000.330,C:\Corsi\Brasil Conference 2010\DEMOS\Server\ServerMethodsUnit.pas=C:\Corsi\Brasil Conference 2010\DEMOS\Server\CustomerResourceUnit.pas</Transaction>
+    <Transaction>2010/10/13 17.00.00.000.685,C:\Users\Daniele\Documents\RAD Studio\Projects\ServerContainerUnit1.dfm=C:\Corsi\Brasil Conference 2010\DEMOS\Server\ServerContainerUnit.dfm</Transaction>
+    <Transaction>2010/10/13 17.00.00.000.685,C:\Users\Daniele\Documents\RAD Studio\Projects\ServerContainerUnit1.pas=C:\Corsi\Brasil Conference 2010\DEMOS\Server\ServerContainerUnit.pas</Transaction>
+    <Transaction>2010/10/13 17.00.00.000.663,C:\Users\Daniele\Documents\RAD Studio\Projects\Project3.dproj=C:\Corsi\Brasil Conference 2010\DEMOS\Server\DSServer.dproj</Transaction>
+    <Transaction>2010/10/13 17.00.00.000.124,C:\Users\Daniele\Documents\RAD Studio\Projects\ServerMethodsUnit1.dfm=C:\Corsi\Brasil Conference 2010\DEMOS\Server\ServerMethodsUnit.dfm</Transaction>
+    <Transaction>2010/10/13 17.00.00.000.428,=C:\Users\Daniele\Documents\RAD Studio\Projects\ServerContainerUnit1.pas</Transaction>
+    <Transaction>2010/10/13 17.00.00.000.330,C:\Corsi\Brasil Conference 2010\DEMOS\Server\ServerMethodsUnit.dfm=C:\Corsi\Brasil Conference 2010\DEMOS\Server\CustomerResourceUnit.dfm</Transaction>
+    <Transaction>2010/10/13 17.00.00.000.795,C:\Corsi\Brasil Conference 2010\DEMOS\Server\CustomerResourceUnit.pas=C:\Corsi\Brasil Conference 2010\DEMOS\Server\ServiceResourceUnit.pas</Transaction>
+    <Transaction>2010/10/13 19.00.00.000.914,C:\Corsi\Brasil Conference 2010\DEMOS\Server\Unit1.pas=C:\Corsi\Brasil Conference 2010\DEMOS\Server\ServerUtils.pas</Transaction>
+    <Transaction>2010/10/13 19.00.00.000.560,=C:\Corsi\Brasil Conference 2010\DEMOS\Server\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>

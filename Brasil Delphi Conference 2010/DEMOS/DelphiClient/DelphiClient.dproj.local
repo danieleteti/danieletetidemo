@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2010/09/24 10.00.00.000.302,=C:\Users\Daniele\Documents\RAD Studio\Projects\Unit3.pas</Transaction>
+    <Transaction>2010/10/22 12.00.00.000.425,=C:\Users\Daniele\Documents\RAD Studio\Projects\Unit3.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.595,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientClassesUnit1.pas=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientClassesUnit.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.341,=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientClassesUnit1.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.863,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientClassesUnit1.pas=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientClassesUnit.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.510,=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientClassesUnit1.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.807,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientModuleUnit.pas=</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.412,=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientClassesUnit1.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.588,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientClassesUnit1.pas=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\RESTClientClassesUnit.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.860,=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientClassesUnit1.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.365,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientModuleUnit1.dfm=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientModuleUnit.dfm</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.988,C:\Users\Daniele\Documents\RAD Studio\Projects\Unit3.dfm=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\MainForm.dfm</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.988,C:\Users\Daniele\Documents\RAD Studio\Projects\Unit3.pas=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\MainForm.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.008,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientModuleUnit1.dfm=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientModuleUnit.dfm</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.189,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientClassesUnit1.pas=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientClassesUnit.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.274,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientModuleUnit1.dfm=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\RESTClientModuleUnit.dfm</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.746,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientModuleUnit1.dfm=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientModuleUnit.dfm</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.782,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientClassesUnit.pas=</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.626,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientClassesUnit.pas=</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.546,=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientModuleUnit1.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.917,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\RESTClientModuleUnit.dfm=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientModuleUnit.dfm</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.475,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\RESTClientClassesUnit.pas=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientClassesUnit.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.917,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\RESTClientModuleUnit.pas=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientModuleUnit.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.591,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientClassesUnit.pas=</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.549,C:\Users\Daniele\Documents\RAD Studio\Projects\Project3.dproj=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\DelphiClient.dproj</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.274,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientModuleUnit1.pas=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\RESTClientModuleUnit.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.365,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientModuleUnit1.pas=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientModuleUnit.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.907,=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientModuleUnit1.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.646,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientModuleUnit.pas=</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.705,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientModuleUnit.pas=</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.746,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientModuleUnit1.pas=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientModuleUnit.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.551,=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientModuleUnit1.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.008,C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientModuleUnit1.pas=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ServiceClientModuleUnit.pas</Transaction>
+    <Transaction>2010/10/22 13.00.00.000.387,=C:\Corsi\Brasil Conference 2010\DEMOS\DelphiClient\ClientModuleUnit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>
