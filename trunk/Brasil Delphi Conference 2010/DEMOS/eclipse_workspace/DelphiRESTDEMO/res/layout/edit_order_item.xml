@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+  <TextView
+    android:layout_width="wrap_content"
+  	android:layout_height="wrap_content"    
+  android:layout_gravity="center_horizontal" android:textSize="20dip" android:layout_marginTop="20dip" android:text="Product"/><Spinner
+    android:id="@+id/spn_product"
+		android:layout_width="fill_parent"
+  	android:layout_height="wrap_content" android:layout_margin="10dip"/>
+  <TextView
+    android:text="Quantity"
+		android:layout_width="wrap_content"
+  	android:layout_height="wrap_content"    
+  android:layout_gravity="center_horizontal" android:textSize="20dip" android:layout_marginTop="20dip"/>
+  <EditText 
+    android:id="@+id/txt_quantity"
+		android:layout_width="150dip"
+  	android:layout_height="wrap_content"    
+  android:layout_gravity="center_horizontal" android:numeric="integer" android:singleLine="true"/>  
+		<LinearLayout
+			android:layout_weight="1"
+			android:orientation="horizontal"
+			android:layout_height="wrap_content"			
+			android:layout_width="fill_parent"
+			>
+			<Button android:id="@+id/btn_save_order_item"
+				android:layout_gravity="bottom"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="Save"
+				/>
+			<Button android:id="@+id/btn_cancel"
+				android:layout_gravity="bottom"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="Cancel"
+				/>				 
+		</LinearLayout>	  
+</LinearLayout>

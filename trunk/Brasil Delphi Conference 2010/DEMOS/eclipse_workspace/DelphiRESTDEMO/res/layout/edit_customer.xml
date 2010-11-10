@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content" android:layout_height="wrap_content">
+	<RelativeLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		<TextView 
+			android:id="@+id/lbl_customer_name"
+			android:text="Customer Name"
+			android:textSize="22dip"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"			
+		/>		
+		<EditText 
+			android:id="@+id/txt_customer_name"
+			android:layout_below="@id/lbl_customer_name"
+			android:textSize="22dip"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:singleLine="true"			
+		/>		
+		<TextView 
+			android:id="@+id/lbl_address"
+			android:layout_below="@id/txt_customer_name"
+			android:text="Address"
+			android:textSize="22dip"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:singleLine="false"			
+		/>		
+		<EditText 
+			android:id="@+id/txt_address"
+			android:layout_below="@id/lbl_address"
+			android:textSize="22dip"
+			android:lines="4"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"			
+		/>		
+		<TextView 
+			android:visibility="gone"
+			android:id="@+id/txt_latitude"
+			android:layout_below="@id/txt_address"
+			android:textSize="12dip"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="0.5"
+			android:layout_margin="10dip"
+			android:text="LAT??"
+			/>			
+		<TextView
+		  android:visibility="gone" 
+			android:id="@+id/txt_longitude"
+			android:layout_toRightOf="@id/txt_latitude"
+			android:layout_below="@id/txt_address"
+			android:textSize="12dip"
+			android:layout_margin="10dip"			
+			android:layout_width="wrap_content"			
+			android:layout_height="wrap_content"
+			android:layout_weight="0.5"			
+			android:text="LON??"
+			/>
+		<Button
+			android:id="@+id/btn_get_gps"
+			android:layout_below="@id/txt_latitude"			
+			android:text="Get Location"
+			android:layout_width="120dip"
+			android:layout_height="wrap_content"
+			android:layout_weight ="0.5"						
+		/>
+		<Button
+			android:id="@+id/btn_show_map"
+			android:layout_below="@id/txt_latitude"
+			android:layout_toRightOf="@id/btn_get_gps"			
+			android:text="Map"
+			android:layout_width="120dip"
+			android:layout_height="wrap_content"
+			android:layout_weight ="0.5"						
+		/>
+		 
+		<Button
+			android:id="@+id/btn_show_orders"
+			android:layout_below="@id/btn_get_gps"			
+			android:text="Show Orders"
+			android:layout_width="120dip"
+			android:layout_height="wrap_content"						
+		/>
+		<Button
+			android:id="@+id/btn_new_order"
+			android:layout_below="@id/btn_show_map"
+			android:layout_toRightOf="@id/btn_show_orders"			
+			android:text="New Order"
+			android:layout_width="120dip"			
+			android:layout_height="wrap_content"						
+		/>		
+	  
+		<LinearLayout
+			android:layout_marginTop="20dip"
+			android:orientation="horizontal"
+			android:layout_below="@id/btn_show_orders"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"			
+			>
+			<Button android:id="@+id/btn_save_customer"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="Save"
+				/>
+			<Button android:id="@+id/btn_cancel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="Cancel"
+				/>				
+		</LinearLayout>					
+  	</RelativeLayout>
+</ScrollView>

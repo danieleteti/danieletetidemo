@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+	
+<EditTextPreference android:summary="URL where DataSnap server is localed. es 192.168.16.40:8080" android:key="dsurl" android:title="DataSnap base url"></EditTextPreference>
+</PreferenceScreen>

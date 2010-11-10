@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center">
+<ImageView android:id="@+id/ImageView01"
+	android:src="@drawable/customer" 
+	android:layout_width="wrap_content" 
+	android:layout_height="wrap_content"/>
+<TextView
+		android:text="Customers Manager"  
+		android:layout_marginTop="20dip"
+		android:layout_height="wrap_content"     
+    android:layout_width="wrap_content" android:textSize="30dip"/>
+<Button
+	android:id="@+id/btn_new_customer"
+	android:text="New Customer"
+	android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+	/>
+<Button
+	android:id="@+id/btn_search_customer"
+	android:text="Search a Customer"
+	android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+	/>
+<Button
+	android:id="@+id/btn_new_order"
+	android:text="New Order"
+	android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+	/>	    	    
+<Button
+	android:id="@+id/btn_settings"
+	android:text="Settings"
+	android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+	/>	    	    
+</LinearLayout>

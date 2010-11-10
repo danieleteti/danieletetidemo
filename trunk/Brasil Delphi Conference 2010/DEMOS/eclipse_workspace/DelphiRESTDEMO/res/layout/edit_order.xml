@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content" android:layout_height="wrap_content">
+	<TableLayout 
+		android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:stretchColumns="0,1" android:weightSum="10" android:baselineAligned="true" android:fitsSystemWindows="true">
+    <Spinner
+    		android:id="@+id/spn_customer_name"
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"				    	
+    	/>
+		<TableRow>					
+			<TextView 
+				android:id="@+id/lbl_order_creation_date"
+				android:text="Creation date"
+				android:textSize="18dip"				
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+				android:padding="3dip"
+				android:gravity="left"
+			/>
+		 <TextView 
+				android:id="@+id/lbl_ship_before"
+				android:layout_toRightOf="@id/lbl_order_creation_date"
+				android:text="Ship before"
+				android:textSize="18dip"				
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+				android:singleLine="false"				
+				android:padding="3dip"
+				android:gravity="right"				
+			/>		
+				
+		</TableRow>
+		<TableRow>
+			<Button 
+				android:id="@+id/btn_order_creation_date"
+				android:layout_below="@id/lbl_order_creation_date"
+				android:textSize="18dip"				
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+				android:padding="3dip"
+			/>		
+			<Button 
+				android:id="@+id/btn_ship_before"
+				android:layout_below="@id/lbl_ship_before"
+				android:layout_toRightOf="@id/btn_order_creation_date"
+				android:textSize="18dip"
+				android:textColor="#FF0000"				
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+				android:padding="3dip"			
+			/>		
+		</TableRow>
+		<TableRow>
+		<ListView
+				android:id="@+id/lv_order_items"
+				android:layout_weight="1" android:layout_height="180dip"/>
+				</TableRow>
+		<Button 
+		  android:id="@+id/btn_new_order_item"
+		  android:text="New Order Item"
+		/>
+
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_below="@id/lv_order_items"
+			android:layout_width="fill_parent"
+			android:layout_weight="1" android:layout_gravity="bottom" android:layout_height="fill_parent" android:gravity="bottom">
+			<Button android:id="@+id/btn_save_order"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Save" android:layout_weight="1"/>
+			<Button android:id="@+id/btn_cancel"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="Cancel"
+				/>				
+		</LinearLayout>					
+  	</TableLayout>
+</ScrollView>
