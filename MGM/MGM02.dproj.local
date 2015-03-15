@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>2010/05/06 23.36.00.718.pas,C:\Users\Daniele\Documents\RAD Studio\Projects\Unit1.pas=C:\ProgettiMiei\ModelGUIMediator\02\MainForm.pas</Transaction>
-    <Transaction>2010/05/06 23.36.00.718.dfm,C:\Users\Daniele\Documents\RAD Studio\Projects\Unit1.dfm=C:\ProgettiMiei\ModelGUIMediator\02\MainForm.dfm</Transaction>
-    <Transaction>2010/05/06 23.36.07.286.dproj,C:\Users\Daniele\Documents\RAD Studio\Projects\Project1.dproj=C:\ProgettiMiei\ModelGUIMediator\02\MGM02.dproj</Transaction>
-    <Transaction>2010/05/06 23.36.48.435.pas,C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas=C:\ProgettiMiei\ModelGUIMediator\02\lib\MGM.pas</Transaction>
-    <Transaction>2010/05/06 23.50.00.185.pas,C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas=C:\ProgettiMiei\ModelGUIMediator\02\lib\MGM.EditMediator.pas</Transaction>
-    <Transaction>2010/05/06 23.56.41.616.pas,C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas=C:\ProgettiMiei\ModelGUIMediator\02\PersonU.pas</Transaction>
-    <Transaction>2010/05/07 00.37.36.835.pas,C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas=C:\ProgettiMiei\ModelGUIMediator\02\lib\MGM.LabelMediator.pas</Transaction>
-    <Transaction>2010/05/07 01.02.39.434.pas,C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas=C:\ProgettiMiei\ModelGUIMediator\02\lib\MGM.ListMediator.pas</Transaction>
-    <Transaction>2010/05/10 09.20.43.821.pas,C:\ProgettiMiei\danieletetidemo\MGM\Unit1.pas=C:\ProgettiMiei\danieletetidemo\MGM\lib\MGM.ButtonMediator.pas</Transaction>
-    <Transaction>2010/05/10 09.34.15.107.pas,C:\ProgettiMiei\danieletetidemo\MGM\Unit2.pas=C:\ProgettiMiei\danieletetidemo\MGM\PhoneEditForm.pas</Transaction>
-    <Transaction>2010/05/10 09.34.15.107.dfm,C:\ProgettiMiei\danieletetidemo\MGM\Unit2.dfm=C:\ProgettiMiei\danieletetidemo\MGM\PhoneEditForm.dfm</Transaction>
+    <Transaction>2010/05/06 23.00.00.000.dproj,C:\ProgettiMiei\ModelGUIMediator\02\MGM02.dproj=C:\Users\Daniele\Documents\RAD Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2010/05/06 23.00.00.000.pas,C:\ProgettiMiei\ModelGUIMediator\02\PersonU.pas=C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas</Transaction>
+    <Transaction>2010/05/06 23.00.00.000.pas,C:\ProgettiMiei\ModelGUIMediator\02\MainForm.pas=C:\Users\Daniele\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2010/05/06 23.00.00.000.pas,C:\ProgettiMiei\ModelGUIMediator\02\lib\MGM.pas=C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas</Transaction>
+    <Transaction>2010/05/06 23.00.00.000.pas,C:\ProgettiMiei\ModelGUIMediator\02\lib\MGM.EditMediator.pas=C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas</Transaction>
+    <Transaction>2010/05/06 23.00.00.000.dfm,C:\ProgettiMiei\ModelGUIMediator\02\MainForm.dfm=C:\Users\Daniele\Documents\RAD Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2010/05/07 00.00.00.000.pas,C:\ProgettiMiei\ModelGUIMediator\02\lib\MGM.LabelMediator.pas=C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas</Transaction>
+    <Transaction>2010/05/07 01.00.00.000.pas,C:\ProgettiMiei\ModelGUIMediator\02\lib\MGM.ListMediator.pas=C:\ProgettiMiei\ModelGUIMediator\02\Unit1.pas</Transaction>
+    <Transaction>2010/05/10 09.00.00.000.dfm,C:\ProgettiMiei\danieletetidemo\MGM\PhoneEditForm.dfm=C:\ProgettiMiei\danieletetidemo\MGM\Unit2.dfm</Transaction>
+    <Transaction>2010/05/10 09.00.00.000.pas,C:\ProgettiMiei\danieletetidemo\MGM\lib\MGM.ButtonMediator.pas=C:\ProgettiMiei\danieletetidemo\MGM\Unit1.pas</Transaction>
+    <Transaction>2010/05/10 09.00.00.000.pas,C:\ProgettiMiei\danieletetidemo\MGM\PhoneEditForm.pas=C:\ProgettiMiei\danieletetidemo\MGM\Unit2.pas</Transaction>
   </Transactions>
 </BorlandProject>

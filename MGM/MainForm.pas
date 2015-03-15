@@ -140,7 +140,8 @@ begin
   dsListTel.AddObserver(TListViewMediator<TTelefono>.Create(ListView1,
     procedure(li: TListItem; telefono: TTelefono)
     begin
-      li.Caption := telefono.Tipo; li.SubItems.Add(telefono.Numero);
+      li.Caption := telefono.Tipo;
+      li.SubItems.Add(telefono.Numero);
     end));
 
   dsListTel.NotifyObservers;
@@ -151,16 +152,14 @@ begin
   lbMed := TListBoxMediator<TPersona>.Create(ListBox1, 'Nome');
   dsList.AddObserver(lbMed);
 
-
   dsList.AddObserver(TListViewMediator<TPersona>.Create(ListView2,
     procedure(li: TListItem; persona: TPersona)
     begin
-      li.Caption := Persona.Nome;
-      li.SubItems.Add(Persona.Cognome);
-      li.SubItems.Add(CurrToStr(Persona.Salario));
-      li.SubItems.Add(IntToStr(Persona.Eta));
+      li.Caption := persona.Nome;
+      li.SubItems.Add(persona.Cognome);
+      li.SubItems.Add(CurrToStr(persona.Salario));
+      li.SubItems.Add(IntToStr(persona.Eta));
     end));
-
 
   dsList.NotifyObservers;
   Persone.Add(TPersona.CreateNew);
@@ -176,11 +175,7 @@ begin
   Caption := lbMed.Selected.Cognome;
 end;
 
-end.
-procedure TForm1.ListView2CustomDraw(Sender: TCustomListView;
-  const ARect: TRect; var DefaultDraw: Boolean);
-begin
+end.procedure TForm1.ListView2CustomDraw
+(Sender: TCustomListView; const ARect: TRect; var DefaultDraw: Boolean); begin
 
 end;
-
-
