@@ -24,7 +24,7 @@ type
 
   TPersonaRepository = class(TInterfacedObject, IPersonaRepository)
   protected
-    _strategy: TRepositoryPersonaStrategy;
+    LStrategy: TRepositoryPersonaStrategy;
   public
     function Get(id: integer): TPersona;
     function Save(AObject: TPersona): TPersona;
@@ -46,43 +46,43 @@ uses
 constructor TPersonaRepository.Create(AStrategy: TRepositoryPersonaStrategy);
 begin
   inherited Create;
-  _strategy := AStrategy;
+  LStrategy := AStrategy;
 end;
 
 destructor TPersonaRepository.Destroy;
 begin
-  _strategy.Free;
+  LStrategy.Free;
   inherited;
 end;
 
 function TPersonaRepository.FindMaggiorenni: TObjectList<TPersona>;
 begin
-  Result := _strategy.FindWhereEtaGreaterThan(17);
+  Result := LStrategy.FindWhereEtaGreaterThan(17);
 end;
 
 function TPersonaRepository.FindUltraQuarantenni: TObjectList<TPersona>;
 begin
-  Result := _strategy.FindUltraQuarantenni;
+  Result := LStrategy.FindUltraQuarantenni;
 end;
 
 function TPersonaRepository.Get(id: integer): TPersona;
 begin
-  Result := _strategy.Get(id);
+  Result := LStrategy.Get(id);
 end;
 
 function TPersonaRepository.GetAll: TObjectList<TPersona>;
 begin
-  Result := _strategy.GetAll;
+  Result := LStrategy.GetAll;
 end;
 
 procedure TPersonaRepository.Remove(AObject: TPersona);
 begin
-  _strategy.Remove(AObject);
+  LStrategy.Remove(AObject);
 end;
 
 function TPersonaRepository.Save(AObject: TPersona): TPersona;
 begin
-  Result := _strategy.Save(AObject);
+  Result := LStrategy.Save(AObject);
 end;
 
 end.

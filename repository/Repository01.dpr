@@ -10,88 +10,93 @@ uses
   Strategies in 'Strategies.pas',
   func in '..\Functional\func.pas';
 
+procedure Main;
 var
-  rep: IPersonaRepository;
+  LPeopleRepos: IPersonaRepository;
   Persona: TPersona;
   persone: TObjectList<TPersona>;
+begin
+  LPeopleRepos := TPersonaRepository.Create(TRepositoryMemoryStrategyPersona.Create)
+    as IPersonaRepository;
+  Persona := LPeopleRepos.Get(5);
+  Persona.Nome := 'Daniele Teti';
+  Persona.Eta := 35;
+  LPeopleRepos.Save(Persona);
+
+  // Questa logica è dentro il repository
+  persone := LPeopleRepos.FindMaggiorenni;
+  try
+    WriteLn('Maggiorenni');
+    Functional.Map<TPersona>(persone,
+      procedure(var item: TPersona)
+      begin
+        WriteLn(item.ToString);
+      end);
+  finally
+    persone.Free;
+  end;
+
+  // Questa logica NON è dentro il repository SBAGLIATO!!!
+  persone := LPeopleRepos.FindUltraQuarantenni;
+  try
+    WriteLn('UltraQuarantenni');
+    Functional.Map<TPersona>(persone,
+      procedure(var item: TPersona)
+      begin
+        WriteLn(item.ToString);
+      end);
+  finally
+    persone.Free;
+  end;
+
+  persone := LPeopleRepos.GetAll;
+  try
+    WriteLn('Tutto il repository');
+    Functional.Map<TPersona>(persone,
+      procedure(var item: TPersona)
+      begin
+        WriteLn(item.ToString);
+      end);
+  finally
+    persone.Free;
+  end;
+
+  LPeopleRepos.Remove(LPeopleRepos.Get(1));
+  persone := LPeopleRepos.GetAll;
+  try
+    WriteLn('Dopo la cancellazione');
+    Functional.Map<TPersona>(persone,
+      procedure(var item: TPersona)
+      begin
+        WriteLn(item.ToString);
+      end);
+  finally
+    persone.Free;
+  end;
+
+  LPeopleRepos.Remove(LPeopleRepos.Get(2));
+  persone := LPeopleRepos.GetAll;
+  try
+    WriteLn('Dopo l''altra cancellazione');
+    Functional.Map<TPersona>(persone,
+      procedure(var item: TPersona)
+      begin
+        WriteLn(item.ToString);
+      end);
+  finally
+    persone.Free;
+  end;
+end;
 
 begin
   ReportMemoryLeaksOnShutdown := True;
 
   try
-    rep := TPersonaRepository.Create(TRepositoryMemoryStrategyPersona.Create) as IPersonaRepository;
-    Persona := rep.Get(5);
-    Persona.Nome := 'Silvio Berlusconi';
-    Persona.Eta := 15;
-    rep.Save(Persona);
-
-//    Questa logica è dentro il repository
-    persone := rep.FindMaggiorenni;
-    try
-      WriteLn('Maggiorenni');
-      Functional.Map<TPersona>(Persone,
-        procedure (var item: TPersona)
-        begin
-          Writeln(item.ToString);
-        end);
-    finally
-      persone.Free;
-    end;
-
-//    Questa logica NON è dentro il repository SBAGLIATO!!!
-    persone := rep.FindUltraQuarantenni;
-    try
-      WriteLn('UltraQuarantenni');
-      Functional.Map<TPersona>(Persone,
-        procedure (var item: TPersona)
-        begin
-          Writeln(item.ToString);
-        end);
-    finally
-      persone.Free;
-    end;
-
-    persone := rep.GetAll;
-    try
-      WriteLn('Tutto il repository');
-      Functional.Map<TPersona>(Persone,
-        procedure (var item: TPersona)
-        begin
-          Writeln(item.ToString);
-        end);
-    finally
-      persone.Free;
-    end;
-
-    rep.Remove(rep.Get(1));
-    persone := rep.GetAll;
-    try
-      WriteLn('Dopo la cancellazione');
-      Functional.Map<TPersona>(Persone,
-        procedure (var item: TPersona)
-        begin
-          Writeln(item.ToString);
-        end);
-    finally
-      Persone.Free;
-    end;
-
-    rep.Remove(rep.Get(2));
-    persone := rep.GetAll;
-    try
-      WriteLn('Dopo l''altra cancellazione');
-      Functional.Map<TPersona>(Persone,
-        procedure (var item: TPersona)
-        begin
-          Writeln(item.ToString);
-        end);
-    finally
-      persone.Free;
-    end;
-
+    Main;
   except
     on E: Exception do
-      Writeln(E.ClassName, ': ', E.message);
+      WriteLn(E.ClassName, ': ', E.message);
   end;
   Readln;
+
 end.

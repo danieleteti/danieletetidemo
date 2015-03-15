@@ -77,11 +77,8 @@ begin
   Functional.Map<TPersona>(MemoryData,
     procedure(var Item: TPersona)
     begin
-      Persona.Free;
+      persona.Free;
     end);
-
-  for I := 0 to 4 do MemoryData[I].Free;
-
   SetLength(MemoryData, 0);
   inherited;
 end;
@@ -95,7 +92,8 @@ begin
     function(Item: TPersona): boolean
     begin
       Result := id = Item.id;
-    end) then Result := nil;
+    end) then
+    Result := nil;
 end;
 
 function TRepositoryMemoryStrategyPersona.GetAll: TObjectList<TPersona>;
@@ -103,18 +101,26 @@ var
   all: TObjectList<TPersona>;
 begin
   all := TObjectList<TPersona>.Create(false);
-  Functional.Map<TPersona>(MemoryData, procedure(var Item: TPersona)begin all.Add(Item); end);
+  Functional.Map<TPersona>(MemoryData,
+    procedure(var Item: TPersona)
+    begin
+      all.Add(Item);
+    end);
   Result := all;
 end;
 
 function TRepositoryMemoryStrategyPersona.GetIndexByID(id: Integer): Integer;
 var
-  p: TPersona;
+  P: TPersona;
   index: Integer;
 begin
-  index := -1;
-  Functional.FindFirst<TPersona>(MemoryData, p,
-    function(Item: TPersona): boolean begin Result := id = Item.id; inc(index); end);
+  index := - 1;
+  Functional.FindFirst<TPersona>(MemoryData, P,
+    function(Item: TPersona): boolean
+    begin
+      Result := id = Item.id;
+      inc(index);
+    end);
   Result := index;
 end;
 
